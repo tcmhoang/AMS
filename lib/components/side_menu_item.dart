@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
-import '../config/constansts.dart';
 
+import '../config/constansts.dart';
 import 'counter_badge.dart';
 
 class SideMenuItem extends StatelessWidget {

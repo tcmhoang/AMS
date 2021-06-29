@@ -16,7 +16,9 @@ class CounterBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-          color: kBadgeColor, borderRadius: BorderRadius.circular(9)),
+        color: kBadgeColor,
+        borderRadius: BorderRadius.circular(9),
+      ),
       child: Text(
         count.toString(),
         style: Theme.of(context).textTheme.caption!.copyWith(

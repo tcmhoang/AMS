@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../components/side_menu.dart';
+import '../detail/detail_screen.dart';
 import 'components/list_of_assets.dart';
 
 class MainScreen extends StatelessWidget {
@@ -19,12 +21,11 @@ class MainScreen extends StatelessWidget {
               items: List.generate(10, (int index) => index).toList(),
             ),
           ),
-          Expanded(
-              flex: 8,
-              // child: AssetInfo(),
-              child: Container(
-                color: Colors.amber,
-              )),
+          const Expanded(
+            flex: 8,
+            // child: AssetInfo(),
+            child: DetailScreen(),
+          ),
         ],
       ),
     );

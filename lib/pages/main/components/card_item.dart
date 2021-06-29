@@ -82,7 +82,8 @@ class CardItem extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           LineIcon.print(
-                              color: isActive ? Colors.white70 : kGrayColor)
+                            color: isActive ? Colors.white70 : kGrayColor,
+                          )
 
                           // )
                         ],

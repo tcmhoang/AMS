@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
+
 import '../config/constansts.dart';
 
 class Tags extends StatelessWidget {
@@ -45,8 +46,11 @@ class Tags extends StatelessWidget {
     );
   }
 
-  InkWell buildTag(BuildContext context,
-      {required Color color, required String title}) {
+  InkWell buildTag(
+    BuildContext context, {
+    required Color color,
+    required String title,
+  }) {
     return InkWell(
       onTap: () {},
       child: Padding(
