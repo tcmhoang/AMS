@@ -17,23 +17,19 @@ class _$AssetModelTearOff {
   const _$AssetModelTearOff();
 
   _AssetModel call(
-      {String? tag,
-      String? name,
-      String? type,
-      String? make,
-      String? serial,
-      DateTime? created,
+      String tag, String name, String type, String make, String serial,
+      {DateTime? created,
       DateTime? lastupdated,
       String? condition,
       String? manageBy,
       int? timesUsed,
       bool? isAssigned}) {
     return _AssetModel(
-      tag: tag,
-      name: name,
-      type: type,
-      make: make,
-      serial: serial,
+      tag,
+      name,
+      type,
+      make,
+      serial,
       created: created,
       lastupdated: lastupdated,
       condition: condition,
@@ -49,11 +45,11 @@ const $AssetModel = _$AssetModelTearOff();
 
 /// @nodoc
 mixin _$AssetModel {
-  String? get tag => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get type => throw _privateConstructorUsedError;
-  String? get make => throw _privateConstructorUsedError;
-  String? get serial => throw _privateConstructorUsedError;
+  String get tag => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  String get make => throw _privateConstructorUsedError;
+  String get serial => throw _privateConstructorUsedError;
   DateTime? get created => throw _privateConstructorUsedError;
   DateTime? get lastupdated => throw _privateConstructorUsedError;
   String? get condition => throw _privateConstructorUsedError;
@@ -72,11 +68,11 @@ abstract class $AssetModelCopyWith<$Res> {
           AssetModel value, $Res Function(AssetModel) then) =
       _$AssetModelCopyWithImpl<$Res>;
   $Res call(
-      {String? tag,
-      String? name,
-      String? type,
-      String? make,
-      String? serial,
+      {String tag,
+      String name,
+      String type,
+      String make,
+      String serial,
       DateTime? created,
       DateTime? lastupdated,
       String? condition,
@@ -111,23 +107,23 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
       tag: tag == freezed
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       make: make == freezed
           ? _value.make
           : make // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       serial: serial == freezed
           ? _value.serial
           : serial // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       created: created == freezed
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
@@ -163,11 +159,11 @@ abstract class _$AssetModelCopyWith<$Res> implements $AssetModelCopyWith<$Res> {
       __$AssetModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String? tag,
-      String? name,
-      String? type,
-      String? make,
-      String? serial,
+      {String tag,
+      String name,
+      String type,
+      String make,
+      String serial,
       DateTime? created,
       DateTime? lastupdated,
       String? condition,
@@ -201,26 +197,26 @@ class __$AssetModelCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
     Object? isAssigned = freezed,
   }) {
     return _then(_AssetModel(
-      tag: tag == freezed
+      tag == freezed
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: name == freezed
+              as String,
+      name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      type: type == freezed
+              as String,
+      type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      make: make == freezed
+              as String,
+      make == freezed
           ? _value.make
           : make // ignore: cast_nullable_to_non_nullable
-              as String?,
-      serial: serial == freezed
+              as String,
+      serial == freezed
           ? _value.serial
           : serial // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       created: created == freezed
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
@@ -252,13 +248,8 @@ class __$AssetModelCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_AssetModel implements _AssetModel {
-  const _$_AssetModel(
-      {this.tag,
-      this.name,
-      this.type,
-      this.make,
-      this.serial,
-      this.created,
+  const _$_AssetModel(this.tag, this.name, this.type, this.make, this.serial,
+      {this.created,
       this.lastupdated,
       this.condition,
       this.manageBy,
@@ -266,15 +257,15 @@ class _$_AssetModel implements _AssetModel {
       this.isAssigned});
 
   @override
-  final String? tag;
+  final String tag;
   @override
-  final String? name;
+  final String name;
   @override
-  final String? type;
+  final String type;
   @override
-  final String? make;
+  final String make;
   @override
-  final String? serial;
+  final String serial;
   @override
   final DateTime? created;
   @override
@@ -350,12 +341,8 @@ class _$_AssetModel implements _AssetModel {
 
 abstract class _AssetModel implements AssetModel {
   const factory _AssetModel(
-      {String? tag,
-      String? name,
-      String? type,
-      String? make,
-      String? serial,
-      DateTime? created,
+      String tag, String name, String type, String make, String serial,
+      {DateTime? created,
       DateTime? lastupdated,
       String? condition,
       String? manageBy,
@@ -363,15 +350,15 @@ abstract class _AssetModel implements AssetModel {
       bool? isAssigned}) = _$_AssetModel;
 
   @override
-  String? get tag => throw _privateConstructorUsedError;
+  String get tag => throw _privateConstructorUsedError;
   @override
-  String? get name => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   @override
-  String? get type => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   @override
-  String? get make => throw _privateConstructorUsedError;
+  String get make => throw _privateConstructorUsedError;
   @override
-  String? get serial => throw _privateConstructorUsedError;
+  String get serial => throw _privateConstructorUsedError;
   @override
   DateTime? get created => throw _privateConstructorUsedError;
   @override
