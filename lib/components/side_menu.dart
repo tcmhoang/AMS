@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:lsv_ams/config/responsive.dart';
+import 'package:lsv_ams/providers/main_screen_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../config/constansts.dart';
 import '../config/extensions.dart';
@@ -27,96 +29,96 @@ class SideMenu extends StatelessWidget {
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
         child: SafeArea(
           bottom: false,
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  const FlutterLogo(
-                    size: 120,
-                    style: FlutterLogoStyle.horizontal,
-                    curve: Curves.bounceInOut,
-                    duration: Duration(seconds: 5),
-                    textColor: kTextColor,
-                  ),
-                  if (!Responsive.isDesktop(context)) ...const <Widget>[
-                    Spacer(),
-                    CloseButton()
+          child: Consumer<MainScreenProvider>(
+            builder: (_, MainScreenProvider val, __) => ListView(
+              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const FlutterLogo(
+                      size: 120,
+                      style: FlutterLogoStyle.horizontal,
+                      curve: Curves.bounceInOut,
+                      duration: Duration(seconds: 5),
+                      textColor: kTextColor,
+                    ),
+                    if (!Responsive.isDesktop(context)) ...const <Widget>[
+                      Spacer(),
+                      CloseButton()
+                    ],
                   ],
-                ],
-              ),
-              const SizedBox(height: kDefaultPadding),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 40),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: kDefaultPadding,
+                ),
+                const SizedBox(height: kDefaultPadding),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 40),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: kDefaultPadding,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    primary: kPrimaryColor,
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                  onPressed: () {},
+                  icon: LineIcon.edit(size: 16),
+                  label: const Text(
+                    'Add asset',
+                    style: TextStyle(color: Colors.white),
                   ),
-                  primary: kPrimaryColor,
+                ).addNeumorphism(
+                  topShadowColor: Colors.white,
+                  bottomShadowColor: const Color(0xFF234395).withOpacity(0.2),
                 ),
-                onPressed: () {},
-                icon: LineIcon.edit(size: 16),
-                label: const Text(
-                  'Add asset',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ).addNeumorphism(
-                topShadowColor: Colors.white,
-                bottomShadowColor: const Color(0xFF234395).withOpacity(0.2),
-              ),
-              const SizedBox(height: kDefaultPadding),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: kDefaultPadding,
+                const SizedBox(height: kDefaultPadding),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: kDefaultPadding,
+                    ),
+                    primary: kBgDarkColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    minimumSize: const Size(double.infinity, 40),
+                    onPrimary: kPrimaryColor,
                   ),
-                  primary: kBgDarkColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                  onPressed: () {},
+                  icon: LineIcon.user(
+                    size: 16,
+                    color: kTextColor,
                   ),
-                  minimumSize: const Size(double.infinity, 40),
-                  onPrimary: kPrimaryColor,
+                  label: const Text(
+                    'Add user',
+                    style: TextStyle(color: kTextColor),
+                  ),
+                ).addNeumorphism(),
+                const SizedBox(height: kDefaultPadding * 2),
+                // Menu Items
+                SideMenuItem(
+                  press: () {
+                    val.menuItem = 'Assets';
+                  },
+                  title: 'Assets',
+                  iconSrc: LineIcons.otter,
+                  isActive: val.menuItem == 'Assets',
+                  itemCount: 3,
                 ),
-                onPressed: () {},
-                icon: LineIcon.user(
-                  size: 16,
-                  color: kTextColor,
+                SideMenuItem(
+                  press: () {
+                    val.menuItem = 'Users';
+                  },
+                  title: 'Users',
+                  iconSrc: LineIcons.userAstronaut,
+                  isActive: val.menuItem == 'Users',
                 ),
-                label: const Text(
-                  'Add user',
-                  style: TextStyle(color: kTextColor),
-                ),
-              ).addNeumorphism(),
-              const SizedBox(height: kDefaultPadding * 2),
-              // Menu Items
-              SideMenuItem(
-                press: () {},
-                title: 'Assets',
-                iconSrc: LineIcons.otter,
-                isActive: true,
-                itemCount: 3,
-              ),
-              SideMenuItem(
-                press: () {},
-                title: 'Users',
-                iconSrc: LineIcons.userAstronaut,
-                isActive: false,
-              ),
-              SideMenuItem(
-                press: () {},
-                title: 'Deleted',
-                iconSrc: LineIcons.trash,
-                isActive: false,
-                showBorder: false,
-              ),
 
-              const SizedBox(height: kDefaultPadding * 2),
-              // Tags
-              const Tags(),
-            ],
+                const SizedBox(height: kDefaultPadding * 2),
+                // Tags
+                const Tags(),
+              ],
+            ),
           ),
         ),
       ),

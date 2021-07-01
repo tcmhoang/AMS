@@ -44,6 +44,10 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.2
   flutter_simple_dependency_injection: ^2.0.0
+  window_size:
+    git:
+      url: git://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
 
 dev_dependencies:
   flutter_test:

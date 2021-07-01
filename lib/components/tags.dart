@@ -1,5 +1,9 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/components/tag_creation_modal.dart';
+import 'package:lsv_ams/providers/main_screen_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../config/constansts.dart';
 
@@ -28,7 +32,9 @@ class Tags extends StatelessWidget {
             MaterialButton(
               padding: const EdgeInsets.all(10),
               minWidth: 40,
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).push(
+                TagCreationRoute(page: TagCreationModal(), dismissible: false),
+              ),
               child: const Icon(
                 Icons.add,
                 color: kGrayColor,
@@ -51,12 +57,20 @@ class Tags extends StatelessWidget {
     required Color color,
     required String title,
   }) {
+    final MainScreenProvider state = Provider.of<MainScreenProvider>(context);
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        state.menuItem = title;
+      },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(kDefaultPadding * 1.5, 10, 0, 10),
         child: Row(
           children: <Widget>[
+            if (state.menuItem == title)
+              LineIcon.caretRight(
+                size: 20,
+                color: kGrayColor,
+              ),
             LineIcon.bookmarkAlt(
               size: 18,
               color: color,
