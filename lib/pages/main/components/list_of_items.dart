@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:lsv_ams/components/side_menu.dart';
 import 'package:lsv_ams/config/responsive.dart';
+import 'package:lsv_ams/pages/asset/asset_screen.dart';
 import 'package:lsv_ams/pages/detail/detail_screen.dart';
+import 'package:lsv_ams/providers/main_screen_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config/constansts.dart';
 import 'card_item.dart';
 
-class ListOfAssets extends StatefulWidget {
-  const ListOfAssets({
+class ListOfItems extends StatefulWidget {
+  const ListOfItems({
     Key? key,
     required this.items,
   }) : super(key: key);
@@ -18,11 +21,12 @@ class ListOfAssets extends StatefulWidget {
   final List<int> items;
 
   @override
-  State<ListOfAssets> createState() => _ListOfAssetsState();
+  State<ListOfItems> createState() => _ListOfItemsState();
 }
 
-class _ListOfAssetsState extends State<ListOfAssets> {
+class _ListOfItemsState extends State<ListOfItems> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+  int _currIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,9 +112,10 @@ class _ListOfAssetsState extends State<ListOfAssets> {
                 child: ListView.builder(
                   itemCount: widget.items.length,
                   itemBuilder: (_, int index) => CardItem(
-                    isActive: !Responsive.isMobile(context) && index == 0,
+                    isActive:
+                        !Responsive.isMobile(context) && index == _currIndex,
                     // item: items[index],
-                    press: () => _handleClick(context),
+                    press: () => _handleClick(context, index),
                   ),
                 ),
               ),
@@ -121,13 +126,19 @@ class _ListOfAssetsState extends State<ListOfAssets> {
     );
   }
 
-  void _handleClick(BuildContext context) {
-    if (Responsive.isMobile(context))
+  void _handleClick(BuildContext context, int index) {
+    _currIndex = index;
+    if (Responsive.isMobile(context)) {
       Navigator.push(
         context,
         MaterialPageRoute<PageRoute<Widget>>(
-          builder: (_) => const DetailScreen(),
+          builder: (_) => DetailScreen(
+            data: Container(),
+          ),
         ),
       );
+    } else
+      Provider.of<MainScreenProvider>(context, listen: false).detailPage =
+          AssetScreen();
   }
 }
