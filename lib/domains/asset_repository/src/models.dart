@@ -36,4 +36,18 @@ class Models {
       whereArgs: [tag],
     );
   }
+
+  Future<Asset> getAsset(String tag) async {
+    final maps = await _dbHandler!.db!.query(
+      'assets',
+      where: 'tag = ?',
+      whereArgs: [tag],
+    );
+
+    if (maps.isNotEmpty) {
+      return Asset.fromJson(maps.first);
+    } else {
+      throw Exception('ID $tag not found');
+    }
+  }
 }

@@ -32,4 +32,18 @@ class Models {
       whereArgs: [userId],
     );
   }
+
+  Future<User> getUser(int userId) async {
+    final maps = await _dbHandler!.db!.query(
+      'users',
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
+
+    if (maps.isNotEmpty) {
+      return User.fromJson(maps.first);
+    } else {
+      throw Exception('ID $userId not found');
+    }
+  }
 }

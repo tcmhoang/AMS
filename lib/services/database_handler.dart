@@ -34,8 +34,7 @@ class DatabaseHandler {
     await db.execute('''
     CREATE TABLE users(userId INTEGER PRIMARY KEY AUTOINCREMENT, fullName TEXT, dob INTEGER, gender INTEGER, address TEXT, urlImage TEXT);
     CREATE TABLE assets(tag TEXT PRIMARY KEY, name TEXT, type TEXT, make TEXT, serial TEXT, created INTEGER, lastUpdated INTEGER, condition TEXT, manageBy TEXT, urlImage TEXT, timesUsed INTEGER, originalPrice REAL, isAssigned INTEGER, typeId INTEGER, FOREIGN KEY (typeId) REFERENCES asset_type(typeId));
-    CREATE TABLE deleted(deletedDate InTEGER, tagDelete TEXt, FOREIGN KEY (tagDelete) REFERENCES assets(tag));
-    CREATE TABLE asset_type(typeId INTEGer PRIMARY KEY AUTOINCREMENT, typeName Text, color TEXT);
+    CREATE TABLE asset_type(typeId INTEGER PRIMARY KEY AUTOINCREMENT, typeName Text, color TEXT);
     ''');
   }
 }

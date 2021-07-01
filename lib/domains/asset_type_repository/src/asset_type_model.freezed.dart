@@ -12,16 +12,24 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+AssetTypeModel _$AssetTypeModelFromJson(Map<String, dynamic> json) {
+  return AssetType.fromJson(json);
+}
+
 /// @nodoc
 class _$AssetTypeModelTearOff {
   const _$AssetTypeModelTearOff();
 
-  _AssetTypeModel call(int id, String typeName, String color) {
-    return _AssetTypeModel(
-      id,
+  AssetType call(int typeId, String typeName, String color) {
+    return AssetType(
+      typeId,
       typeName,
       color,
     );
+  }
+
+  AssetTypeModel fromJson(Map<String, Object> json) {
+    return AssetTypeModel.fromJson(json);
   }
 }
 
@@ -30,10 +38,11 @@ const $AssetTypeModel = _$AssetTypeModelTearOff();
 
 /// @nodoc
 mixin _$AssetTypeModel {
-  int get id => throw _privateConstructorUsedError;
+  int get typeId => throw _privateConstructorUsedError;
   String get typeName => throw _privateConstructorUsedError;
   String get color => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AssetTypeModelCopyWith<AssetTypeModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -44,7 +53,7 @@ abstract class $AssetTypeModelCopyWith<$Res> {
   factory $AssetTypeModelCopyWith(
           AssetTypeModel value, $Res Function(AssetTypeModel) then) =
       _$AssetTypeModelCopyWithImpl<$Res>;
-  $Res call({int id, String typeName, String color});
+  $Res call({int typeId, String typeName, String color});
 }
 
 /// @nodoc
@@ -58,14 +67,14 @@ class _$AssetTypeModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? id = freezed,
+    Object? typeId = freezed,
     Object? typeName = freezed,
     Object? color = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      typeId: typeId == freezed
+          ? _value.typeId
+          : typeId // ignore: cast_nullable_to_non_nullable
               as int,
       typeName: typeName == freezed
           ? _value.typeName
@@ -80,36 +89,33 @@ class _$AssetTypeModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$AssetTypeModelCopyWith<$Res>
+abstract class $AssetTypeCopyWith<$Res>
     implements $AssetTypeModelCopyWith<$Res> {
-  factory _$AssetTypeModelCopyWith(
-          _AssetTypeModel value, $Res Function(_AssetTypeModel) then) =
-      __$AssetTypeModelCopyWithImpl<$Res>;
+  factory $AssetTypeCopyWith(AssetType value, $Res Function(AssetType) then) =
+      _$AssetTypeCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String typeName, String color});
+  $Res call({int typeId, String typeName, String color});
 }
 
 /// @nodoc
-class __$AssetTypeModelCopyWithImpl<$Res>
-    extends _$AssetTypeModelCopyWithImpl<$Res>
-    implements _$AssetTypeModelCopyWith<$Res> {
-  __$AssetTypeModelCopyWithImpl(
-      _AssetTypeModel _value, $Res Function(_AssetTypeModel) _then)
-      : super(_value, (v) => _then(v as _AssetTypeModel));
+class _$AssetTypeCopyWithImpl<$Res> extends _$AssetTypeModelCopyWithImpl<$Res>
+    implements $AssetTypeCopyWith<$Res> {
+  _$AssetTypeCopyWithImpl(AssetType _value, $Res Function(AssetType) _then)
+      : super(_value, (v) => _then(v as AssetType));
 
   @override
-  _AssetTypeModel get _value => super._value as _AssetTypeModel;
+  AssetType get _value => super._value as AssetType;
 
   @override
   $Res call({
-    Object? id = freezed,
+    Object? typeId = freezed,
     Object? typeName = freezed,
     Object? color = freezed,
   }) {
-    return _then(_AssetTypeModel(
-      id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+    return _then(AssetType(
+      typeId == freezed
+          ? _value.typeId
+          : typeId // ignore: cast_nullable_to_non_nullable
               as int,
       typeName == freezed
           ? _value.typeName
@@ -124,28 +130,41 @@ class __$AssetTypeModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$AssetType with DiagnosticableTreeMixin implements AssetType {
+  const _$AssetType(this.typeId, this.typeName, this.color);
 
-class _$_AssetTypeModel implements _AssetTypeModel {
-  const _$_AssetTypeModel(this.id, this.typeName, this.color);
+  factory _$AssetType.fromJson(Map<String, dynamic> json) =>
+      _$_$AssetTypeFromJson(json);
 
   @override
-  final int id;
+  final int typeId;
   @override
   final String typeName;
   @override
   final String color;
 
   @override
-  String toString() {
-    return 'AssetTypeModel(id: $id, typeName: $typeName, color: $color)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AssetTypeModel(typeId: $typeId, typeName: $typeName, color: $color)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AssetTypeModel'))
+      ..add(DiagnosticsProperty('typeId', typeId))
+      ..add(DiagnosticsProperty('typeName', typeName))
+      ..add(DiagnosticsProperty('color', color));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _AssetTypeModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+        (other is AssetType &&
+            (identical(other.typeId, typeId) ||
+                const DeepCollectionEquality().equals(other.typeId, typeId)) &&
             (identical(other.typeName, typeName) ||
                 const DeepCollectionEquality()
                     .equals(other.typeName, typeName)) &&
@@ -156,28 +175,35 @@ class _$_AssetTypeModel implements _AssetTypeModel {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(typeId) ^
       const DeepCollectionEquality().hash(typeName) ^
       const DeepCollectionEquality().hash(color);
 
   @JsonKey(ignore: true)
   @override
-  _$AssetTypeModelCopyWith<_AssetTypeModel> get copyWith =>
-      __$AssetTypeModelCopyWithImpl<_AssetTypeModel>(this, _$identity);
-}
-
-abstract class _AssetTypeModel implements AssetTypeModel {
-  const factory _AssetTypeModel(int id, String typeName, String color) =
-      _$_AssetTypeModel;
+  $AssetTypeCopyWith<AssetType> get copyWith =>
+      _$AssetTypeCopyWithImpl<AssetType>(this, _$identity);
 
   @override
-  int get id => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() {
+    return _$_$AssetTypeToJson(this);
+  }
+}
+
+abstract class AssetType implements AssetTypeModel {
+  const factory AssetType(int typeId, String typeName, String color) =
+      _$AssetType;
+
+  factory AssetType.fromJson(Map<String, dynamic> json) = _$AssetType.fromJson;
+
+  @override
+  int get typeId => throw _privateConstructorUsedError;
   @override
   String get typeName => throw _privateConstructorUsedError;
   @override
   String get color => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$AssetTypeModelCopyWith<_AssetTypeModel> get copyWith =>
+  $AssetTypeCopyWith<AssetType> get copyWith =>
       throw _privateConstructorUsedError;
 }
