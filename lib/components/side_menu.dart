@@ -31,6 +31,7 @@ class SideMenu extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const FlutterLogo(
                     size: 120,

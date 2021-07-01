@@ -110,12 +110,7 @@ class _ListOfAssetsState extends State<ListOfAssets> {
                   itemBuilder: (_, int index) => CardItem(
                     isActive: !Responsive.isMobile(context) && index == 0,
                     // item: items[index],
-                    press: () => Navigator.push(
-                      context,
-                      MaterialPageRoute<PageRoute<Widget>>(
-                        builder: (_) => const DetailScreen(),
-                      ),
-                    ),
+                    press: () => _handleClick(context),
                   ),
                 ),
               ),
@@ -124,5 +119,15 @@ class _ListOfAssetsState extends State<ListOfAssets> {
         ),
       ),
     );
+  }
+
+  void _handleClick(BuildContext context) {
+    if (Responsive.isMobile(context))
+      Navigator.push(
+        context,
+        MaterialPageRoute<PageRoute<Widget>>(
+          builder: (_) => const DetailScreen(),
+        ),
+      );
   }
 }
