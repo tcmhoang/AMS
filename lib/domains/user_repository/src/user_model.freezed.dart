@@ -12,15 +12,28 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+UserModel _$UserModelFromJson(Map<String, dynamic> json) {
+  return User.fromJson(json);
+}
+
 /// @nodoc
 class _$UserModelTearOff {
   const _$UserModelTearOff();
 
-  _UserModel call(int userId, String userName) {
-    return _UserModel(
+  User call(int userId, String fullName, int dob, int gender, String address,
+      String urlImage) {
+    return User(
       userId,
-      userName,
+      fullName,
+      dob,
+      gender,
+      address,
+      urlImage,
     );
+  }
+
+  UserModel fromJson(Map<String, Object> json) {
+    return UserModel.fromJson(json);
   }
 }
 
@@ -30,8 +43,13 @@ const $UserModel = _$UserModelTearOff();
 /// @nodoc
 mixin _$UserModel {
   int get userId => throw _privateConstructorUsedError;
-  String get userName => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+  int get dob => throw _privateConstructorUsedError;
+  int get gender => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
+  String get urlImage => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UserModelCopyWith<UserModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -41,7 +59,13 @@ mixin _$UserModel {
 abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res>;
-  $Res call({int userId, String userName});
+  $Res call(
+      {int userId,
+      String fullName,
+      int dob,
+      int gender,
+      String address,
+      String urlImage});
 }
 
 /// @nodoc
@@ -55,104 +79,202 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
   @override
   $Res call({
     Object? userId = freezed,
-    Object? userName = freezed,
+    Object? fullName = freezed,
+    Object? dob = freezed,
+    Object? gender = freezed,
+    Object? address = freezed,
+    Object? urlImage = freezed,
   }) {
     return _then(_value.copyWith(
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      userName: userName == freezed
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
+      fullName: fullName == freezed
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      dob: dob == freezed
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as int,
+      gender: gender == freezed
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as int,
+      address: address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      urlImage: urlImage == freezed
+          ? _value.urlImage
+          : urlImage // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
-  factory _$UserModelCopyWith(
-          _UserModel value, $Res Function(_UserModel) then) =
-      __$UserModelCopyWithImpl<$Res>;
+abstract class $UserCopyWith<$Res> implements $UserModelCopyWith<$Res> {
+  factory $UserCopyWith(User value, $Res Function(User) then) =
+      _$UserCopyWithImpl<$Res>;
   @override
-  $Res call({int userId, String userName});
+  $Res call(
+      {int userId,
+      String fullName,
+      int dob,
+      int gender,
+      String address,
+      String urlImage});
 }
 
 /// @nodoc
-class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
-    implements _$UserModelCopyWith<$Res> {
-  __$UserModelCopyWithImpl(_UserModel _value, $Res Function(_UserModel) _then)
-      : super(_value, (v) => _then(v as _UserModel));
+class _$UserCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
+    implements $UserCopyWith<$Res> {
+  _$UserCopyWithImpl(User _value, $Res Function(User) _then)
+      : super(_value, (v) => _then(v as User));
 
   @override
-  _UserModel get _value => super._value as _UserModel;
+  User get _value => super._value as User;
 
   @override
   $Res call({
     Object? userId = freezed,
-    Object? userName = freezed,
+    Object? fullName = freezed,
+    Object? dob = freezed,
+    Object? gender = freezed,
+    Object? address = freezed,
+    Object? urlImage = freezed,
   }) {
-    return _then(_UserModel(
+    return _then(User(
       userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      userName == freezed
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
+      fullName == freezed
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      dob == freezed
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as int,
+      gender == freezed
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as int,
+      address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      urlImage == freezed
+          ? _value.urlImage
+          : urlImage // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$User with DiagnosticableTreeMixin implements User {
+  const _$User(this.userId, this.fullName, this.dob, this.gender, this.address,
+      this.urlImage);
 
-class _$_UserModel implements _UserModel {
-  const _$_UserModel(this.userId, this.userName);
+  factory _$User.fromJson(Map<String, dynamic> json) => _$_$UserFromJson(json);
 
   @override
   final int userId;
   @override
-  final String userName;
+  final String fullName;
+  @override
+  final int dob;
+  @override
+  final int gender;
+  @override
+  final String address;
+  @override
+  final String urlImage;
 
   @override
-  String toString() {
-    return 'UserModel(userId: $userId, userName: $userName)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserModel(userId: $userId, fullName: $fullName, dob: $dob, gender: $gender, address: $address, urlImage: $urlImage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModel'))
+      ..add(DiagnosticsProperty('userId', userId))
+      ..add(DiagnosticsProperty('fullName', fullName))
+      ..add(DiagnosticsProperty('dob', dob))
+      ..add(DiagnosticsProperty('gender', gender))
+      ..add(DiagnosticsProperty('address', address))
+      ..add(DiagnosticsProperty('urlImage', urlImage));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _UserModel &&
+        (other is User &&
             (identical(other.userId, userId) ||
                 const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.userName, userName) ||
+            (identical(other.fullName, fullName) ||
                 const DeepCollectionEquality()
-                    .equals(other.userName, userName)));
+                    .equals(other.fullName, fullName)) &&
+            (identical(other.dob, dob) ||
+                const DeepCollectionEquality().equals(other.dob, dob)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality()
+                    .equals(other.address, address)) &&
+            (identical(other.urlImage, urlImage) ||
+                const DeepCollectionEquality()
+                    .equals(other.urlImage, urlImage)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(userName);
+      const DeepCollectionEquality().hash(fullName) ^
+      const DeepCollectionEquality().hash(dob) ^
+      const DeepCollectionEquality().hash(gender) ^
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(urlImage);
 
   @JsonKey(ignore: true)
   @override
-  _$UserModelCopyWith<_UserModel> get copyWith =>
-      __$UserModelCopyWithImpl<_UserModel>(this, _$identity);
+  $UserCopyWith<User> get copyWith =>
+      _$UserCopyWithImpl<User>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$UserToJson(this);
+  }
 }
 
-abstract class _UserModel implements UserModel {
-  const factory _UserModel(int userId, String userName) = _$_UserModel;
+abstract class User implements UserModel {
+  const factory User(int userId, String fullName, int dob, int gender,
+      String address, String urlImage) = _$User;
+
+  factory User.fromJson(Map<String, dynamic> json) = _$User.fromJson;
 
   @override
   int get userId => throw _privateConstructorUsedError;
   @override
-  String get userName => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+  @override
+  int get dob => throw _privateConstructorUsedError;
+  @override
+  int get gender => throw _privateConstructorUsedError;
+  @override
+  String get address => throw _privateConstructorUsedError;
+  @override
+  String get urlImage => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$UserModelCopyWith<_UserModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }

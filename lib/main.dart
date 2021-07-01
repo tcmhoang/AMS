@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:lsv_ams/services/injection_pool.dart';
 
-import 'app.dart';
-
-void main() {
-  runApp(App());
+void main() async {
+  // runApp(App());
+  WidgetsFlutterBinding.ensureInitialized();
+  await InjectionPool.initInjection();
 }

@@ -12,31 +12,47 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+AssetModel _$AssetModelFromJson(Map<String, dynamic> json) {
+  return Asset.fromJson(json);
+}
+
 /// @nodoc
 class _$AssetModelTearOff {
   const _$AssetModelTearOff();
 
-  _AssetModel call(
-      String tag, String name, String type, String make, String serial,
-      {DateTime? created,
-      DateTime? lastupdated,
-      String? condition,
-      String? manageBy,
-      int? timesUsed,
-      bool? isAssigned}) {
-    return _AssetModel(
+  Asset call(
+      String tag,
+      String name,
+      String type,
+      String make,
+      String serial,
+      int created,
+      int lastUpdated,
+      String condition,
+      String manageBy,
+      String urlImage,
+      int timesUsed,
+      double originalPrice,
+      int isAssigned) {
+    return Asset(
       tag,
       name,
       type,
       make,
       serial,
-      created: created,
-      lastupdated: lastupdated,
-      condition: condition,
-      manageBy: manageBy,
-      timesUsed: timesUsed,
-      isAssigned: isAssigned,
+      created,
+      lastUpdated,
+      condition,
+      manageBy,
+      urlImage,
+      timesUsed,
+      originalPrice,
+      isAssigned,
     );
+  }
+
+  AssetModel fromJson(Map<String, Object> json) {
+    return AssetModel.fromJson(json);
   }
 }
 
@@ -50,13 +66,16 @@ mixin _$AssetModel {
   String get type => throw _privateConstructorUsedError;
   String get make => throw _privateConstructorUsedError;
   String get serial => throw _privateConstructorUsedError;
-  DateTime? get created => throw _privateConstructorUsedError;
-  DateTime? get lastupdated => throw _privateConstructorUsedError;
-  String? get condition => throw _privateConstructorUsedError;
-  String? get manageBy => throw _privateConstructorUsedError;
-  int? get timesUsed => throw _privateConstructorUsedError;
-  bool? get isAssigned => throw _privateConstructorUsedError;
+  int get created => throw _privateConstructorUsedError;
+  int get lastUpdated => throw _privateConstructorUsedError;
+  String get condition => throw _privateConstructorUsedError;
+  String get manageBy => throw _privateConstructorUsedError;
+  String get urlImage => throw _privateConstructorUsedError;
+  int get timesUsed => throw _privateConstructorUsedError;
+  double get originalPrice => throw _privateConstructorUsedError;
+  int get isAssigned => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AssetModelCopyWith<AssetModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -73,12 +92,14 @@ abstract class $AssetModelCopyWith<$Res> {
       String type,
       String make,
       String serial,
-      DateTime? created,
-      DateTime? lastupdated,
-      String? condition,
-      String? manageBy,
-      int? timesUsed,
-      bool? isAssigned});
+      int created,
+      int lastUpdated,
+      String condition,
+      String manageBy,
+      String urlImage,
+      int timesUsed,
+      double originalPrice,
+      int isAssigned});
 }
 
 /// @nodoc
@@ -97,10 +118,12 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
     Object? make = freezed,
     Object? serial = freezed,
     Object? created = freezed,
-    Object? lastupdated = freezed,
+    Object? lastUpdated = freezed,
     Object? condition = freezed,
     Object? manageBy = freezed,
+    Object? urlImage = freezed,
     Object? timesUsed = freezed,
+    Object? originalPrice = freezed,
     Object? isAssigned = freezed,
   }) {
     return _then(_value.copyWith(
@@ -127,36 +150,43 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
       created: created == freezed
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      lastupdated: lastupdated == freezed
-          ? _value.lastupdated
-          : lastupdated // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as int,
+      lastUpdated: lastUpdated == freezed
+          ? _value.lastUpdated
+          : lastUpdated // ignore: cast_nullable_to_non_nullable
+              as int,
       condition: condition == freezed
           ? _value.condition
           : condition // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       manageBy: manageBy == freezed
           ? _value.manageBy
           : manageBy // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
+      urlImage: urlImage == freezed
+          ? _value.urlImage
+          : urlImage // ignore: cast_nullable_to_non_nullable
+              as String,
       timesUsed: timesUsed == freezed
           ? _value.timesUsed
           : timesUsed // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
+      originalPrice: originalPrice == freezed
+          ? _value.originalPrice
+          : originalPrice // ignore: cast_nullable_to_non_nullable
+              as double,
       isAssigned: isAssigned == freezed
           ? _value.isAssigned
           : isAssigned // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$AssetModelCopyWith<$Res> implements $AssetModelCopyWith<$Res> {
-  factory _$AssetModelCopyWith(
-          _AssetModel value, $Res Function(_AssetModel) then) =
-      __$AssetModelCopyWithImpl<$Res>;
+abstract class $AssetCopyWith<$Res> implements $AssetModelCopyWith<$Res> {
+  factory $AssetCopyWith(Asset value, $Res Function(Asset) then) =
+      _$AssetCopyWithImpl<$Res>;
   @override
   $Res call(
       {String tag,
@@ -164,23 +194,24 @@ abstract class _$AssetModelCopyWith<$Res> implements $AssetModelCopyWith<$Res> {
       String type,
       String make,
       String serial,
-      DateTime? created,
-      DateTime? lastupdated,
-      String? condition,
-      String? manageBy,
-      int? timesUsed,
-      bool? isAssigned});
+      int created,
+      int lastUpdated,
+      String condition,
+      String manageBy,
+      String urlImage,
+      int timesUsed,
+      double originalPrice,
+      int isAssigned});
 }
 
 /// @nodoc
-class __$AssetModelCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
-    implements _$AssetModelCopyWith<$Res> {
-  __$AssetModelCopyWithImpl(
-      _AssetModel _value, $Res Function(_AssetModel) _then)
-      : super(_value, (v) => _then(v as _AssetModel));
+class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
+    implements $AssetCopyWith<$Res> {
+  _$AssetCopyWithImpl(Asset _value, $Res Function(Asset) _then)
+      : super(_value, (v) => _then(v as Asset));
 
   @override
-  _AssetModel get _value => super._value as _AssetModel;
+  Asset get _value => super._value as Asset;
 
   @override
   $Res call({
@@ -190,13 +221,15 @@ class __$AssetModelCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
     Object? make = freezed,
     Object? serial = freezed,
     Object? created = freezed,
-    Object? lastupdated = freezed,
+    Object? lastUpdated = freezed,
     Object? condition = freezed,
     Object? manageBy = freezed,
+    Object? urlImage = freezed,
     Object? timesUsed = freezed,
+    Object? originalPrice = freezed,
     Object? isAssigned = freezed,
   }) {
-    return _then(_AssetModel(
+    return _then(Asset(
       tag == freezed
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
@@ -217,44 +250,62 @@ class __$AssetModelCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
           ? _value.serial
           : serial // ignore: cast_nullable_to_non_nullable
               as String,
-      created: created == freezed
+      created == freezed
           ? _value.created
           : created // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      lastupdated: lastupdated == freezed
-          ? _value.lastupdated
-          : lastupdated // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      condition: condition == freezed
+              as int,
+      lastUpdated == freezed
+          ? _value.lastUpdated
+          : lastUpdated // ignore: cast_nullable_to_non_nullable
+              as int,
+      condition == freezed
           ? _value.condition
           : condition // ignore: cast_nullable_to_non_nullable
-              as String?,
-      manageBy: manageBy == freezed
+              as String,
+      manageBy == freezed
           ? _value.manageBy
           : manageBy // ignore: cast_nullable_to_non_nullable
-              as String?,
-      timesUsed: timesUsed == freezed
+              as String,
+      urlImage == freezed
+          ? _value.urlImage
+          : urlImage // ignore: cast_nullable_to_non_nullable
+              as String,
+      timesUsed == freezed
           ? _value.timesUsed
           : timesUsed // ignore: cast_nullable_to_non_nullable
-              as int?,
-      isAssigned: isAssigned == freezed
+              as int,
+      originalPrice == freezed
+          ? _value.originalPrice
+          : originalPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      isAssigned == freezed
           ? _value.isAssigned
           : isAssigned // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int,
     ));
   }
 }
 
 /// @nodoc
-
-class _$_AssetModel implements _AssetModel {
-  const _$_AssetModel(this.tag, this.name, this.type, this.make, this.serial,
-      {this.created,
-      this.lastupdated,
+@JsonSerializable()
+class _$Asset with DiagnosticableTreeMixin implements Asset {
+  const _$Asset(
+      this.tag,
+      this.name,
+      this.type,
+      this.make,
+      this.serial,
+      this.created,
+      this.lastUpdated,
       this.condition,
       this.manageBy,
+      this.urlImage,
       this.timesUsed,
-      this.isAssigned});
+      this.originalPrice,
+      this.isAssigned);
+
+  factory _$Asset.fromJson(Map<String, dynamic> json) =>
+      _$_$AssetFromJson(json);
 
   @override
   final String tag;
@@ -267,27 +318,51 @@ class _$_AssetModel implements _AssetModel {
   @override
   final String serial;
   @override
-  final DateTime? created;
+  final int created;
   @override
-  final DateTime? lastupdated;
+  final int lastUpdated;
   @override
-  final String? condition;
+  final String condition;
   @override
-  final String? manageBy;
+  final String manageBy;
   @override
-  final int? timesUsed;
+  final String urlImage;
   @override
-  final bool? isAssigned;
+  final int timesUsed;
+  @override
+  final double originalPrice;
+  @override
+  final int isAssigned;
 
   @override
-  String toString() {
-    return 'AssetModel(tag: $tag, name: $name, type: $type, make: $make, serial: $serial, created: $created, lastupdated: $lastupdated, condition: $condition, manageBy: $manageBy, timesUsed: $timesUsed, isAssigned: $isAssigned)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AssetModel(tag: $tag, name: $name, type: $type, make: $make, serial: $serial, created: $created, lastUpdated: $lastUpdated, condition: $condition, manageBy: $manageBy, urlImage: $urlImage, timesUsed: $timesUsed, originalPrice: $originalPrice, isAssigned: $isAssigned)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AssetModel'))
+      ..add(DiagnosticsProperty('tag', tag))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('make', make))
+      ..add(DiagnosticsProperty('serial', serial))
+      ..add(DiagnosticsProperty('created', created))
+      ..add(DiagnosticsProperty('lastUpdated', lastUpdated))
+      ..add(DiagnosticsProperty('condition', condition))
+      ..add(DiagnosticsProperty('manageBy', manageBy))
+      ..add(DiagnosticsProperty('urlImage', urlImage))
+      ..add(DiagnosticsProperty('timesUsed', timesUsed))
+      ..add(DiagnosticsProperty('originalPrice', originalPrice))
+      ..add(DiagnosticsProperty('isAssigned', isAssigned));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _AssetModel &&
+        (other is Asset &&
             (identical(other.tag, tag) ||
                 const DeepCollectionEquality().equals(other.tag, tag)) &&
             (identical(other.name, name) ||
@@ -301,18 +376,24 @@ class _$_AssetModel implements _AssetModel {
             (identical(other.created, created) ||
                 const DeepCollectionEquality()
                     .equals(other.created, created)) &&
-            (identical(other.lastupdated, lastupdated) ||
+            (identical(other.lastUpdated, lastUpdated) ||
                 const DeepCollectionEquality()
-                    .equals(other.lastupdated, lastupdated)) &&
+                    .equals(other.lastUpdated, lastUpdated)) &&
             (identical(other.condition, condition) ||
                 const DeepCollectionEquality()
                     .equals(other.condition, condition)) &&
             (identical(other.manageBy, manageBy) ||
                 const DeepCollectionEquality()
                     .equals(other.manageBy, manageBy)) &&
+            (identical(other.urlImage, urlImage) ||
+                const DeepCollectionEquality()
+                    .equals(other.urlImage, urlImage)) &&
             (identical(other.timesUsed, timesUsed) ||
                 const DeepCollectionEquality()
                     .equals(other.timesUsed, timesUsed)) &&
+            (identical(other.originalPrice, originalPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.originalPrice, originalPrice)) &&
             (identical(other.isAssigned, isAssigned) ||
                 const DeepCollectionEquality()
                     .equals(other.isAssigned, isAssigned)));
@@ -327,27 +408,42 @@ class _$_AssetModel implements _AssetModel {
       const DeepCollectionEquality().hash(make) ^
       const DeepCollectionEquality().hash(serial) ^
       const DeepCollectionEquality().hash(created) ^
-      const DeepCollectionEquality().hash(lastupdated) ^
+      const DeepCollectionEquality().hash(lastUpdated) ^
       const DeepCollectionEquality().hash(condition) ^
       const DeepCollectionEquality().hash(manageBy) ^
+      const DeepCollectionEquality().hash(urlImage) ^
       const DeepCollectionEquality().hash(timesUsed) ^
+      const DeepCollectionEquality().hash(originalPrice) ^
       const DeepCollectionEquality().hash(isAssigned);
 
   @JsonKey(ignore: true)
   @override
-  _$AssetModelCopyWith<_AssetModel> get copyWith =>
-      __$AssetModelCopyWithImpl<_AssetModel>(this, _$identity);
+  $AssetCopyWith<Asset> get copyWith =>
+      _$AssetCopyWithImpl<Asset>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$AssetToJson(this);
+  }
 }
 
-abstract class _AssetModel implements AssetModel {
-  const factory _AssetModel(
-      String tag, String name, String type, String make, String serial,
-      {DateTime? created,
-      DateTime? lastupdated,
-      String? condition,
-      String? manageBy,
-      int? timesUsed,
-      bool? isAssigned}) = _$_AssetModel;
+abstract class Asset implements AssetModel {
+  const factory Asset(
+      String tag,
+      String name,
+      String type,
+      String make,
+      String serial,
+      int created,
+      int lastUpdated,
+      String condition,
+      String manageBy,
+      String urlImage,
+      int timesUsed,
+      double originalPrice,
+      int isAssigned) = _$Asset;
+
+  factory Asset.fromJson(Map<String, dynamic> json) = _$Asset.fromJson;
 
   @override
   String get tag => throw _privateConstructorUsedError;
@@ -360,19 +456,22 @@ abstract class _AssetModel implements AssetModel {
   @override
   String get serial => throw _privateConstructorUsedError;
   @override
-  DateTime? get created => throw _privateConstructorUsedError;
+  int get created => throw _privateConstructorUsedError;
   @override
-  DateTime? get lastupdated => throw _privateConstructorUsedError;
+  int get lastUpdated => throw _privateConstructorUsedError;
   @override
-  String? get condition => throw _privateConstructorUsedError;
+  String get condition => throw _privateConstructorUsedError;
   @override
-  String? get manageBy => throw _privateConstructorUsedError;
+  String get manageBy => throw _privateConstructorUsedError;
   @override
-  int? get timesUsed => throw _privateConstructorUsedError;
+  String get urlImage => throw _privateConstructorUsedError;
   @override
-  bool? get isAssigned => throw _privateConstructorUsedError;
+  int get timesUsed => throw _privateConstructorUsedError;
+  @override
+  double get originalPrice => throw _privateConstructorUsedError;
+  @override
+  int get isAssigned => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$AssetModelCopyWith<_AssetModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $AssetCopyWith<Asset> get copyWith => throw _privateConstructorUsedError;
 }
