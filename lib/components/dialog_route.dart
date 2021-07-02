@@ -1,10 +1,11 @@
 import 'package:animations/animations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lsv_ams/config/constansts.dart';
+import 'package:styled_widget/styled_widget.dart';
 
-class TagCreationRoute extends TransitionRoute<void> {
-  TagCreationRoute({
+import '../config/constansts.dart';
+
+class DefaultDialogRoute extends TransitionRoute<void> {
+  DefaultDialogRoute({
     required this.page,
     required this.dismissible,
   });
@@ -48,30 +49,6 @@ class TagCreationRoute extends TransitionRoute<void> {
         ),
         dismissible: dismissible,
       ),
-    );
-  }
-}
-
-class TagCreationModal extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Text('(　´･‿･｀)'),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
-            )
-          ],
-        ),
-      ),
-    );
+    ).backgroundBlur(7.0).animate(kDefaultDuration, Curves.easeInOutQuad);
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../config/constansts.dart';
 import 'counter_badge.dart';
@@ -22,56 +24,49 @@ class SideMenuItem extends StatelessWidget {
   final VoidCallback press;
 
   @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: kDefaultDuration,
-      child: Padding(
-        padding: const EdgeInsets.only(top: kDefaultPadding),
-        child: InkWell(
-          onTap: press,
-          child: Row(
+  Widget build(BuildContext context) => <Widget>[
+        AnimatedSwitcher(
+          duration: kDefaultDuration,
+          child: isActive
+              ? LineIcon.caretRight(size: 20)
+              : const SizedBox(width: 15),
+        ),
+        const SizedBox(width: kDefaultPadding / 4),
+        _renderContent(context)
+            .padding(
+              bottom: 15,
+              right: 5,
+            )
+            .decorated(
+              border: showBorder
+                  ? const Border(
+                      bottom: BorderSide(color: Color(0xFFDFE2EF)),
+                    )
+                  : null,
+            )
+            .expanded(),
+      ]
+          .toRow(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              if (isActive)
-                LineIcon.caretRight(size: 20)
-              else
-                const SizedBox(width: 15),
-              const SizedBox(width: kDefaultPadding / 4),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.only(bottom: 15, right: 5),
-                  decoration: showBorder
-                      ? const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Color(0xFFDFE2EF)),
-                          ),
-                        )
-                      : null,
-                  child: Row(
-                    children: <Widget>[
-                      LineIcon(
-                        iconSrc,
-                        color: isActive ? kPrimaryColor : kGrayColor,
-                        size: 20,
-                      ),
-                      const SizedBox(width: kDefaultPadding * 0.75),
-                      Text(
-                        title,
-                        style: Theme.of(context).textTheme.button!.copyWith(
-                              color: isActive ? kTextColor : kGrayColor,
-                            ),
-                      ),
-                      const Spacer(),
-                      if (itemCount != 0) CounterBadge(count: itemCount)
-                    ],
-                  ),
-                ),
+          )
+          .gestures(onTap: press)
+          .padding(top: kDefaultPadding);
+
+  Widget _renderContent(BuildContext context) => <Widget>[
+        LineIcon(
+          iconSrc,
+          color: isActive ? kPrimaryColor : kGrayColor,
+          size: 20,
+        ).animate(kDefaultDuration, Curves.easeInOutExpo),
+        const SizedBox(width: kDefaultPadding * 0.75),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.button!.copyWith(
+                color: isActive ? kTextColor : kGrayColor,
               ),
-            ],
-          ),
         ),
-      ),
-    );
-  }
+        const Spacer(),
+        if (itemCount != 0) CounterBadge(count: itemCount)
+      ].toRow();
 }
