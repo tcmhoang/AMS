@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:lsv_ams/config/responsive.dart';
-import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../config/constansts.dart';
 import '../config/extensions.dart';
+import '../config/responsive.dart';
+import '../providers/main_screen_provider.dart';
 import 'side_menu_item.dart';
 import 'tags.dart';
 

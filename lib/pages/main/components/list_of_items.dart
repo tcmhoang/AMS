@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/components/side_menu.dart';
-import 'package:lsv_ams/config/responsive.dart';
-import 'package:lsv_ams/pages/asset/asset_screen.dart';
-import 'package:lsv_ams/pages/detail/detail_screen.dart';
-import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../components/side_menu.dart';
 import '../../../config/constansts.dart';
+import '../../../config/responsive.dart';
+import '../../../providers/main_screen_provider.dart';
+import '../../asset/asset_screen.dart';
+import '../../detail/detail_screen.dart';
 import 'card_item.dart';
 
 class ListOfItems extends StatefulWidget {

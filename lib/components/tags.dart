@@ -1,11 +1,10 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/components/tag_creation_modal.dart';
-import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../config/constansts.dart';
+import '../providers/main_screen_provider.dart';
+import 'tag_creation_modal.dart';
 
 class Tags extends StatelessWidget {
   const Tags({

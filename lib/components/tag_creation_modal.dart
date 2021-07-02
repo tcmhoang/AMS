@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lsv_ams/config/constansts.dart';
 
 class TagCreationRoute extends TransitionRoute<void> {
   TagCreationRoute({
@@ -28,7 +29,8 @@ class TagCreationRoute extends TransitionRoute<void> {
   bool get opaque => false;
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 500);
+  Duration get transitionDuration =>
+      Duration(milliseconds: kDefaultDuration.inMilliseconds);
 
   Widget _buildModalBarrier(BuildContext context) {
     final Animation<double> animation = this.animation!;

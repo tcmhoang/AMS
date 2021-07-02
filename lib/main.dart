@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:window_size/window_size.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lsv_ams/services/injection_pool.dart';
-import 'app.dart';
+import 'package:window_size/window_size.dart';
 
-void main() async {
+import 'app.dart';
+import 'services/injection_pool.dart';
+
+Future<void> main() async {
   // runApp(App());
   WidgetsFlutterBinding.ensureInitialized();
   await InjectionPool.initInjection();

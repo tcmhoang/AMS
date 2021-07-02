@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/config/constansts.dart';
+
+import '../../config/constansts.dart';
 
 class AssetScreen extends StatelessWidget {
   @override

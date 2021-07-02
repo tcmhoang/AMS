@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lsv_ams/config/responsive.dart';
-import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/side_menu.dart';
+import '../../config/responsive.dart';
+import '../../providers/main_screen_provider.dart';
 import '../detail/detail_screen.dart';
 import 'components/list_of_items.dart';
 
