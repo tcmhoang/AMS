@@ -5,8 +5,9 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../config/constansts.dart';
 import '../providers/main_screen_provider.dart';
+import 'category_creation_modal.dart';
+import 'default_dialog_route.dart';
 import 'default_modal.dart';
-import 'dialog_route.dart';
 
 class Tags extends StatelessWidget {
   const Tags({
@@ -31,23 +32,27 @@ class Tags extends StatelessWidget {
       const SizedBox(width: kDefaultPadding / 4),
       const SizedBox(width: kDefaultPadding / 2),
       Text(
-        'Tags',
+        'Category',
         style: Theme.of(context).textTheme.button!.copyWith(color: kGrayColor),
       ),
       const Spacer(),
       MaterialButton(
-          padding: const EdgeInsets.all(10),
-          minWidth: 40,
-          onPressed: () => Navigator.of(context).push(
-                DefaultDialogRoute(
-                  page: const DefaultModal(),
-                  dismissible: false,
-                ),
-              ),
-          child: LineIcon.plus(
-            color: kGrayColor,
-            size: 20,
-          ))
+        padding: const EdgeInsets.all(10),
+        minWidth: 40,
+        onPressed: () => Navigator.of(context).push(
+          DefaultDialogRoute(
+            page: DefaultModal(
+              title: 'Create a new category',
+              data: CategoryCreationModal(),
+            ),
+            dismissible: false,
+          ),
+        ),
+        child: LineIcon.plus(
+          color: kGrayColor,
+          size: 20,
+        ),
+      )
     ].toRow();
   }
 

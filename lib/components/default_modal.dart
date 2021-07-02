@@ -1,36 +1,68 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lsv_ams/config/constansts.dart';
+import 'package:lsv_ams/config/responsive.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 class DefaultModal extends StatelessWidget {
-  const DefaultModal({Key? key, this.data}) : super(key: key);
+  const DefaultModal({Key? key, this.data, required this.title})
+      : super(key: key);
 
   final Widget? data;
+  final String title;
   @override
   Widget build(BuildContext context) {
-    return (data ??
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const Text('(　´･‿･｀)'),
-                const SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Close'),
-                )
-              ],
-            ))
-        .padding(all: 16)
+    return <Widget>[
+      _renderHeader(context),
+      const SizedBox(height: kDefaultPadding),
+      data ?? const Text('(　´･‿･｀)'),
+    ]
+        .toColumn(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+        )
+        .padding(
+          horizontal: 16,
+          bottom: kDefaultPadding,
+        )
         .card(
           elevation: 7,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
           color: kBgDarkColor,
-        );
+        )
+        .constrained(
+          maxWidth: MediaQuery.of(context).size.width / 2,
+          minHeight: MediaQuery.of(context).size.height * .7,
+          animate: true,
+        )
+        .scrollable()
+        .animate(kDefaultDuration, Curves.bounceInOut);
+  }
+
+  Widget _renderHeader(BuildContext context) {
+    return !Responsive.isMobile(context)
+        ? <Widget>[
+            const CloseButton().alignment(Alignment.centerLeft).expanded(),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headline5,
+            ).fittedBox().flexible(flex: 2),
+            const Spacer(),
+          ].toRow(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+          )
+        : <Widget>[
+            const CloseButton(),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headline5,
+            ).padding(left: kDefaultPadding * 0.5),
+          ].toColumn(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+          );
   }
 }

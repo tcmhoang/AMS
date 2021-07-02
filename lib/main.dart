@@ -12,7 +12,7 @@ Future<void> main() async {
   await InjectionPool.initInjection();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('LEON SYSTEM VIETNAM ASSETS MANAGEMENT');
-    setWindowMinSize(const Size(300, 300));
+    setWindowMinSize(const Size(240, 240));
     setWindowMaxSize(Size.infinite);
   }
   runApp(App());
