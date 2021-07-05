@@ -38,5 +38,10 @@ Future<AssetType?> get(int id) async {
   }
 }
 
-Future<bool> hasNamed(String title) async =>
-    (await fetchAll())!.any((AssetType element) => element.typeName == title);
+Future<AssetType?> findByTitle(String title) async {
+  try {
+    return ats.findByTitle(title);
+  } catch (_, __) {
+    return null;
+  }
+}

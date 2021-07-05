@@ -1,8 +1,11 @@
 import '../../services/injection_pool.dart';
+import '../asset_type_repository/src/asset_type_model.dart';
+import '../asset_type_repository/src/models.dart';
 import 'src/asset_model.dart';
 import 'src/models.dart';
 
 late AssetModels assets = InjectionPool.injector!.get<AssetModels>();
+late AssetTypeModels types = InjectionPool.injector!.get<AssetTypeModels>();
 
 Future<bool> create(Asset asset) async {
   try {
@@ -51,9 +54,15 @@ Future<Asset?> get(String tag) async {
   }
 }
 
-Future<bool> fetchByType(String type) async {
-  // TODO(tuanhm): Do later
-  return true;
+Future<List<Asset>?> fetchByType(String typeName) async {
+  final AssetType tmp = await types.findByTitle(typeName);
+  try {
+    if (tmp != null) {
+      return assets.fetchByType(tmp.typeId);
+    }
+  } catch (_, __) {
+    return null;
+  }
 }
 
 Future<bool> isExisted(String tag) async =>

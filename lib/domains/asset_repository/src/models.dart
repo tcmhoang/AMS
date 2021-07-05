@@ -52,4 +52,18 @@ class AssetModels {
       throw Exception('ID $tag not found');
     }
   }
+
+  Future<List<Asset>> fetchByType(int type) async {
+    final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
+      _kTableName,
+      where: 'typeId = ?',
+      whereArgs: <int>[type],
+    );
+
+    if (maps.isNotEmpty) {
+      return maps.map((Map<String, Object?> e) => Asset.fromJson(e)).toList();
+    } else {
+      throw Exception('$type not found');
+    }
+  }
 }

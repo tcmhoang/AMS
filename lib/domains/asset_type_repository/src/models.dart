@@ -46,4 +46,18 @@ class AssetTypeModels {
       throw Exception('ID $assetTypeId not found');
     }
   }
+
+  Future<AssetType> findByTitle(String title) async {
+    final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
+      'asset_type',
+      where: 'typeName = ?',
+      whereArgs: <String>[title],
+    );
+
+    if (maps.isNotEmpty) {
+      return AssetType.fromJson(maps.first);
+    } else {
+      throw Exception('ID $title not found');
+    }
+  }
 }
