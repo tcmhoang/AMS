@@ -2,7 +2,7 @@ import '../../../services/database_handler.dart';
 import '../../../services/injection_pool.dart';
 import 'user_model.dart';
 
-class Models {
+class UserModels {
   static late final DatabaseHandler _dbHandler =
       InjectionPool.injector!.get<DatabaseHandler>();
 
