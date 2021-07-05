@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/domains/asset_type_repository/src/asset_type_model.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:supercharged/supercharged.dart';
 
 import '../config/constansts.dart';
 import '../providers/main_screen_provider.dart';
@@ -9,21 +14,61 @@ import 'category_creation_modal.dart';
 import 'default_dialog_route.dart';
 import 'default_modal.dart';
 
-class Tags extends StatelessWidget {
+class Tags extends StatefulWidget {
   const Tags({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<Tags> createState() => _TagsState();
+}
+
+class _TagsState extends State<Tags> {
+  // late final List<AssetType> _data;
+  @override
+  void initState() {
+    super.initState();
+    // ameoxamcho();
+  }
+
+  Future<List<AssetType>> ameoxamcho() async {
+    final String str =
+        await rootBundle.loadString('assets/dummy/asset_type.json');
+    final List<dynamic> itemMap = json.decode(str) as List<dynamic>;
+
+    final List<AssetType> _data = itemMap
+        .cast<Map<String, dynamic>>()
+        .map((Map<String, dynamic> e) => AssetType.fromJson(e))
+        .toList();
+    return _data;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return <Widget>[
-      _renderHeader(context),
-      const SizedBox(height: kDefaultPadding / 2),
-      _renderTag(context, color: const Color(0xFF23CF91), title: 'Design'),
-      _renderTag(context, color: const Color(0xFF3A6FF7), title: 'Work'),
-      _renderTag(context, color: const Color(0xFFF3CF50), title: 'Friends'),
-      _renderTag(context, color: const Color(0xFF8338E1), title: 'Family'),
-    ].toColumn();
+    final Future<List<AssetType>> itemList = ameoxamcho();
+    return FutureBuilder<List<AssetType>>(
+      future: itemList,
+      builder: (_, AsyncSnapshot<Object?> snapshot) {
+        if (snapshot.hasData) {
+          final List<AssetType> data = snapshot.data! as List<AssetType>;
+
+          return <Widget>[
+            _renderHeader(context),
+            const SizedBox(height: kDefaultPadding / 2),
+            ...data
+                .map(
+                  (AssetType e) => _renderTag(
+                    context,
+                    color: e.color.toColor(),
+                    title: e.typeName,
+                  ),
+                )
+                .toList(),
+          ].toColumn();
+        } else
+          return const CircularProgressIndicator();
+      },
+    );
   }
 
   Widget _renderHeader(BuildContext context) {

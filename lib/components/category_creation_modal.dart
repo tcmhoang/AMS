@@ -1,6 +1,9 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/config/constansts.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 class CategoryCreationModal extends StatefulWidget {
@@ -10,7 +13,8 @@ class CategoryCreationModal extends StatefulWidget {
 
 class CategoryCreationModalState extends State<CategoryCreationModal> {
   late Color screenPickerColor;
-
+  late String categoryName;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   // Define custom colors. The 'guide' color values are from
   // https://material.io/design/color/the-color-system.html#color-theme-creation
   static const Color guidePrimary = Color(0xFF6200EE);
@@ -48,20 +52,57 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
       colorSize = 15;
     }
 
-    return <Widget>[
-      Text(
-        'Color',
-        style: Theme.of(context).textTheme.headline6,
+    return Form(
+      key: formKey,
+      child: <Widget>[
+        Text(
+          'Category Name',
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        _renderFormContent(context),
+        Text(
+          'Color',
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        _renderColorPicker(context, colorSize),
+        const SizedBox(
+          height: 70,
+        ),
+        _renderAddCategoryBtn(context),
+      ]
+          .toColumn(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+          )
+          .padding(all: 6)
+          .width(double.infinity),
+    );
+  }
+
+  Widget _renderAddCategoryBtn(BuildContext ctx) {
+    return ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 40),
+        padding: const EdgeInsets.symmetric(
+          vertical: kDefaultPadding,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        primary: kPrimaryColor,
       ),
-      _renderColorPicker(context, colorSize),
-      _renderFormContent(context),
-    ]
-        .toColumn(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-        )
-        .padding(all: 6)
-        .width(double.infinity);
+      onPressed: () {
+        if (formKey.currentState!.validate()) {
+          // ignore: flutter_style_todos
+          //TODO(mytv): Update list of cat
+          // final MainScreenProvider val =
+          //     Provider.of<MainScreenProvider>(ctx, listen: false);
+          Navigator.pop(context);
+        }
+      },
+      icon: LineIcon.plus(),
+      label: const Text('ADD CATEGORY'),
+    );
   }
 
   ColorPicker _renderColorPicker(BuildContext context, double colorSize) {
@@ -105,5 +146,14 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
     );
   }
 
-  Widget _renderFormContent(BuildContext context) => Container();
+  Widget _renderFormContent(BuildContext context) => TextFormField(
+        validator: (String? categoryName) =>
+            categoryName != null && categoryName.isEmpty
+                ? 'The category name cannot be empty'
+                : null,
+        onChanged: (String value) => setState(() {
+          categoryName = value;
+        }),
+        decoration: const InputDecoration(hintText: 'Enter category name'),
+      ).padding(bottom: kDefaultPadding);
 }
