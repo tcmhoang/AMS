@@ -53,44 +53,8 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
         'Color',
         style: Theme.of(context).textTheme.headline6,
       ),
-      ColorPicker(
-        // Use the screenPickerColor as start color.
-        color: screenPickerColor,
-        // Update the screenPickerColor using the callback.
-        onColorChanged: (Color color) =>
-            setState(() => screenPickerColor = color),
-        wheelSubheading: Text(
-          'Selected color and its shades',
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        showMaterialName: true,
-        showColorName: true,
-        showColorCode: true,
-        copyPasteBehavior: const ColorPickerCopyPasteBehavior(
-          longPressMenu: true,
-        ),
-        borderRadius: 50,
-        subheading: Text(
-          'Select color shade',
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        wheelDiameter: 155,
-        width: colorSize,
-        height: colorSize,
-
-        materialNameTextStyle: Theme.of(context).textTheme.caption,
-        colorNameTextStyle: Theme.of(context).textTheme.caption,
-        colorCodeTextStyle: Theme.of(context).textTheme.caption,
-        pickersEnabled: const <ColorPickerType, bool>{
-          ColorPickerType.both: false,
-          ColorPickerType.primary: true,
-          ColorPickerType.accent: true,
-          ColorPickerType.bw: false,
-          ColorPickerType.custom: true,
-          ColorPickerType.wheel: true,
-        },
-        customColorSwatchesAndNames: colorsNameMap,
-      ),
+      _renderColorPicker(context, colorSize),
+      _renderFormContent(context),
     ]
         .toColumn(
           mainAxisSize: MainAxisSize.min,
@@ -99,4 +63,47 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
         .padding(all: 6)
         .width(double.infinity);
   }
+
+  ColorPicker _renderColorPicker(BuildContext context, double colorSize) {
+    return ColorPicker(
+      // Use the screenPickerColor as start color.
+      color: screenPickerColor,
+      // Update the screenPickerColor using the callback.
+      onColorChanged: (Color color) =>
+          setState(() => screenPickerColor = color),
+      wheelSubheading: Text(
+        'Selected color and its shades',
+        style: Theme.of(context).textTheme.subtitle1,
+      ),
+      showMaterialName: true,
+      showColorName: true,
+      showColorCode: true,
+      copyPasteBehavior: const ColorPickerCopyPasteBehavior(
+        longPressMenu: true,
+      ),
+      borderRadius: 50,
+      subheading: Text(
+        'Select color shade',
+        style: Theme.of(context).textTheme.subtitle1,
+      ),
+      wheelDiameter: 155,
+      width: colorSize,
+      height: colorSize,
+
+      materialNameTextStyle: Theme.of(context).textTheme.caption,
+      colorNameTextStyle: Theme.of(context).textTheme.caption,
+      colorCodeTextStyle: Theme.of(context).textTheme.caption,
+      pickersEnabled: const <ColorPickerType, bool>{
+        ColorPickerType.both: false,
+        ColorPickerType.primary: true,
+        ColorPickerType.accent: true,
+        ColorPickerType.bw: false,
+        ColorPickerType.custom: true,
+        ColorPickerType.wheel: true,
+      },
+      customColorSwatchesAndNames: colorsNameMap,
+    );
+  }
+
+  Widget _renderFormContent(BuildContext context) => Container();
 }
