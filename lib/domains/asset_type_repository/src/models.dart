@@ -2,7 +2,7 @@ import '../../../services/database_handler.dart';
 import '../../../services/injection_pool.dart';
 import 'asset_type_model.dart';
 
-class Models {
+class AssetTypeModels {
   static late final DatabaseHandler _dbHandler =
       InjectionPool.injector!.get<DatabaseHandler>();
 

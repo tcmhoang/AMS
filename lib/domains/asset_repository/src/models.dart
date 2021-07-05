@@ -2,18 +2,20 @@ import '../../../services/database_handler.dart';
 import '../../../services/injection_pool.dart';
 import 'asset_model.dart';
 
-class Models {
+class AssetModels {
+  static const String _kTableName = 'assets';
+
   static late final DatabaseHandler _dbHandler =
       InjectionPool.injector!.get<DatabaseHandler>();
 
   // insert data to Assets Table
   Future<void> insertAsset(AssetModel assetModel) async {
-    await _dbHandler.db!.insert('assets', assetModel.toJson());
+    await _dbHandler.db!.insert(_kTableName, assetModel.toJson());
   }
 
   // get all data from Assets Table
   Future<List<Asset>> getAllAsset() async {
-    return (await _dbHandler.db!.query('assets'))
+    return (await _dbHandler.db!.query(_kTableName))
         .map((Map<String, Object?> e) => Asset.fromJson(e))
         .toList();
   }
@@ -21,7 +23,7 @@ class Models {
   // update data to Assets Table
   Future<void> updateAsset(AssetModel assetModel) async {
     await _dbHandler.db!.update(
-      'assets',
+      _kTableName,
       assetModel.toJson(),
       where: 'tag = ?',
       whereArgs: <String>[assetModel.tag],
@@ -31,7 +33,7 @@ class Models {
   // delete data from Assets Table
   Future<void> deleteAsset(String tag) async {
     await _dbHandler.db!.delete(
-      'assets',
+      _kTableName,
       where: 'tag = ?',
       whereArgs: <String>[tag],
     );
@@ -39,7 +41,7 @@ class Models {
 
   Future<Asset> getAsset(String tag) async {
     final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
-      'assets',
+      _kTableName,
       where: 'tag = ?',
       whereArgs: <String>[tag],
     );
