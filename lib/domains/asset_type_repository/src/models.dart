@@ -33,7 +33,7 @@ class AssetTypeModels {
     );
   }
 
-  Future<AssetType> getUser(int assetTypeId) async {
+  Future<AssetType> get(int assetTypeId) async {
     final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
       'asset_type',
       where: 'assetTypeId = ?',
