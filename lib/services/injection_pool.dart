@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_simple_dependency_injection/injector.dart';
+
 import '../domains/asset_repository/src/models.dart';
 import '../domains/asset_type_repository/src/models.dart';
 import '../domains/user_repository/src/models.dart';
-
 import 'database_handler.dart';
 
 mixin InjectionPool {

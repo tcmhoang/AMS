@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lsv_ams/config/constansts.dart';
-import 'package:lsv_ams/config/responsive.dart';
 import 'package:styled_widget/styled_widget.dart';
+
+import '../config/constansts.dart';
+import '../config/responsive.dart';
 
 class DefaultModal extends StatelessWidget {
   const DefaultModal({Key? key, this.data, required this.title})
