@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:provider/provider.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/side_menu.dart';
 import '../../../config/constansts.dart';
@@ -31,99 +32,90 @@ class _ListOfItemsState extends State<ListOfItems> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
-      drawer: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 250),
-        child: const SideMenu(),
+      drawer: const SideMenu().constrained(maxWidth: 250),
+      body: SafeArea(
+        right: false,
+        child: <Widget>[
+          <Widget>[
+            if (!Responsive.isDesktop(context)) ..._renderIcons,
+            _renderSearchBar()
+          ].toRow().padding(horizontal: kDefaultPadding),
+          const SizedBox(height: kDefaultPadding),
+          _renderSearchIdicator(),
+          const SizedBox(height: kDefaultPadding),
+          _renderListItems(context),
+        ].toColumn(),
+      )
+          .padding(
+            top: Platform.isLinux || Platform.isWindows ? kDefaultPadding : 0,
+          )
+          .backgroundColor(kBgDarkColor),
+    );
+  }
+
+  List<Widget> get _renderIcons {
+    return <Widget>[
+      IconButton(
+        onPressed: () {
+          _key.currentState!.openDrawer();
+        },
+        icon: const Icon(Icons.menu),
       ),
-      body: Container(
-        color: kBgDarkColor,
-        padding: EdgeInsets.only(
-          top: Platform.isLinux || Platform.isWindows ? kDefaultPadding : 0,
-        ),
-        child: SafeArea(
-          right: false,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                child: Row(
-                  children: <Widget>[
-                    if (!Responsive.isDesktop(context)) ...<Widget>[
-                      IconButton(
-                        onPressed: () {
-                          _key.currentState!.openDrawer();
-                        },
-                        icon: const Icon(Icons.menu),
-                      ),
-                      const SizedBox(width: 5)
-                    ],
-                    Expanded(
-                      child: TextField(
-                        onChanged: (String value) {},
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          fillColor: kBgLightColor,
-                          filled: true,
-                          suffixIcon: Padding(
-                            padding:
-                                const EdgeInsets.all(kDefaultPadding * .75),
-                            child: RotatedBox(
-                              quarterTurns: -1,
-                              child: LineIcon.search(size: 24),
-                            ),
-                          ),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: kDefaultPadding),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                child: Row(
-                  children: <Widget>[
-                    LineIcon.angleDown(
-                      size: 12,
-                      color: Colors.black,
-                    ),
-                    const SizedBox(width: 5),
-                    const Text(
-                      'Sort by date',
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    const Spacer(),
-                    MaterialButton(
-                      minWidth: 20,
-                      onPressed: () {},
-                      child: LineIcon.sort(size: 16),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: kDefaultPadding),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: widget.items.length,
-                  itemBuilder: (_, int index) => CardItem(
-                    isActive:
-                        !Responsive.isMobile(context) && index == _currIndex,
-                    // item: items[index],
-                    press: () => _handleClick(context, index),
-                  ),
-                ),
-              ),
-            ],
+      const SizedBox(width: 5)
+    ];
+  }
+
+  Widget _renderListItems(BuildContext context) {
+    return ListView.builder(
+      itemCount: widget.items.length,
+      itemBuilder: (_, int index) => CardItem(
+        isActive: !Responsive.isMobile(context) && index == _currIndex,
+        // item: items[index],
+        press: () => _handleClick(context, index),
+      ),
+    ).expanded();
+  }
+
+  Widget _renderSearchIdicator() {
+    return <Widget>[
+      LineIcon.angleDown(
+        size: 12,
+        color: Colors.black,
+      ),
+      const SizedBox(width: 5),
+      const Text(
+        'Sort by date',
+        style: TextStyle(fontWeight: FontWeight.w500),
+      ),
+      const Spacer(),
+      MaterialButton(
+        minWidth: 20,
+        onPressed: () {},
+        child: LineIcon.sort(size: 16),
+      ),
+    ].toRow().padding(horizontal: kDefaultPadding);
+  }
+
+  Widget _renderSearchBar() {
+    return TextField(
+      onChanged: (String value) {},
+      decoration: InputDecoration(
+        hintText: 'Search',
+        fillColor: kBgLightColor,
+        filled: true,
+        suffixIcon: Padding(
+          padding: const EdgeInsets.all(kDefaultPadding * .75),
+          child: RotatedBox(
+            quarterTurns: -1,
+            child: LineIcon.search(size: 24),
           ),
         ),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide.none,
+        ),
       ),
-    );
+    ).expanded();
   }
 
   void _handleClick(BuildContext context, int index) {

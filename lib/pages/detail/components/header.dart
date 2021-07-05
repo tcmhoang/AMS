@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../../config/constansts.dart';
 import '../../../config/responsive.dart';
@@ -11,34 +12,29 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(kDefaultPadding),
-      child: Row(
-        children: <Widget>[
-          if (Responsive.isMobile(context)) const BackButton(),
-          IconButton(
-            icon: LineIcon.trash(size: 24),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: LineIcon.upload(size: 24),
-            onPressed: () {},
-          ),
-          const Spacer(),
-          IconButton(
-            icon: LineIcon.print(size: 24),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: LineIcon.bookmarkAlt(size: 24),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: LineIcon.verticalEllipsis(size: 24),
-            onPressed: () {},
-          ),
-        ],
+    return <Widget>[
+      if (Responsive.isMobile(context)) const BackButton(),
+      IconButton(
+        icon: LineIcon.trash(size: 24),
+        onPressed: () {},
       ),
-    );
+      IconButton(
+        icon: LineIcon.upload(size: 24),
+        onPressed: () {},
+      ),
+      const Spacer(),
+      IconButton(
+        icon: LineIcon.print(size: 24),
+        onPressed: () {},
+      ),
+      IconButton(
+        icon: LineIcon.bookmarkAlt(size: 24),
+        onPressed: () {},
+      ),
+      IconButton(
+        icon: LineIcon.verticalEllipsis(size: 24),
+        onPressed: () {},
+      ),
+    ].toRow().padding(all: kDefaultPadding);
   }
 }

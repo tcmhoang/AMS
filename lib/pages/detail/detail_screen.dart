@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../config/constansts.dart';
 import 'components/header.dart';
@@ -14,23 +15,11 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              const Header(),
-              const Divider(thickness: 1),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: data,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      body: <Widget>[
+        const Header(),
+        const Divider(thickness: 1),
+        data.padding(all: kDefaultPadding).scrollable().expanded(),
+      ].toColumn().safeArea().backgroundColor(Colors.white),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../components/side_menu.dart';
 import '../../config/responsive.dart';
@@ -16,47 +17,38 @@ class MainScreen extends StatelessWidget {
       child: Consumer<MainScreenProvider>(
         builder: (_, MainScreenProvider value, __) => Scaffold(
           body: Responsive(
-            desktop: Row(
-              children: <Expanded>[
-                Expanded(
-                  flex: _size.width > 1340 ? 2 : 4,
-                  child: const SideMenu(),
-                ),
-                Expanded(
-                  flex: _size.width > 1340 ? 3 : 5,
-                  child: ListOfItems(
-                    items:
-                        List<int>.generate(10, (int index) => index).toList(),
-                  ),
-                ),
-                Expanded(
-                  flex: _size.width > 1340 ? 8 : 10,
-                  // child: AssetInfo(),
-                  child: DetailScreen(data: value.detailPage),
-                ),
-              ],
-            ),
-            tablet: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 6,
-                  child: ListOfItems(
-                    items:
-                        List<int>.generate(10, (int index) => index).toList(),
-                  ),
-                ),
-                Expanded(
-                  flex: 9,
-                  child: DetailScreen(data: value.detailPage),
-                )
-              ],
-            ),
-            mobile: ListOfItems(
-              items: List<int>.generate(10, (int index) => index).toList(),
-            ),
+            desktop: _renderDesktop(_size, value),
+            tablet: _renderTablet(value),
+            mobile: _renderMobile(),
           ),
         ),
       ),
     );
+  }
+
+  ListOfItems _renderMobile() {
+    return ListOfItems(
+      items: List<int>.generate(10, (int index) => index).toList(),
+    );
+  }
+
+  Widget _renderTablet(MainScreenProvider value) {
+    return <Widget>[
+      ListOfItems(
+        items: List<int>.generate(10, (int index) => index).toList(),
+      ).expanded(flex: 6),
+      DetailScreen(data: value.detailPage).expanded(flex: 9)
+    ].toRow();
+  }
+
+  Widget _renderDesktop(Size _size, MainScreenProvider value) {
+    return <Widget>[
+      const SideMenu().expanded(flex: _size.width > 1340 ? 2 : 4),
+      ListOfItems(
+        items: List<int>.generate(10, (int index) => index).toList(),
+      ).expanded(flex: _size.width > 1340 ? 3 : 5),
+      DetailScreen(data: value.detailPage)
+          .expanded(flex: _size.width > 1340 ? 8 : 10),
+    ].toRow();
   }
 }
