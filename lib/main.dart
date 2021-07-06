@@ -7,7 +7,6 @@ import 'app.dart';
 import 'services/injection_pool.dart';
 
 Future<void> main() async {
-  // runApp(App());
   WidgetsFlutterBinding.ensureInitialized();
   await InjectionPool.initInjection();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {

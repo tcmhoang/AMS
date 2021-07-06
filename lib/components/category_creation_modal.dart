@@ -58,10 +58,6 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
     return Form(
       key: formKey,
       child: <Widget>[
-        Text(
-          'Category Name',
-          style: Theme.of(context).textTheme.headline6,
-        ),
         _renderFormContent(context),
         Text(
           'Color',
@@ -159,5 +155,12 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
         onChanged: (String value) => setState(() {
           categoryName = value;
         }),
-      ).padding(bottom: kDefaultPadding);
+        decoration: const InputDecoration(
+          labelText: 'Category Name',
+          border: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 2, color: kGrayColor),
+          ),
+        ),
+      ).padding(vertical: kDefaultPadding);
 }
