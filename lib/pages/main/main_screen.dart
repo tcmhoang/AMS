@@ -19,35 +19,35 @@ class MainScreen extends StatelessWidget {
           body: Responsive(
             desktop: _renderDesktop(_size, value),
             tablet: _renderTablet(value),
-            mobile: _renderMobile(),
+            mobile: _renderMobile(value),
           ),
         ),
       ),
     );
   }
 
-  ListOfItems _renderMobile() {
+  ListOfItems _renderMobile(MainScreenProvider provider) {
     return ListOfItems(
-      items: List<int>.generate(10, (int index) => index).toList(),
+      items: provider.listData,
     );
   }
 
-  Widget _renderTablet(MainScreenProvider value) {
+  Widget _renderTablet(MainScreenProvider provider) {
     return <Widget>[
       ListOfItems(
-        items: List<int>.generate(10, (int index) => index).toList(),
+        items: provider.listData,
       ).expanded(flex: 6),
-      DetailScreen(data: value.detailPage).expanded(flex: 9)
+      DetailScreen(data: provider.detailPage).expanded(flex: 9)
     ].toRow();
   }
 
-  Widget _renderDesktop(Size _size, MainScreenProvider value) {
+  Widget _renderDesktop(Size _size, MainScreenProvider provider) {
     return <Widget>[
       const SideMenu().expanded(flex: _size.width > 1340 ? 2 : 4),
       ListOfItems(
-        items: List<int>.generate(10, (int index) => index).toList(),
+        items: provider.listData,
       ).expanded(flex: _size.width > 1340 ? 3 : 5),
-      DetailScreen(data: value.detailPage)
+      DetailScreen(data: provider.detailPage)
           .expanded(flex: _size.width > 1340 ? 8 : 10),
     ].toRow();
   }
