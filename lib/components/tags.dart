@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/domains/asset_type_repository/asset_type_repository.dart';
 import 'package:lsv_ams/domains/asset_type_repository/src/asset_type_model.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -24,32 +22,18 @@ class Tags extends StatefulWidget {
 }
 
 class _TagsState extends State<Tags> {
-  // late final List<AssetType> _data;
   @override
   void initState() {
     super.initState();
-    // ameoxamcho();
-  }
-
-  Future<List<AssetType>> ameoxamcho() async {
-    final String str =
-        await rootBundle.loadString('assets/dummy/asset_type.json');
-    final List<dynamic> itemMap = json.decode(str) as List<dynamic>;
-
-    final List<AssetType> _data = itemMap
-        .cast<Map<String, dynamic>>()
-        .map((Map<String, dynamic> e) => AssetType.fromJson(e))
-        .toList();
-    return _data;
   }
 
   @override
   Widget build(BuildContext context) {
-    final Future<List<AssetType>> itemList = ameoxamcho();
-    return FutureBuilder<List<AssetType>>(
+    final Future<List<AssetType>?> itemList = fetchAll();
+    return FutureBuilder<List<AssetType>?>(
       future: itemList,
       builder: (_, AsyncSnapshot<Object?> snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.data != null) {
           final List<AssetType> data = snapshot.data! as List<AssetType>;
 
           return <Widget>[
@@ -84,15 +68,17 @@ class _TagsState extends State<Tags> {
       MaterialButton(
         padding: const EdgeInsets.all(10),
         minWidth: 40,
-        onPressed: () => Navigator.of(context).push(
-          DefaultDialogRoute(
-            page: DefaultModal(
-              title: 'Create a new category',
-              data: CategoryCreationModal(),
-            ),
-            dismissible: false,
-          ),
-        ),
+        onPressed: () => Navigator.of(context)
+            .push(
+              DefaultDialogRoute(
+                page: DefaultModal(
+                  title: 'Create a new category',
+                  data: CategoryCreationModal(),
+                ),
+                dismissible: false,
+              ),
+            )
+            .then((_) => setState(() {})),
         child: LineIcon.plus(
           color: kGrayColor,
           size: 20,

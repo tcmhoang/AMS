@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:lsv_ams/config/constansts.dart';
+import 'package:lsv_ams/domains/asset_type_repository/asset_type_repository.dart';
+import 'package:lsv_ams/domains/asset_type_repository/src/asset_type_model.dart';
+
 import 'package:styled_widget/styled_widget.dart';
 
 class CategoryCreationModal extends StatefulWidget {
@@ -91,12 +94,14 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
         ),
         primary: kPrimaryColor,
       ),
-      onPressed: () {
+      onPressed: () async {
         if (formKey.currentState!.validate()) {
           // ignore: flutter_style_todos
           //TODO(mytv): Update list of cat
           // final MainScreenProvider val =
           //     Provider.of<MainScreenProvider>(ctx, listen: false);
+          await create(AssetType(6, categoryName, screenPickerColor.hex));
+
           Navigator.pop(context);
         }
       },
@@ -154,6 +159,5 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
         onChanged: (String value) => setState(() {
           categoryName = value;
         }),
-        decoration: const InputDecoration(hintText: 'Enter category name'),
       ).padding(bottom: kDefaultPadding);
 }
