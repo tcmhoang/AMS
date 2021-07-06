@@ -11,3 +11,5 @@ const Color kTextColor = Color(0xFF4D5875);
 
 const double kDefaultPadding = 20.0;
 const Duration kDefaultDuration = Duration(milliseconds: 350);
+
+const String kAppDir = 'lvs_ams';

@@ -5,6 +5,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
+import '../config/constansts.dart';
+
 class DatabaseHandler {
   static Database? _db;
   static const String kDbName = 'ams.db';
@@ -16,7 +18,7 @@ class DatabaseHandler {
     final Directory documentsDirectory =
         await getApplicationDocumentsDirectory();
 
-    final String path = p.join(documentsDirectory.path, 'database_name.db');
+    final String path = p.join(documentsDirectory.path, kAppDir, 'lvs.db');
     print(path);
     _db = await databaseFactory.openDatabase(
       path,

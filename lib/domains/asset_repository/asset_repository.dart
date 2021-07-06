@@ -7,6 +7,8 @@ import 'src/models.dart';
 late AssetModels assets = InjectionPool.injector!.get<AssetModels>();
 late AssetTypeModels types = InjectionPool.injector!.get<AssetTypeModels>();
 
+int count = 0;
+
 Future<bool> create(Asset asset) async {
   try {
     await assets.insertAsset(asset);
@@ -31,7 +33,9 @@ Future<bool> update(String tag, Asset newData) async {
 
 Future<List<Asset>> fetchAll() async {
   try {
-    return await assets.getAllAsset();
+    final List<Asset> tmp = await assets.getAllAsset();
+    count = tmp.length;
+    return tmp;
   } catch (_, __) {
     return <Asset>[];
   }

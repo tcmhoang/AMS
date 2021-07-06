@@ -4,6 +4,8 @@ import 'src/user_model.dart';
 
 late UserModels users = InjectionPool.injector!.get<UserModels>();
 
+int count = 0;
+
 Future<bool> create(User user) async {
   try {
     await users.insertUser(user);
@@ -37,7 +39,9 @@ Future<bool> delete(int id) async {
 
 Future<List<User>> fetchAll() async {
   try {
-    return await users.getAllUser();
+    final List<User> tmp = await users.getAllUser();
+    count = tmp.length;
+    return tmp;
   } catch (_, __) {
     return <User>[];
   }
