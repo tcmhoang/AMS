@@ -670,7 +670,7 @@ packages:
   window_size:
     dependency: "direct main"
     description:
-      path: "plugins\\window_size"
+      path: "plugins/window_size"
       ref: HEAD
       resolved-ref: e48abe7c3e9ebfe0b81622167c5201d4e783bb81
       url: "git://github.com/google/flutter-desktop-embedding.git"
