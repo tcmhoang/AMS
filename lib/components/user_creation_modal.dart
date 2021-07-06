@@ -15,7 +15,6 @@ class UserCreationModal extends StatefulWidget {
 class UserCreationModalState extends State<UserCreationModal> {
   late String fullName;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  late Gender _radio = Gender.MALE;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,6 @@ class UserCreationModalState extends State<UserCreationModal> {
           'Gender',
           style: Theme.of(context).textTheme.headline6,
         ),
-        _renderGerder(context),
         Text(
           'Address',
           style: Theme.of(context).textTheme.headline6,
@@ -103,21 +101,6 @@ class UserCreationModalState extends State<UserCreationModal> {
           );
         },
       );
-
-  Widget _renderGerder(BuildContext context) => <Widget>[
-        ListTile(
-          title: const Text('Male'),
-          leading: Radio<Gender>(
-            value: Gender.MALE,
-            groupValue: _radio,
-            onChanged: (Gender? value) {
-              setState(() {
-                _radio = value!;
-              });
-            },
-          ),
-        )
-      ].toRow();
 }
 
 enum Gender { MALE, FEMALE }

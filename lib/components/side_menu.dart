@@ -3,9 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:lsv_ams/components/default_dialog_route.dart';
-import 'package:lsv_ams/components/default_modal.dart';
-import 'package:lsv_ams/components/user_creation_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -89,15 +86,8 @@ class SideMenu extends StatelessWidget {
         minimumSize: const Size(double.infinity, 40),
         onPrimary: kPrimaryColor,
       ),
-      onPressed: () => Navigator.of(context).push(
-        DefaultDialogRoute(
-          page: DefaultModal(
-            title: 'Create a new user',
-            data: UserCreationModal(),
-          ),
-          dismissible: false,
-        ),
-      ),
+      onPressed: () => Provider.of<MainScreenProvider>(context, listen: false)
+          .detailPage = const Text('alala'),
       icon: LineIcon.user(
         size: 16,
         color: kTextColor,

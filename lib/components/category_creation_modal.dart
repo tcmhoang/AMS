@@ -100,7 +100,7 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
           //TODO(mytv): Update list of cat
           // final MainScreenProvider val =
           //     Provider.of<MainScreenProvider>(ctx, listen: false);
-          await create(AssetType(6, categoryName, screenPickerColor.hex));
+          await create(AssetType(1, categoryName, screenPickerColor.hex));
 
           Navigator.pop(context);
         }
