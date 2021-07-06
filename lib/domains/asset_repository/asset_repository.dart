@@ -29,11 +29,11 @@ Future<bool> update(String tag, Asset newData) async {
   return true;
 }
 
-Future<List<Asset>?> fetchAll() async {
+Future<List<Asset>> fetchAll() async {
   try {
     return await assets.getAllAsset();
   } catch (_, __) {
-    return null;
+    return <Asset>[];
   }
 }
 
@@ -54,16 +54,17 @@ Future<Asset?> get(String tag) async {
   }
 }
 
-Future<List<Asset>?> fetchByType(String typeName) async {
+Future<List<Asset>> fetchByType(String typeName) async {
   final AssetType tmp = await types.findByTitle(typeName);
   try {
     if (tmp != null) {
       return assets.fetchByType(tmp.typeId);
-    }
+    } else
+      return <Asset>[];
   } catch (_, __) {
-    return null;
+    return <Asset>[];
   }
 }
 
 Future<bool> isExisted(String tag) async =>
-    (await fetchAll())!.any((Asset e) => e.tag == tag);
+    (await fetchAll()).any((Asset e) => e.tag == tag);

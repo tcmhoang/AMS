@@ -22,11 +22,11 @@ Future<bool> update(int id, AssetType newData) async {
   return true;
 }
 
-Future<List<AssetType>?> fetchAll() async {
+Future<List<AssetType>> fetchAll() async {
   try {
     return await ats.getAllAssetType();
   } catch (_, __) {
-    return null;
+    return <AssetType>[];
   }
 }
 
@@ -38,7 +38,7 @@ Future<AssetType?> get(int id) async {
   }
 }
 
-Future<AssetType?> findByTitle(String title) async {
+Future<AssetType?> getByTitle(String title) async {
   try {
     return ats.findByTitle(title);
   } catch (_, __) {

@@ -35,11 +35,11 @@ Future<bool> delete(int id) async {
   }
 }
 
-Future<List<User>?> fetchAll() async {
+Future<List<User>> fetchAll() async {
   try {
     return await users.getAllUser();
   } catch (_, __) {
-    return null;
+    return <User>[];
   }
 }
 

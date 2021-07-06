@@ -23,13 +23,13 @@ class _$AssetModelTearOff {
   Asset call(
       String tag,
       String name,
-      String type,
+      int typeId,
+      int userId,
       String make,
       String serial,
       int created,
       int lastUpdated,
       String condition,
-      String manageBy,
       String urlImage,
       int timesUsed,
       double originalPrice,
@@ -37,13 +37,13 @@ class _$AssetModelTearOff {
     return Asset(
       tag,
       name,
-      type,
+      typeId,
+      userId,
       make,
       serial,
       created,
       lastUpdated,
       condition,
-      manageBy,
       urlImage,
       timesUsed,
       originalPrice,
@@ -63,13 +63,13 @@ const $AssetModel = _$AssetModelTearOff();
 mixin _$AssetModel {
   String get tag => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  int get typeId => throw _privateConstructorUsedError;
+  int get userId => throw _privateConstructorUsedError;
   String get make => throw _privateConstructorUsedError;
   String get serial => throw _privateConstructorUsedError;
   int get created => throw _privateConstructorUsedError;
   int get lastUpdated => throw _privateConstructorUsedError;
   String get condition => throw _privateConstructorUsedError;
-  String get manageBy => throw _privateConstructorUsedError;
   String get urlImage => throw _privateConstructorUsedError;
   int get timesUsed => throw _privateConstructorUsedError;
   double get originalPrice => throw _privateConstructorUsedError;
@@ -89,13 +89,13 @@ abstract class $AssetModelCopyWith<$Res> {
   $Res call(
       {String tag,
       String name,
-      String type,
+      int typeId,
+      int userId,
       String make,
       String serial,
       int created,
       int lastUpdated,
       String condition,
-      String manageBy,
       String urlImage,
       int timesUsed,
       double originalPrice,
@@ -114,13 +114,13 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
   $Res call({
     Object? tag = freezed,
     Object? name = freezed,
-    Object? type = freezed,
+    Object? typeId = freezed,
+    Object? userId = freezed,
     Object? make = freezed,
     Object? serial = freezed,
     Object? created = freezed,
     Object? lastUpdated = freezed,
     Object? condition = freezed,
-    Object? manageBy = freezed,
     Object? urlImage = freezed,
     Object? timesUsed = freezed,
     Object? originalPrice = freezed,
@@ -135,10 +135,14 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      type: type == freezed
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
+      typeId: typeId == freezed
+          ? _value.typeId
+          : typeId // ignore: cast_nullable_to_non_nullable
+              as int,
+      userId: userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
       make: make == freezed
           ? _value.make
           : make // ignore: cast_nullable_to_non_nullable
@@ -158,10 +162,6 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
       condition: condition == freezed
           ? _value.condition
           : condition // ignore: cast_nullable_to_non_nullable
-              as String,
-      manageBy: manageBy == freezed
-          ? _value.manageBy
-          : manageBy // ignore: cast_nullable_to_non_nullable
               as String,
       urlImage: urlImage == freezed
           ? _value.urlImage
@@ -191,13 +191,13 @@ abstract class $AssetCopyWith<$Res> implements $AssetModelCopyWith<$Res> {
   $Res call(
       {String tag,
       String name,
-      String type,
+      int typeId,
+      int userId,
       String make,
       String serial,
       int created,
       int lastUpdated,
       String condition,
-      String manageBy,
       String urlImage,
       int timesUsed,
       double originalPrice,
@@ -217,13 +217,13 @@ class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
   $Res call({
     Object? tag = freezed,
     Object? name = freezed,
-    Object? type = freezed,
+    Object? typeId = freezed,
+    Object? userId = freezed,
     Object? make = freezed,
     Object? serial = freezed,
     Object? created = freezed,
     Object? lastUpdated = freezed,
     Object? condition = freezed,
-    Object? manageBy = freezed,
     Object? urlImage = freezed,
     Object? timesUsed = freezed,
     Object? originalPrice = freezed,
@@ -238,10 +238,14 @@ class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      type == freezed
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
+      typeId == freezed
+          ? _value.typeId
+          : typeId // ignore: cast_nullable_to_non_nullable
+              as int,
+      userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
       make == freezed
           ? _value.make
           : make // ignore: cast_nullable_to_non_nullable
@@ -261,10 +265,6 @@ class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
       condition == freezed
           ? _value.condition
           : condition // ignore: cast_nullable_to_non_nullable
-              as String,
-      manageBy == freezed
-          ? _value.manageBy
-          : manageBy // ignore: cast_nullable_to_non_nullable
               as String,
       urlImage == freezed
           ? _value.urlImage
@@ -292,13 +292,13 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
   const _$Asset(
       this.tag,
       this.name,
-      this.type,
+      this.typeId,
+      this.userId,
       this.make,
       this.serial,
       this.created,
       this.lastUpdated,
       this.condition,
-      this.manageBy,
       this.urlImage,
       this.timesUsed,
       this.originalPrice,
@@ -312,7 +312,9 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
   @override
   final String name;
   @override
-  final String type;
+  final int typeId;
+  @override
+  final int userId;
   @override
   final String make;
   @override
@@ -324,8 +326,6 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
   @override
   final String condition;
   @override
-  final String manageBy;
-  @override
   final String urlImage;
   @override
   final int timesUsed;
@@ -336,7 +336,7 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AssetModel(tag: $tag, name: $name, type: $type, make: $make, serial: $serial, created: $created, lastUpdated: $lastUpdated, condition: $condition, manageBy: $manageBy, urlImage: $urlImage, timesUsed: $timesUsed, originalPrice: $originalPrice, isAssigned: $isAssigned)';
+    return 'AssetModel(tag: $tag, name: $name, typeId: $typeId, userId: $userId, make: $make, serial: $serial, created: $created, lastUpdated: $lastUpdated, condition: $condition, urlImage: $urlImage, timesUsed: $timesUsed, originalPrice: $originalPrice, isAssigned: $isAssigned)';
   }
 
   @override
@@ -346,13 +346,13 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
       ..add(DiagnosticsProperty('type', 'AssetModel'))
       ..add(DiagnosticsProperty('tag', tag))
       ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('typeId', typeId))
+      ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('make', make))
       ..add(DiagnosticsProperty('serial', serial))
       ..add(DiagnosticsProperty('created', created))
       ..add(DiagnosticsProperty('lastUpdated', lastUpdated))
       ..add(DiagnosticsProperty('condition', condition))
-      ..add(DiagnosticsProperty('manageBy', manageBy))
       ..add(DiagnosticsProperty('urlImage', urlImage))
       ..add(DiagnosticsProperty('timesUsed', timesUsed))
       ..add(DiagnosticsProperty('originalPrice', originalPrice))
@@ -367,8 +367,10 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
                 const DeepCollectionEquality().equals(other.tag, tag)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.typeId, typeId) ||
+                const DeepCollectionEquality().equals(other.typeId, typeId)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
             (identical(other.make, make) ||
                 const DeepCollectionEquality().equals(other.make, make)) &&
             (identical(other.serial, serial) ||
@@ -382,9 +384,6 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
             (identical(other.condition, condition) ||
                 const DeepCollectionEquality()
                     .equals(other.condition, condition)) &&
-            (identical(other.manageBy, manageBy) ||
-                const DeepCollectionEquality()
-                    .equals(other.manageBy, manageBy)) &&
             (identical(other.urlImage, urlImage) ||
                 const DeepCollectionEquality()
                     .equals(other.urlImage, urlImage)) &&
@@ -404,13 +403,13 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(tag) ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(typeId) ^
+      const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(make) ^
       const DeepCollectionEquality().hash(serial) ^
       const DeepCollectionEquality().hash(created) ^
       const DeepCollectionEquality().hash(lastUpdated) ^
       const DeepCollectionEquality().hash(condition) ^
-      const DeepCollectionEquality().hash(manageBy) ^
       const DeepCollectionEquality().hash(urlImage) ^
       const DeepCollectionEquality().hash(timesUsed) ^
       const DeepCollectionEquality().hash(originalPrice) ^
@@ -431,13 +430,13 @@ abstract class Asset implements AssetModel {
   const factory Asset(
       String tag,
       String name,
-      String type,
+      int typeId,
+      int userId,
       String make,
       String serial,
       int created,
       int lastUpdated,
       String condition,
-      String manageBy,
       String urlImage,
       int timesUsed,
       double originalPrice,
@@ -450,7 +449,9 @@ abstract class Asset implements AssetModel {
   @override
   String get name => throw _privateConstructorUsedError;
   @override
-  String get type => throw _privateConstructorUsedError;
+  int get typeId => throw _privateConstructorUsedError;
+  @override
+  int get userId => throw _privateConstructorUsedError;
   @override
   String get make => throw _privateConstructorUsedError;
   @override
@@ -461,8 +462,6 @@ abstract class Asset implements AssetModel {
   int get lastUpdated => throw _privateConstructorUsedError;
   @override
   String get condition => throw _privateConstructorUsedError;
-  @override
-  String get manageBy => throw _privateConstructorUsedError;
   @override
   String get urlImage => throw _privateConstructorUsedError;
   @override
