@@ -10,6 +10,8 @@ import 'package:styled_widget/styled_widget.dart';
 import '../config/constansts.dart';
 import '../config/extensions.dart';
 import '../config/responsive.dart';
+import '../domains/asset_repository/asset_repository.dart' as assets;
+import '../domains/user_repository/user_repository.dart' as users;
 import '../providers/main_screen_provider.dart';
 import 'side_menu_item.dart';
 import 'tags.dart';
@@ -117,8 +119,9 @@ class SideMenu extends StatelessWidget {
   List<SideMenuItem> _renderSideMenuItems(MainScreenProvider val) =>
       <SideMenuItem>[
         SideMenuItem(
-          press: () {
+          press: () async {
             val.menuItem = 'Assets';
+            val.listData = await assets.fetchAll();
           },
           title: 'Assets',
           iconSrc: LineIcons.otter,
@@ -126,8 +129,9 @@ class SideMenu extends StatelessWidget {
           itemCount: 3,
         ),
         SideMenuItem(
-          press: () {
+          press: () async {
             val.menuItem = 'Users';
+            val.listData = await users.fetchAll();
           },
           title: 'Users',
           iconSrc: LineIcons.userAstronaut,

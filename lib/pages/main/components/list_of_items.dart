@@ -19,7 +19,7 @@ class ListOfItems extends StatefulWidget {
     required this.items,
   }) : super(key: key);
 
-  final List<int> items;
+  final List<Object> items;
 
   @override
   State<ListOfItems> createState() => _ListOfItemsState();
@@ -70,7 +70,7 @@ class _ListOfItemsState extends State<ListOfItems> {
       itemCount: widget.items.length,
       itemBuilder: (_, int index) => CardItem(
         isActive: !Responsive.isMobile(context) && index == _currIndex,
-        // item: items[index],
+        item: widget.items[index],
         press: () => _handleClick(context, index),
       ),
     ).expanded();
