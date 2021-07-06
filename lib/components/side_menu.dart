@@ -32,7 +32,7 @@ class SideMenu extends StatelessWidget {
               const SizedBox(height: kDefaultPadding),
               _renderAddAssetsBtn(),
               const SizedBox(height: kDefaultPadding),
-              _renderAddUserBtn(),
+              _renderAddUserBtn(context),
               const SizedBox(height: kDefaultPadding * 2),
               ..._renderSideMenuItems(val),
               const SizedBox(height: kDefaultPadding * 2),
@@ -73,7 +73,7 @@ class SideMenu extends StatelessWidget {
     );
   }
 
-  Container _renderAddUserBtn() {
+  Container _renderAddUserBtn(BuildContext context) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(
@@ -86,7 +86,8 @@ class SideMenu extends StatelessWidget {
         minimumSize: const Size(double.infinity, 40),
         onPrimary: kPrimaryColor,
       ),
-      onPressed: () {},
+      onPressed: () => Provider.of<MainScreenProvider>(context, listen: false)
+          .detailPage = const Text('alala'),
       icon: LineIcon.user(
         size: 16,
         color: kTextColor,
