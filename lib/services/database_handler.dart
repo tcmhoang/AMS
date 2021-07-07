@@ -39,8 +39,9 @@ class DatabaseHandler {
   CREATE TABLE asset_type(typeId INTEGER PRIMARY KEY AUTOINCREMENT, typeName Text UNIQUE, color TEXT);
   CREATE TABLE assets(
   tag TEXT PRIMARY KEY, 
-  name TEXT, type TEXT, make TEXT, 
-  serial TEXT, created INTEGER, 
+  name TEXT,
+  make TEXT, 
+  created INTEGER, 
   lastUpdated INTEGER, 
   condition TEXT, 
   urlImage TEXT, 
