@@ -11,7 +11,6 @@ class MainScreenProvider with ChangeNotifier {
       1,
       1,
       'Dell',
-      '123213213',
       DateTime.now().millisecondsSinceEpoch,
       DateTime.now().millisecondsSinceEpoch,
       'New',

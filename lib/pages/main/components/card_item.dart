@@ -36,7 +36,7 @@ class CardItem extends StatelessWidget {
         title: tmp.isAssigned == 1 ? 'Assigned' : 'Available',
         date: DateTime.fromMillisecondsSinceEpoch(tmp.lastUpdated),
         body:
-            ' Manufacture: ${tmp.make} \t  Handover times: ${tmp.timesUsed} \t Serial: ${tmp.serial} ',
+            ' Manufacture: ${tmp.make} \t  Handover times: ${tmp.timesUsed} \t Tag: ${tmp.tag} ',
         icon: LineIcons.print,
       );
     }
