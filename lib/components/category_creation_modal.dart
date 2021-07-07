@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:lsv_ams/config/constansts.dart';
+import 'package:lsv_ams/config/responsive.dart';
 import 'package:lsv_ams/domains/asset_type_repository/asset_type_repository.dart';
 import 'package:lsv_ams/domains/asset_type_repository/src/asset_type_model.dart';
 
@@ -18,26 +19,6 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
   late Color screenPickerColor;
   late String categoryName;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  // Define custom colors. The 'guide' color values are from
-  // https://material.io/design/color/the-color-system.html#color-theme-creation
-  static const Color guidePrimary = Color(0xFF6200EE);
-  static const Color guidePrimaryVariant = Color(0xFF3700B3);
-  static const Color guideSecondary = Color(0xFF03DAC6);
-  static const Color guideSecondaryVariant = Color(0xFF018786);
-  static const Color guideError = Color(0xFFB00020);
-  static const Color guideErrorDark = Color(0xFFCF6679);
-  static const Color blueBlues = Color(0xFF174378);
-
-  final Map<ColorSwatch<Object>, String> colorsNameMap =
-      <ColorSwatch<Object>, String>{
-    ColorTools.createPrimarySwatch(guidePrimary): 'Guide Purple',
-    ColorTools.createPrimarySwatch(guidePrimaryVariant): 'Guide Purple Variant',
-    ColorTools.createAccentSwatch(guideSecondary): 'Guide Teal',
-    ColorTools.createAccentSwatch(guideSecondaryVariant): 'Guide Teal Variant',
-    ColorTools.createPrimarySwatch(guideError): 'Guide Error',
-    ColorTools.createPrimarySwatch(guideErrorDark): 'Guide Error Dark',
-    ColorTools.createPrimarySwatch(blueBlues): 'Blue blues',
-  };
 
   @override
   void initState() {
@@ -106,7 +87,7 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
     );
   }
 
-  ColorPicker _renderColorPicker(BuildContext context, double colorSize) {
+  Widget _renderColorPicker(BuildContext context, double colorSize) {
     return ColorPicker(
       // Use the screenPickerColor as start color.
       color: screenPickerColor,
@@ -131,20 +112,19 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
       wheelDiameter: 155,
       width: colorSize,
       height: colorSize,
-
+      columnSpacing: kDefaultPadding * .8,
       materialNameTextStyle: Theme.of(context).textTheme.caption,
       colorNameTextStyle: Theme.of(context).textTheme.caption,
       colorCodeTextStyle: Theme.of(context).textTheme.caption,
       pickersEnabled: const <ColorPickerType, bool>{
+        ColorPickerType.wheel: true,
         ColorPickerType.both: false,
         ColorPickerType.primary: true,
-        ColorPickerType.accent: true,
+        ColorPickerType.accent: false,
         ColorPickerType.bw: false,
-        ColorPickerType.custom: true,
-        ColorPickerType.wheel: true,
+        ColorPickerType.custom: false,
       },
-      customColorSwatchesAndNames: colorsNameMap,
-    );
+    ).constrained(height: 450);
   }
 
   Widget _renderFormContent(BuildContext context) => TextFormField(
