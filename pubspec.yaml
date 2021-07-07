@@ -51,6 +51,10 @@ dependencies:
   styled_widget: ^0.3.1+2
   flex_color_picker: ^2.1.1
   datetime_picker_formfield: ^2.0.0
+  file_selector_windows: ^0.0.2
+  file_selector_linux: ^0.0.2
+  file_selector: ^0.8.2
+  flash: ^2.0.1
 
 dev_dependencies:
   flutter_test:

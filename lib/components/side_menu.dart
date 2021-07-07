@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:lsv_ams/components/user_creation.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -89,7 +90,7 @@ class SideMenu extends StatelessWidget {
         onPrimary: kPrimaryColor,
       ),
       onPressed: () => Provider.of<MainScreenProvider>(context, listen: false)
-          .detailPage = const Text('alala'),
+          .detailPage = UserCreation(),
       icon: LineIcon.user(
         size: 16,
         color: kTextColor,
