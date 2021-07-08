@@ -6,10 +6,17 @@ import 'package:styled_widget/styled_widget.dart';
 
 import 'components/header.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   const DetailScreen({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  final ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +37,9 @@ class DetailScreen extends StatelessWidget {
                 content.padding(all: kDefaultPadding),
             orElse: () => Container(),
           ),
-        ].toColumn().scrollable(),
+        ].toColumn().scrollable(
+              controller: controller,
+            ),
       ),
     );
   }

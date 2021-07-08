@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../config/constansts.dart';
@@ -38,6 +41,17 @@ class CardItem extends StatelessWidget {
         body:
             ' Manufacture: ${tmp.make} \t  Handover times: ${tmp.timesUsed} \t Tag: ${tmp.tag} ',
         icon: LineIcons.print,
+      );
+    }
+    if (item is User) {
+      final User tmp = item as User;
+      processedData = _Card(
+        name: tmp.fullName,
+        title: tmp.address,
+        date: DateTime.fromMillisecondsSinceEpoch(tmp.dob),
+        body: '',
+        icon: LineIcons.print,
+        image: tmp.urlImage.isEmpty ? null : FileImage(File(tmp.urlImage)),
       );
     }
     return _renderCard(context, processedData).gestures(onTap: press).padding(
