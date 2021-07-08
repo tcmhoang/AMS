@@ -111,6 +111,8 @@ class _SideMenuState extends State<SideMenu> {
         onPrimary: kPrimaryColor,
       ),
       onPressed: () {
+        Provider.of<MainScreenProvider>(context, listen: false)
+            .currentCategory = DetailTypes.creation('Add User', UserCreation());
         if (Responsive.isMobile(context))
           Navigator.push(
             context,
@@ -118,8 +120,6 @@ class _SideMenuState extends State<SideMenu> {
               builder: (BuildContext context) => const DetailScreen(),
             ),
           );
-        Provider.of<MainScreenProvider>(context, listen: false)
-            .currentCategory = DetailTypes.creation('Add User', UserCreation());
       },
       icon: LineIcon.user(
         size: 16,
