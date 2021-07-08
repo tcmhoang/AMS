@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lsv_ams/config/constansts.dart';
+import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../../providers/detail_screen_provider.dart';
 import 'components/header.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -12,19 +13,24 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DetailScreenProvider>(
-      create: (_) => DetailScreenProvider(),
-      child: Consumer<DetailScreenProvider>(
-        builder: (_, DetailScreenProvider val, __) => Scaffold(
-          body: <Widget>[
-            const Header(),
-            val.currentCategory.maybeWhen(
-              empty: () => Container(),
-              orElse: () => const Divider(thickness: 1),
-            ),
-            // val.content.padding(all: kDefaultPadding).scrollable().expanded(),
-          ].toColumn().safeArea().backgroundColor(Colors.white),
-        ),
+    return Consumer<MainScreenProvider>(
+      builder: (_, MainScreenProvider val, __) => Scaffold(
+        body: <Widget>[
+          const Header(),
+          val.currentCategory.maybeWhen(
+            empty: () => Container(),
+            orElse: () => const Divider(thickness: 1),
+          ),
+          val.currentCategory.maybeWhen(
+            empty: () => Container(),
+            orElse: () => const Divider(thickness: 1),
+          ),
+          val.currentCategory.maybeWhen(
+            creation: (_, Widget content) =>
+                content.padding(all: kDefaultPadding),
+            orElse: () => Container(),
+          ),
+        ].toColumn().scrollable(),
       ),
     );
   }

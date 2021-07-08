@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:lsv_ams/components/user_creation.dart';
+import 'package:lsv_ams/pages/detail/detail_screen.dart';
+import 'package:lsv_ams/providers/domain/detail_types.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -89,8 +91,17 @@ class SideMenu extends StatelessWidget {
         minimumSize: const Size(double.infinity, 40),
         onPrimary: kPrimaryColor,
       ),
-      onPressed: () => Provider.of<MainScreenProvider>(context, listen: false)
-          .detailPage = UserCreation(),
+      onPressed: () {
+        if (Responsive.isMobile(context))
+          Navigator.push(
+            context,
+            MaterialPageRoute<PageRoute<Widget>>(
+              builder: (BuildContext context) => const DetailScreen(),
+            ),
+          );
+        Provider.of<MainScreenProvider>(context, listen: false)
+            .currentCategory = DetailTypes.creation('Add User', UserCreation());
+      },
       icon: LineIcon.user(
         size: 16,
         color: kTextColor,
