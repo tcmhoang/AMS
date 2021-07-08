@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:lsv_ams/config/constansts.dart';
-import 'package:lsv_ams/config/responsive.dart';
 import 'package:lsv_ams/domains/asset_type_repository/asset_type_repository.dart';
 import 'package:lsv_ams/domains/asset_type_repository/src/asset_type_model.dart';
 

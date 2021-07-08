@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:lsv_ams/components/asset_creation.dart';
 import 'package:lsv_ams/components/user_creation.dart';
 import 'package:lsv_ams/pages/detail/detail_screen.dart';
 import 'package:lsv_ams/providers/domain/detail_types.dart';
@@ -18,10 +19,17 @@ import '../providers/main_screen_provider.dart';
 import 'side_menu_item.dart';
 import 'tags.dart';
 
-class SideMenu extends StatelessWidget {
+class SideMenu extends StatefulWidget {
   const SideMenu({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<SideMenu> createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
+  final ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +38,20 @@ class SideMenu extends StatelessWidget {
       child: Consumer<MainScreenProvider>(
         builder: (_, MainScreenProvider val, __) => ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-            children: <Widget>[
-              _renderLogo(context),
-              const SizedBox(height: kDefaultPadding),
-              _renderAddAssetsBtn(),
-              const SizedBox(height: kDefaultPadding),
-              _renderAddUserBtn(context),
-              const SizedBox(height: kDefaultPadding * 2),
-              ..._renderSideMenuItems(val),
-              const SizedBox(height: kDefaultPadding * 2),
-              const Tags(),
-            ],
-          ),
+          child: <Widget>[
+            _renderLogo(context),
+            const SizedBox(height: kDefaultPadding),
+            _renderAddAssetsBtn(context),
+            const SizedBox(height: kDefaultPadding),
+            _renderAddUserBtn(context),
+            const SizedBox(height: kDefaultPadding * 2),
+            ..._renderSideMenuItems(val),
+            const SizedBox(height: kDefaultPadding * 2),
+            const Tags(),
+          ]
+              .toColumn()
+              .padding(horizontal: kDefaultPadding)
+              .scrollable(controller: controller),
         ),
       ),
     )
@@ -54,7 +62,7 @@ class SideMenu extends StatelessWidget {
         .backgroundColor(kBgLightColor);
   }
 
-  Container _renderAddAssetsBtn() {
+  Container _renderAddAssetsBtn(BuildContext context) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(double.infinity, 40),
@@ -66,7 +74,18 @@ class SideMenu extends StatelessWidget {
         ),
         primary: kPrimaryColor,
       ),
-      onPressed: () {},
+      onPressed: () {
+        // if (Responsive.isMobile(context))
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute<PageRoute<Widget>>(
+        //       builder: (BuildContext context) => const DetailScreen(),
+        //     ),
+        //   );
+        Provider.of<MainScreenProvider>(context, listen: false)
+                .currentCategory =
+            DetailTypes.creation('Add Asset', AssetCreation());
+      },
       icon: LineIcon.edit(size: 16),
       label: const Text(
         'Add asset',

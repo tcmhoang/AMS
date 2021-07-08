@@ -124,11 +124,28 @@ class AssetCreationState extends State<AssetCreation> {
           }
         }
         for (final User element in itemListUser) {
-          if (element.fullName == dropdownAssetValue) {
+          if (element.fullName == dropdownUserValue) {
             selectedUser = element.userId;
           }
         }
-        if (formKey.currentState!.validate()) {}
+        if (formKey.currentState!.validate()) {
+          await create(
+            Asset(
+              tag,
+              name,
+              selectedAsset,
+              selectedUser,
+              manufacture,
+              DateTime.now().microsecondsSinceEpoch,
+              DateTime.now().microsecondsSinceEpoch,
+              dropdownConditionValue,
+              image,
+              2,
+              price,
+              isAssigned == true ? 1 : 0,
+            ),
+          );
+        }
         _showTopFlash();
       },
       icon: LineIcon.save(),
@@ -275,7 +292,11 @@ class AssetCreationState extends State<AssetCreation> {
         showSelectedItem: true,
         items: itemListUser.map((User e) => e.fullName).toList(),
         label: 'User assigned',
-        onChanged: print,
+        onChanged: (String? value) {
+          setState(() {
+            dropdownUserValue = value!;
+          });
+        },
         selectedItem: dropdownUserValue,
       ).expanded();
 
