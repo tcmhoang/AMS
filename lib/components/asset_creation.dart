@@ -9,16 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/domains/asset_type_repository/asset_type_repository.dart'
-    as at;
-import 'package:lsv_ams/domains/asset_type_repository/src/asset_type_model.dart';
-import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
-import 'package:lsv_ams/domains/user_repository/user_repository.dart' as us;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../config/constansts.dart';
+import '../domains/asset_repository/asset_repository.dart';
+import '../domains/asset_repository/src/asset_model.dart';
+import '../domains/asset_type_repository/asset_type_repository.dart' as at;
+import '../domains/asset_type_repository/src/asset_type_model.dart';
+import '../domains/user_repository/src/user_model.dart';
+import '../domains/user_repository/user_repository.dart' as us;
 
 class AssetCreation extends StatefulWidget {
   @override
@@ -123,11 +124,28 @@ class AssetCreationState extends State<AssetCreation> {
           }
         }
         for (final User element in itemListUser) {
-          if (element.fullName == dropdownAssetValue) {
+          if (element.fullName == dropdownUserValue) {
             selectedUser = element.userId;
           }
         }
-        if (formKey.currentState!.validate()) {}
+        if (formKey.currentState!.validate()) {
+          await create(
+            Asset(
+              tag,
+              name,
+              selectedAsset,
+              selectedUser,
+              manufacture,
+              DateTime.now().microsecondsSinceEpoch,
+              DateTime.now().microsecondsSinceEpoch,
+              dropdownConditionValue,
+              image,
+              2,
+              price,
+              isAssigned == true ? 1 : 0,
+            ),
+          );
+        }
         _showTopFlash();
       },
       icon: LineIcon.save(),
@@ -274,7 +292,11 @@ class AssetCreationState extends State<AssetCreation> {
         showSelectedItem: true,
         items: itemListUser.map((User e) => e.fullName).toList(),
         label: 'User assigned',
-        onChanged: print,
+        onChanged: (String? value) {
+          setState(() {
+            dropdownUserValue = value!;
+          });
+        },
         selectedItem: dropdownUserValue,
       ).expanded();
 
