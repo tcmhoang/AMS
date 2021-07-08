@@ -28,9 +28,10 @@ class _$DetailTypesTearOff {
     );
   }
 
-  TCreation creation(String title) {
+  TCreation creation(String title, Widget content) {
     return TCreation(
       title,
+      content,
     );
   }
 
@@ -48,7 +49,7 @@ mixin _$DetailTypes {
   TResult when<TResult extends Object?>({
     required TResult Function(Asset asset) asset,
     required TResult Function(User user) user,
-    required TResult Function(String title) creation,
+    required TResult Function(String title, Widget content) creation,
     required TResult Function() empty,
   }) =>
       throw _privateConstructorUsedError;
@@ -56,7 +57,7 @@ mixin _$DetailTypes {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Asset asset)? asset,
     TResult Function(User user)? user,
-    TResult Function(String title)? creation,
+    TResult Function(String title, Widget content)? creation,
     TResult Function()? empty,
     required TResult orElse(),
   }) =>
@@ -160,7 +161,7 @@ class _$TAsset implements TAsset {
   TResult when<TResult extends Object?>({
     required TResult Function(Asset asset) asset,
     required TResult Function(User user) user,
-    required TResult Function(String title) creation,
+    required TResult Function(String title, Widget content) creation,
     required TResult Function() empty,
   }) {
     return asset(this.asset);
@@ -171,7 +172,7 @@ class _$TAsset implements TAsset {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Asset asset)? asset,
     TResult Function(User user)? user,
-    TResult Function(String title)? creation,
+    TResult Function(String title, Widget content)? creation,
     TResult Function()? empty,
     required TResult orElse(),
   }) {
@@ -280,7 +281,7 @@ class _$TUser implements TUser {
   TResult when<TResult extends Object?>({
     required TResult Function(Asset asset) asset,
     required TResult Function(User user) user,
-    required TResult Function(String title) creation,
+    required TResult Function(String title, Widget content) creation,
     required TResult Function() empty,
   }) {
     return user(this.user);
@@ -291,7 +292,7 @@ class _$TUser implements TUser {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Asset asset)? asset,
     TResult Function(User user)? user,
-    TResult Function(String title)? creation,
+    TResult Function(String title, Widget content)? creation,
     TResult Function()? empty,
     required TResult orElse(),
   }) {
@@ -340,7 +341,7 @@ abstract class TUser implements DetailTypes {
 abstract class $TCreationCopyWith<$Res> {
   factory $TCreationCopyWith(TCreation value, $Res Function(TCreation) then) =
       _$TCreationCopyWithImpl<$Res>;
-  $Res call({String title});
+  $Res call({String title, Widget content});
 }
 
 /// @nodoc
@@ -355,12 +356,17 @@ class _$TCreationCopyWithImpl<$Res> extends _$DetailTypesCopyWithImpl<$Res>
   @override
   $Res call({
     Object? title = freezed,
+    Object? content = freezed,
   }) {
     return _then(TCreation(
       title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      content == freezed
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as Widget,
     ));
   }
 }
@@ -368,14 +374,16 @@ class _$TCreationCopyWithImpl<$Res> extends _$DetailTypesCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TCreation implements TCreation {
-  const _$TCreation(this.title);
+  const _$TCreation(this.title, this.content);
 
   @override
   final String title;
+  @override
+  final Widget content;
 
   @override
   String toString() {
-    return 'DetailTypes.creation(title: $title)';
+    return 'DetailTypes.creation(title: $title, content: $content)';
   }
 
   @override
@@ -383,12 +391,16 @@ class _$TCreation implements TCreation {
     return identical(this, other) ||
         (other is TCreation &&
             (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)));
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.content, content) ||
+                const DeepCollectionEquality().equals(other.content, content)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(title);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(content);
 
   @JsonKey(ignore: true)
   @override
@@ -400,10 +412,10 @@ class _$TCreation implements TCreation {
   TResult when<TResult extends Object?>({
     required TResult Function(Asset asset) asset,
     required TResult Function(User user) user,
-    required TResult Function(String title) creation,
+    required TResult Function(String title, Widget content) creation,
     required TResult Function() empty,
   }) {
-    return creation(title);
+    return creation(title, content);
   }
 
   @override
@@ -411,12 +423,12 @@ class _$TCreation implements TCreation {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Asset asset)? asset,
     TResult Function(User user)? user,
-    TResult Function(String title)? creation,
+    TResult Function(String title, Widget content)? creation,
     TResult Function()? empty,
     required TResult orElse(),
   }) {
     if (creation != null) {
-      return creation(title);
+      return creation(title, content);
     }
     return orElse();
   }
@@ -449,9 +461,10 @@ class _$TCreation implements TCreation {
 }
 
 abstract class TCreation implements DetailTypes {
-  const factory TCreation(String title) = _$TCreation;
+  const factory TCreation(String title, Widget content) = _$TCreation;
 
   String get title => throw _privateConstructorUsedError;
+  Widget get content => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $TCreationCopyWith<TCreation> get copyWith =>
       throw _privateConstructorUsedError;
@@ -496,7 +509,7 @@ class _$TEmpty implements TEmpty {
   TResult when<TResult extends Object?>({
     required TResult Function(Asset asset) asset,
     required TResult Function(User user) user,
-    required TResult Function(String title) creation,
+    required TResult Function(String title, Widget content) creation,
     required TResult Function() empty,
   }) {
     return empty();
@@ -507,7 +520,7 @@ class _$TEmpty implements TEmpty {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Asset asset)? asset,
     TResult Function(User user)? user,
-    TResult Function(String title)? creation,
+    TResult Function(String title, Widget content)? creation,
     TResult Function()? empty,
     required TResult orElse(),
   }) {

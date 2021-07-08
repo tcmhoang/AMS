@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
 
+import 'domain/detail_types.dart';
+
 class MainScreenProvider with ChangeNotifier {
-  Widget _currentDetailPage = Container();
   String _currentSelectSideMenu = 'Assets';
   List<Object> _listData = <Object>[
     Asset(
@@ -21,12 +22,22 @@ class MainScreenProvider with ChangeNotifier {
     )
   ];
 
-  Widget get detailPage => _currentDetailPage;
-
-  set detailPage(Widget newData) {
-    _currentDetailPage = newData;
-    notifyListeners();
-  }
+  DetailTypes _currentCat = DetailTypes.asset(
+    Asset(
+      '13123123',
+      'Monitor',
+      0,
+      1,
+      'Dell',
+      DateTime.now().millisecondsSinceEpoch,
+      DateTime.now().millisecondsSinceEpoch,
+      'New',
+      'asdasd',
+      3,
+      12321,
+      1,
+    ),
+  );
 
   String get menuItem => _currentSelectSideMenu;
 
@@ -39,6 +50,12 @@ class MainScreenProvider with ChangeNotifier {
 
   set listData(List<Object> newData) {
     _listData = newData;
+    notifyListeners();
+  }
+
+  DetailTypes get currentCategory => _currentCat;
+  set currentCategory(DetailTypes newData) {
+    _currentCat = newData;
     notifyListeners();
   }
 }

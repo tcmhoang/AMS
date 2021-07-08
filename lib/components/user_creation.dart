@@ -55,7 +55,7 @@ class UserCreationState extends State<UserCreation> {
           )
           .padding(all: 6)
           .width(double.infinity),
-    ).padding(all: 25);
+    );
   }
 
   Widget _renderAddUserBtn(BuildContext context) {

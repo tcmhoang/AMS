@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:supercharged/supercharged.dart';
@@ -10,7 +11,6 @@ import '../../../domains/asset_repository/src/asset_model.dart';
 import '../../../domains/asset_type_repository/asset_type_repository.dart'
     as ats;
 import '../../../domains/asset_type_repository/src/asset_type_model.dart';
-import '../../../providers/detail_screen_provider.dart';
 import '../../../providers/domain/detail_types.dart';
 
 class Header extends StatefulWidget {
@@ -25,7 +25,7 @@ class Header extends StatefulWidget {
 class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
-    return Provider.of<DetailScreenProvider>(context).currentCategory.maybeWhen(
+    return Provider.of<MainScreenProvider>(context).currentCategory.maybeWhen(
           asset: (Asset asset) => <Widget>[
             if (Responsive.isMobile(context)) const BackButton(),
             IconButton(
@@ -58,7 +58,7 @@ class _HeaderState extends State<Header> {
                             elevation: 5,
                             style: Theme.of(context).textTheme.bodyText2,
                             onChanged: (int? id) =>
-                                Provider.of<DetailScreenProvider>(
+                                Provider.of<MainScreenProvider>(
                               context,
                               listen: false,
                             ).currentCategory = DetailTypes.asset(

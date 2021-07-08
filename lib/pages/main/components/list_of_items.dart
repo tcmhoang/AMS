@@ -2,14 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/side_menu.dart';
 import '../../../config/constansts.dart';
 import '../../../config/responsive.dart';
-import '../../../providers/main_screen_provider.dart';
-import '../../asset/asset_screen.dart';
 import '../../detail/detail_screen.dart';
 import 'card_item.dart';
 
@@ -127,8 +124,6 @@ class _ListOfItemsState extends State<ListOfItems> {
           builder: (_) => const DetailScreen(),
         ),
       );
-    } else
-      Provider.of<MainScreenProvider>(context, listen: false).detailPage =
-          AssetScreen();
+    }
   }
 }
