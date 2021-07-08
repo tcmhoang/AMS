@@ -9,9 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/config/constansts.dart';
-import 'package:lsv_ams/domains/asset_repository/asset_repository.dart';
-import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
 import 'package:lsv_ams/domains/asset_type_repository/asset_type_repository.dart'
     as at;
 import 'package:lsv_ams/domains/asset_type_repository/src/asset_type_model.dart';
@@ -20,6 +17,8 @@ import 'package:lsv_ams/domains/user_repository/user_repository.dart' as us;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
+
+import '../config/constansts.dart';
 
 class AssetCreation extends StatefulWidget {
   @override

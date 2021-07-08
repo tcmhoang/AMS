@@ -12,15 +12,12 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
-    return ChangeNotifierProvider<MainScreenProvider>(
-      create: (_) => MainScreenProvider(),
-      child: Consumer<MainScreenProvider>(
-        builder: (_, MainScreenProvider value, __) => Scaffold(
-          body: Responsive(
-            desktop: _renderDesktop(_size, value),
-            tablet: _renderTablet(value),
-            mobile: _renderMobile(value),
-          ),
+    return Consumer<MainScreenProvider>(
+      builder: (_, MainScreenProvider value, __) => Scaffold(
+        body: Responsive(
+          desktop: _renderDesktop(_size, value),
+          tablet: _renderTablet(value),
+          mobile: _renderMobile(value),
         ),
       ),
     );

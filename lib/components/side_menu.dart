@@ -92,6 +92,8 @@ class SideMenu extends StatelessWidget {
         onPrimary: kPrimaryColor,
       ),
       onPressed: () {
+        Provider.of<MainScreenProvider>(context, listen: false)
+            .currentCategory = DetailTypes.creation('Add User', UserCreation());
         if (Responsive.isMobile(context))
           Navigator.push(
             context,
@@ -99,8 +101,6 @@ class SideMenu extends StatelessWidget {
               builder: (BuildContext context) => const DetailScreen(),
             ),
           );
-        Provider.of<MainScreenProvider>(context, listen: false)
-            .currentCategory = DetailTypes.creation('Add User', UserCreation());
       },
       icon: LineIcon.user(
         size: 16,
