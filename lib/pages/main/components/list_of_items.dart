@@ -124,9 +124,7 @@ class _ListOfItemsState extends State<ListOfItems> {
       Navigator.push(
         context,
         MaterialPageRoute<PageRoute<Widget>>(
-          builder: (_) => DetailScreen(
-            data: Container(),
-          ),
+          builder: (_) => const DetailScreen(),
         ),
       );
     } else

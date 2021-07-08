@@ -12,7 +12,6 @@ class AssetModel with _$AssetModel {
     int typeId,
     int userId,
     String make,
-    String serial,
     int created,
     int lastUpdated,
     String condition,

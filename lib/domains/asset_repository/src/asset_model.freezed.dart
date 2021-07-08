@@ -26,7 +26,6 @@ class _$AssetModelTearOff {
       int typeId,
       int userId,
       String make,
-      String serial,
       int created,
       int lastUpdated,
       String condition,
@@ -40,7 +39,6 @@ class _$AssetModelTearOff {
       typeId,
       userId,
       make,
-      serial,
       created,
       lastUpdated,
       condition,
@@ -66,7 +64,6 @@ mixin _$AssetModel {
   int get typeId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
   String get make => throw _privateConstructorUsedError;
-  String get serial => throw _privateConstructorUsedError;
   int get created => throw _privateConstructorUsedError;
   int get lastUpdated => throw _privateConstructorUsedError;
   String get condition => throw _privateConstructorUsedError;
@@ -92,7 +89,6 @@ abstract class $AssetModelCopyWith<$Res> {
       int typeId,
       int userId,
       String make,
-      String serial,
       int created,
       int lastUpdated,
       String condition,
@@ -117,7 +113,6 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
     Object? typeId = freezed,
     Object? userId = freezed,
     Object? make = freezed,
-    Object? serial = freezed,
     Object? created = freezed,
     Object? lastUpdated = freezed,
     Object? condition = freezed,
@@ -146,10 +141,6 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
       make: make == freezed
           ? _value.make
           : make // ignore: cast_nullable_to_non_nullable
-              as String,
-      serial: serial == freezed
-          ? _value.serial
-          : serial // ignore: cast_nullable_to_non_nullable
               as String,
       created: created == freezed
           ? _value.created
@@ -194,7 +185,6 @@ abstract class $AssetCopyWith<$Res> implements $AssetModelCopyWith<$Res> {
       int typeId,
       int userId,
       String make,
-      String serial,
       int created,
       int lastUpdated,
       String condition,
@@ -220,7 +210,6 @@ class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
     Object? typeId = freezed,
     Object? userId = freezed,
     Object? make = freezed,
-    Object? serial = freezed,
     Object? created = freezed,
     Object? lastUpdated = freezed,
     Object? condition = freezed,
@@ -249,10 +238,6 @@ class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
       make == freezed
           ? _value.make
           : make // ignore: cast_nullable_to_non_nullable
-              as String,
-      serial == freezed
-          ? _value.serial
-          : serial // ignore: cast_nullable_to_non_nullable
               as String,
       created == freezed
           ? _value.created
@@ -295,7 +280,6 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
       this.typeId,
       this.userId,
       this.make,
-      this.serial,
       this.created,
       this.lastUpdated,
       this.condition,
@@ -318,8 +302,6 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
   @override
   final String make;
   @override
-  final String serial;
-  @override
   final int created;
   @override
   final int lastUpdated;
@@ -336,7 +318,7 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AssetModel(tag: $tag, name: $name, typeId: $typeId, userId: $userId, make: $make, serial: $serial, created: $created, lastUpdated: $lastUpdated, condition: $condition, urlImage: $urlImage, timesUsed: $timesUsed, originalPrice: $originalPrice, isAssigned: $isAssigned)';
+    return 'AssetModel(tag: $tag, name: $name, typeId: $typeId, userId: $userId, make: $make, created: $created, lastUpdated: $lastUpdated, condition: $condition, urlImage: $urlImage, timesUsed: $timesUsed, originalPrice: $originalPrice, isAssigned: $isAssigned)';
   }
 
   @override
@@ -349,7 +331,6 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
       ..add(DiagnosticsProperty('typeId', typeId))
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('make', make))
-      ..add(DiagnosticsProperty('serial', serial))
       ..add(DiagnosticsProperty('created', created))
       ..add(DiagnosticsProperty('lastUpdated', lastUpdated))
       ..add(DiagnosticsProperty('condition', condition))
@@ -373,8 +354,6 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
                 const DeepCollectionEquality().equals(other.userId, userId)) &&
             (identical(other.make, make) ||
                 const DeepCollectionEquality().equals(other.make, make)) &&
-            (identical(other.serial, serial) ||
-                const DeepCollectionEquality().equals(other.serial, serial)) &&
             (identical(other.created, created) ||
                 const DeepCollectionEquality()
                     .equals(other.created, created)) &&
@@ -406,7 +385,6 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
       const DeepCollectionEquality().hash(typeId) ^
       const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(make) ^
-      const DeepCollectionEquality().hash(serial) ^
       const DeepCollectionEquality().hash(created) ^
       const DeepCollectionEquality().hash(lastUpdated) ^
       const DeepCollectionEquality().hash(condition) ^
@@ -433,7 +411,6 @@ abstract class Asset implements AssetModel {
       int typeId,
       int userId,
       String make,
-      String serial,
       int created,
       int lastUpdated,
       String condition,
@@ -454,8 +431,6 @@ abstract class Asset implements AssetModel {
   int get userId => throw _privateConstructorUsedError;
   @override
   String get make => throw _privateConstructorUsedError;
-  @override
-  String get serial => throw _privateConstructorUsedError;
   @override
   int get created => throw _privateConstructorUsedError;
   @override

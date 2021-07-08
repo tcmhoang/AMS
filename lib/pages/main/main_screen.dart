@@ -37,7 +37,7 @@ class MainScreen extends StatelessWidget {
       ListOfItems(
         items: provider.listData,
       ).expanded(flex: 6),
-      DetailScreen(data: provider.detailPage).expanded(flex: 9)
+      const DetailScreen().expanded(flex: 9)
     ].toRow();
   }
 
@@ -47,8 +47,7 @@ class MainScreen extends StatelessWidget {
       ListOfItems(
         items: provider.listData,
       ).expanded(flex: _size.width > 1340 ? 3 : 5),
-      DetailScreen(data: provider.detailPage)
-          .expanded(flex: _size.width > 1340 ? 8 : 10),
+      const DetailScreen().expanded(flex: _size.width > 1340 ? 8 : 10),
     ].toRow();
   }
 }
