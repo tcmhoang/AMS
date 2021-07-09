@@ -9,28 +9,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/config/constansts.dart';
+import 'package:lsv_ams/domains/asset_repository/asset_repository.dart';
+import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
+import 'package:lsv_ams/domains/asset_type_repository/asset_type_repository.dart'
+    as at;
+import 'package:lsv_ams/domains/asset_type_repository/src/asset_type_model.dart';
+import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
+import 'package:lsv_ams/domains/user_repository/user_repository.dart' as us;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../config/constansts.dart';
-import '../domains/asset_repository/asset_repository.dart';
-import '../domains/asset_repository/src/asset_model.dart';
-import '../domains/asset_type_repository/asset_type_repository.dart' as at;
-import '../domains/asset_type_repository/src/asset_type_model.dart';
-import '../domains/user_repository/src/user_model.dart';
-import '../domains/user_repository/user_repository.dart' as us;
-
-// ignore: must_be_immutable
-class AssetCreation extends StatefulWidget {
-  AssetCreation({this.data});
-  Asset? data;
-
+class AssetUpdation extends StatefulWidget {
   @override
-  AssetCreationState createState() => AssetCreationState();
+  AssetUpdationState createState() => AssetUpdationState();
 }
 
-class AssetCreationState extends State<AssetCreation> {
+class AssetUpdationState extends State<AssetUpdation> {
   late String tag;
   late String name;
   late String manufacture;
@@ -49,8 +45,6 @@ class AssetCreationState extends State<AssetCreation> {
   List<AssetType> itemListAsset = <AssetType>[];
   List<User> itemListUser = <User>[];
 
-  Asset? data;
-
   @override
   void initState() {
     super.initState();
@@ -66,38 +60,15 @@ class AssetCreationState extends State<AssetCreation> {
         dropdownUserValue = itemListUser[0].fullName;
       });
     });
-
-    tag = '';
-    name = '';
-    manufacture = '';
-    dropdownConditionValue = 'New';
-    price = 0;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.data != data) {
-      data = widget.data;
-      if (widget.data != null) {
-        final Asset tmp = widget.data!;
-        tag = tmp.tag;
-        name = tmp.name;
-        manufacture = tmp.make;
-        price = tmp.originalPrice;
-        dropdownConditionValue = tmp.condition;
-      } else {
-        tag = '';
-        name = '';
-        manufacture = '';
-        dropdownConditionValue = 'New';
-        price = 0;
-      }
-    }
     return Form(
       key: formKey,
       child: <Widget>[
         Text(
-          'Add Asset',
+          'Update Asset',
           style: Theme.of(context).textTheme.headline5,
         ).alignment(Alignment.centerLeft),
         <Widget>[
@@ -119,7 +90,7 @@ class AssetCreationState extends State<AssetCreation> {
         ].toRow().height(kDefaultPadding * 3),
         <Widget>[
           _renderImage(context),
-        ].toRow().height(kDefaultPadding * 8),
+        ].toRow(),
         const SizedBox(
           height: 60,
         ),
@@ -183,7 +154,6 @@ class AssetCreationState extends State<AssetCreation> {
   }
 
   Widget _renderTag(BuildContext context) => TextFormField(
-        controller: TextEditingController(text: tag),
         validator: (String? tag) =>
             tag != null && tag.isEmpty ? 'The tag cannot be empty' : null,
         onChanged: (String value) => setState(() {
@@ -199,7 +169,6 @@ class AssetCreationState extends State<AssetCreation> {
       ).padding(bottom: kDefaultPadding, right: kDefaultPadding).expanded();
 
   Widget _renderName(BuildContext context) => TextFormField(
-        controller: TextEditingController(text: name),
         validator: (String? name) => name != null && name.isEmpty
             ? 'The asset name cannot be empty'
             : null,
@@ -246,7 +215,6 @@ class AssetCreationState extends State<AssetCreation> {
           .height(51)
           .padding(bottom: kDefaultPadding, right: kDefaultPadding)
           .expanded();
-
   Widget _renderCondition(BuildContext context) =>
       DropdownButtonFormField<String>(
         value: dropdownConditionValue,
@@ -278,7 +246,6 @@ class AssetCreationState extends State<AssetCreation> {
           .expanded();
 
   Widget _renderManufacture(BuildContext context) => TextFormField(
-        controller: TextEditingController(text: manufacture),
         onChanged: (String value) => setState(() {
           manufacture = value;
         }),
@@ -292,7 +259,6 @@ class AssetCreationState extends State<AssetCreation> {
       ).padding(bottom: kDefaultPadding).expanded();
 
   Widget _renderPrice(BuildContext context) => TextFormField(
-        controller: TextEditingController(text: price.toString()),
         onChanged: (String value) => setState(() {
           price = double.parse(value);
         }),
@@ -340,7 +306,12 @@ class AssetCreationState extends State<AssetCreation> {
             : Image.file(
                 File(image),
               ),
-      ).border(all: 1).gestures(
+      )
+          .border(all: 2, color: kGrayColor)
+          .height(150)
+          .width(150)
+          .fittedBox()
+          .gestures(
         onTap: () async {
           final XTypeGroup typeGroup =
               XTypeGroup(label: 'images', extensions: <String>['jpg', 'png']);

@@ -2,6 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
+import 'package:lsv_ams/providers/domain/detail_types.dart';
+import 'package:lsv_ams/providers/main_screen_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/side_menu.dart';
@@ -116,12 +120,35 @@ class _ListOfItemsState extends State<ListOfItems> {
   }
 
   void _handleClick(BuildContext context, int index) {
-    _currIndex = index;
+    setState(() {
+      _currIndex = index;
+    });
     if (Responsive.isMobile(context)) {
       Navigator.push(
         context,
         MaterialPageRoute<PageRoute<Widget>>(
           builder: (_) => const DetailScreen(),
+        ),
+      );
+    }
+    if (Provider.of<MainScreenProvider>(context, listen: false).menuItem ==
+        'Assets') {
+      final List<Asset> tmp = widget.items as List<Asset>;
+      Provider.of<MainScreenProvider>(context, listen: false).currentCategory =
+          DetailTypes.asset(
+        Asset(
+          tmp[index].tag,
+          tmp[index].name,
+          1,
+          1,
+          tmp[index].make,
+          DateTime.now().millisecondsSinceEpoch,
+          DateTime.now().millisecondsSinceEpoch,
+          tmp[index].condition,
+          'asdasd',
+          3,
+          tmp[index].originalPrice,
+          1,
         ),
       );
     }

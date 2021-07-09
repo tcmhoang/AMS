@@ -36,7 +36,7 @@ class CardItem extends StatelessWidget {
       final Asset tmp = item as Asset;
       processedData = _Card(
         name: tmp.name,
-        title: tmp.isAssigned == 1 ? 'Assigned' : 'Available',
+        title: tmp.tag,
         date: DateTime.fromMillisecondsSinceEpoch(tmp.lastUpdated),
         body:
             ' Manufacture: ${tmp.make} \t  Handover times: ${tmp.timesUsed} \t Tag: ${tmp.tag} ',

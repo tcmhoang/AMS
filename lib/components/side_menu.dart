@@ -75,13 +75,13 @@ class _SideMenuState extends State<SideMenu> {
         primary: kPrimaryColor,
       ),
       onPressed: () {
-        // if (Responsive.isMobile(context))
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute<PageRoute<Widget>>(
-        //       builder: (BuildContext context) => const DetailScreen(),
-        //     ),
-        //   );
+        if (Responsive.isMobile(context))
+          Navigator.push(
+            context,
+            MaterialPageRoute<PageRoute<Widget>>(
+              builder: (BuildContext context) => const DetailScreen(),
+            ),
+          );
         Provider.of<MainScreenProvider>(context, listen: false)
                 .currentCategory =
             DetailTypes.creation('Add Asset', AssetCreation());

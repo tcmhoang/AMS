@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lsv_ams/components/asset_creation.dart';
 import 'package:lsv_ams/config/constansts.dart';
+import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
 import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -29,12 +31,12 @@ class _DetailScreenState extends State<DetailScreen> {
             orElse: () => const Divider(thickness: 1),
           ),
           val.currentCategory.maybeWhen(
-            empty: () => Container(),
-            orElse: () => const Divider(thickness: 1),
-          ),
-          val.currentCategory.maybeWhen(
             creation: (_, Widget content) =>
                 content.padding(all: kDefaultPadding),
+            asset: (Asset file) {
+              print(file);
+              return AssetCreation(data: file);
+            },
             orElse: () => Container(),
           ),
         ].toColumn().scrollable(
