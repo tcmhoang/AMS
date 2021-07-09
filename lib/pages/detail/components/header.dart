@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -28,51 +29,50 @@ class _HeaderState extends State<Header> {
         .maybeWhen(
           asset: (Asset asset) => _renderAssetHeader(context, asset),
           creation: (String title, _) => _renderCreationHeader(context, title),
+          user: (User user) => _renderUserHeader(context, user),
           orElse: () => Container(),
         )
         .padding(all: kDefaultPadding);
   }
 
-  Widget _renderAssetHeader(BuildContext context, Asset asset) {
-    return <Widget>[
-      if (Responsive.isMobile(context)) const BackButton(),
-      IconButton(
-        icon: LineIcon.trash(size: 24),
-        onPressed: () {},
-      ),
-      IconButton(
-        icon: LineIcon.upload(size: 24),
-        onPressed: () {},
-      ),
-      const Spacer(),
-      FutureBuilder<AssetType?>(
-        future: ats.get(asset.typeId),
-        builder: (_, AsyncSnapshot<AssetType?> snapshot) {
-          if (snapshot.hasData) {
-            final AssetType tmp = snapshot.data!;
+  Widget _renderAssetHeader(BuildContext context, Asset asset) => <Widget>[
+        if (Responsive.isMobile(context)) const BackButton(),
+        IconButton(
+          icon: LineIcon.trash(size: 24),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: LineIcon.upload(size: 24),
+          onPressed: () {},
+        ),
+        const Spacer(),
+        FutureBuilder<AssetType?>(
+          future: ats.get(asset.typeId),
+          builder: (_, AsyncSnapshot<AssetType?> snapshot) {
+            if (snapshot.hasData) {
+              final AssetType tmp = snapshot.data!;
 
-            return ListTile(
-              trailing: LineIcon.bookmarkAlt(size: 24),
-              title: Text(
-                tmp.typeName,
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-            ).flexible();
-          } else {
-            return LineIcon.bookmarkAlt(size: 24);
-          }
-        },
-      ),
-      IconButton(
-        icon: LineIcon.print(size: 24),
-        onPressed: () {},
-      ),
-      IconButton(
-        icon: LineIcon.verticalEllipsis(size: 24),
-        onPressed: () {},
-      ),
-    ].toRow();
-  }
+              return ListTile(
+                trailing: LineIcon.bookmarkAlt(size: 24),
+                title: Text(
+                  tmp.typeName,
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+              ).flexible();
+            } else {
+              return LineIcon.bookmarkAlt(size: 24);
+            }
+          },
+        ),
+        IconButton(
+          icon: LineIcon.print(size: 24),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: LineIcon.verticalEllipsis(size: 24),
+          onPressed: () {},
+        ),
+      ].toRow();
 
   Widget _renderCreationHeader(BuildContext context, String title) => <Widget>[
         if (Responsive.isMobile(context))
@@ -84,8 +84,25 @@ class _HeaderState extends State<Header> {
                 ? Theme.of(context).textTheme.headline5
                 : Theme.of(context)
                     .textTheme
-                    .headline4!
+                    .headline5!
                     .copyWith(color: kTitleTextColor),
-          ).padding(top: 5)
+          ).padding(all: 5)
+      ].toRow();
+
+  Widget _renderUserHeader(BuildContext context, User user) => <Widget>[
+        if (Responsive.isMobile(context)) const BackButton(),
+        IconButton(
+          icon: LineIcon.trash(size: 24),
+          onPressed: () {},
+        ),
+        const Spacer(),
+        IconButton(
+          icon: LineIcon.print(size: 24),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: LineIcon.verticalEllipsis(size: 24),
+          onPressed: () {},
+        ),
       ].toRow();
 }
