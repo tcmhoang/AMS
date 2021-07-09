@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:lsv_ams/config/constansts.dart';
+import 'package:lsv_ams/config/responsive.dart';
 import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
 import 'package:lsv_ams/domains/user_repository/user_repository.dart';
 import 'package:path/path.dart' as p;
@@ -35,10 +36,11 @@ class UserCreationState extends State<UserCreation> {
     return Form(
       key: formKey,
       child: <Widget>[
-        Text(
-          'Add User',
-          style: Theme.of(context).textTheme.headline5,
-        ).alignment(Alignment.centerLeft),
+        if (Responsive.isMobile(context))
+          Text(
+            'Create a new user',
+            style: Theme.of(context).textTheme.headline5,
+          ).alignment(Alignment.centerLeft),
         _renderAvatar(context),
         _renderFullName(context),
         _renderDob(context),

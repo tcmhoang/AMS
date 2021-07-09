@@ -27,6 +27,7 @@ class _HeaderState extends State<Header> {
         .currentCategory
         .maybeWhen(
           asset: (Asset asset) => _renderAssetHeader(context, asset),
+          creation: (String title, _) => _renderCreationHeader(context, title),
           orElse: () => Container(),
         )
         .padding(all: kDefaultPadding);
@@ -72,4 +73,19 @@ class _HeaderState extends State<Header> {
       ),
     ].toRow();
   }
+
+  Widget _renderCreationHeader(BuildContext context, String title) => <Widget>[
+        if (Responsive.isMobile(context))
+          const BackButton()
+        else
+          Text(
+            title,
+            style: Responsive.isMobile(context)
+                ? Theme.of(context).textTheme.headline5
+                : Theme.of(context)
+                    .textTheme
+                    .headline4!
+                    .copyWith(color: kTitleTextColor),
+          ).padding(top: 5)
+      ].toRow();
 }

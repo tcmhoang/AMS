@@ -112,7 +112,8 @@ class _SideMenuState extends State<SideMenu> {
       ),
       onPressed: () {
         Provider.of<MainScreenProvider>(context, listen: false)
-            .currentCategory = DetailTypes.creation('Add User', UserCreation());
+                .currentCategory =
+            DetailTypes.creation('Create a new user', UserCreation());
         if (Responsive.isMobile(context))
           Navigator.push(
             context,
