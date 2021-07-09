@@ -50,7 +50,7 @@ class CardItem extends StatelessWidget {
         title: tmp.address,
         date: DateTime.fromMillisecondsSinceEpoch(tmp.dob),
         body: '',
-        icon: LineIcons.print,
+        icon: LineIcons.userCheck,
         image: tmp.urlImage.isEmpty ? null : FileImage(File(tmp.urlImage)),
       );
     }
