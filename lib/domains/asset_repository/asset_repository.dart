@@ -62,7 +62,7 @@ Future<List<Asset>> fetchByType(String typeName) async {
   final AssetType tmp = await types.findByTitle(typeName);
   try {
     if (tmp != null) {
-      return assets.fetchByType(tmp.typeId);
+      return await assets.fetchByType(tmp.typeId);
     } else
       return <Asset>[];
   } catch (_, __) {

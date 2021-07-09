@@ -32,7 +32,7 @@ Future<List<AssetType>> fetchAll() async {
 
 Future<AssetType?> get(int id) async {
   try {
-    return ats.get(id);
+    return await ats.get(id);
   } catch (_, __) {
     return null;
   }
@@ -40,7 +40,7 @@ Future<AssetType?> get(int id) async {
 
 Future<AssetType?> getByTitle(String title) async {
   try {
-    return ats.findByTitle(title);
+    return await ats.findByTitle(title);
   } catch (_, __) {
     return null;
   }
