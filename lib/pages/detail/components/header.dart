@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/providers/main_screen_provider.dart';
+import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:supercharged/supercharged.dart';
 
 import '../../../config/constansts.dart';
 import '../../../config/responsive.dart';
@@ -11,7 +10,7 @@ import '../../../domains/asset_repository/src/asset_model.dart';
 import '../../../domains/asset_type_repository/asset_type_repository.dart'
     as ats;
 import '../../../domains/asset_type_repository/src/asset_type_model.dart';
-import '../../../providers/domain/detail_types.dart';
+import '../../../providers/main_screen_provider.dart';
 
 class Header extends StatefulWidget {
   const Header({
@@ -25,78 +24,85 @@ class Header extends StatefulWidget {
 class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
-    return Provider.of<MainScreenProvider>(context).currentCategory.maybeWhen(
-          asset: (Asset asset) => <Widget>[
-            if (Responsive.isMobile(context)) const BackButton(),
-            IconButton(
-              icon: LineIcon.trash(size: 24),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: LineIcon.upload(size: 24),
-              onPressed: () {},
-            ),
-            const Spacer(),
-            FutureBuilder<List<AssetType>>(
-              future: ats.fetchAll(),
-              builder: (_, AsyncSnapshot<List<AssetType>> snapshot) {
-                if (snapshot.hasData) {
-                  final List<AssetType> tmp = snapshot.data!;
-
-                  return tmp.isEmpty
-                      ? ListTile(
-                          trailing: LineIcon.bookmarkAlt(size: 24),
-                          title: Text(
-                            'Try adding a new category',
-                            style: Theme.of(context).textTheme.bodyText2,
-                          ),
-                        ).flexible()
-                      : DropdownButtonHideUnderline(
-                          child: DropdownButton<int>(
-                            value: asset.typeId == 0 ? null : asset.typeId,
-                            icon: LineIcon.bookmarkAlt(),
-                            elevation: 5,
-                            style: Theme.of(context).textTheme.bodyText2,
-                            onChanged: (int? id) =>
-                                Provider.of<MainScreenProvider>(
-                              context,
-                              listen: false,
-                            ).currentCategory = DetailTypes.asset(
-                              asset.copyWith(typeId: id ?? 0),
-                            ),
-                            iconSize: asset.typeId == 0 ? 24 : 0,
-                            items: tmp
-                                .map<DropdownMenuItem<int>>(
-                                  (AssetType e) => DropdownMenuItem<int>(
-                                    child: <Widget>[
-                                      Text(e.typeName)
-                                          .padding(right: kDefaultPadding),
-                                      LineIcon.bookmarkAlt(
-                                        size: 24,
-                                        color: e.color.toColor(),
-                                      ),
-                                    ].toRow(mainAxisSize: MainAxisSize.min),
-                                    value: e.typeId,
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
-            IconButton(
-              icon: LineIcon.print(size: 24),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: LineIcon.verticalEllipsis(size: 24),
-              onPressed: () {},
-            ),
-          ].toRow().padding(all: kDefaultPadding),
+    return Provider.of<MainScreenProvider>(context)
+        .currentCategory
+        .maybeWhen(
+          asset: (Asset asset) => _renderAssetHeader(context, asset),
+          creation: (String title, _) => _renderCreationHeader(context, title),
+          user: (User user) => _renderUserHeader(context, user),
           orElse: () => Container(),
-        );
+        )
+        .padding(all: kDefaultPadding);
   }
+
+  Widget _renderAssetHeader(BuildContext context, Asset asset) => <Widget>[
+        if (Responsive.isMobile(context)) const BackButton(),
+        IconButton(
+          icon: LineIcon.trash(size: 24),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: LineIcon.upload(size: 24),
+          onPressed: () {},
+        ),
+        const Spacer(),
+        FutureBuilder<AssetType?>(
+          future: ats.get(asset.typeId),
+          builder: (_, AsyncSnapshot<AssetType?> snapshot) {
+            if (snapshot.hasData) {
+              final AssetType tmp = snapshot.data!;
+
+              return ListTile(
+                trailing: LineIcon.bookmarkAlt(size: 24),
+                title: Text(
+                  tmp.typeName,
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+              ).flexible();
+            } else {
+              return LineIcon.bookmarkAlt(size: 24);
+            }
+          },
+        ),
+        IconButton(
+          icon: LineIcon.print(size: 24),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: LineIcon.verticalEllipsis(size: 24),
+          onPressed: () {},
+        ),
+      ].toRow();
+
+  Widget _renderCreationHeader(BuildContext context, String title) => <Widget>[
+        if (Responsive.isMobile(context))
+          const BackButton()
+        else
+          Text(
+            title,
+            style: Responsive.isMobile(context)
+                ? Theme.of(context).textTheme.headline5
+                : Theme.of(context)
+                    .textTheme
+                    .headline5!
+                    .copyWith(color: kTitleTextColor),
+          ).padding(all: 5)
+      ].toRow();
+
+  Widget _renderUserHeader(BuildContext context, User user) => <Widget>[
+        if (Responsive.isMobile(context)) const BackButton(),
+        IconButton(
+          icon: LineIcon.trash(size: 24),
+          onPressed: () {},
+        ),
+        const Spacer(),
+        IconButton(
+          icon: LineIcon.print(size: 24),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: LineIcon.verticalEllipsis(size: 24),
+          onPressed: () {},
+        ),
+      ].toRow();
 }

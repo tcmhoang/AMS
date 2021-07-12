@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lsv_ams/components/asset_creation.dart';
-import 'package:lsv_ams/config/constansts.dart';
-import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
-import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
+import '../../components/asset_creation.dart';
+import '../../components/user_creation.dart';
+import '../../config/constansts.dart';
+import '../../domains/asset_repository/src/asset_model.dart';
+import '../../domains/user_repository/src/user_model.dart';
+import '../../providers/main_screen_provider.dart';
 import 'components/header.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -34,9 +36,11 @@ class _DetailScreenState extends State<DetailScreen> {
             creation: (_, Widget content) =>
                 content.padding(all: kDefaultPadding),
             asset: (Asset file) {
-              print(file);
               return AssetCreation(data: file);
             },
+            user: (User user) => UserCreation(
+              data: user,
+            ),
             orElse: () => Container(),
           ),
         ].toColumn().scrollable(

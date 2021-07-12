@@ -41,7 +41,7 @@ class AssetTypeModels {
   Future<AssetType> get(int assetTypeId) async {
     final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
       _kTableName,
-      where: 'assetTypeId = ?',
+      where: 'typeId = ?',
       whereArgs: <int>[assetTypeId],
     );
 

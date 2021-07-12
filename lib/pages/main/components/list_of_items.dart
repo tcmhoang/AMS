@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
+import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
 import 'package:lsv_ams/providers/domain/detail_types.dart';
 import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
@@ -149,6 +150,19 @@ class _ListOfItemsState extends State<ListOfItems> {
           3,
           tmp[index].originalPrice,
           1,
+        ),
+      );
+    } else {
+      final List<User> tmp = widget.items as List<User>;
+      Provider.of<MainScreenProvider>(context, listen: false).currentCategory =
+          DetailTypes.user(
+        User(
+          tmp[index].userId,
+          tmp[index].fullName,
+          tmp[index].dob,
+          tmp[index].gender,
+          tmp[index].address,
+          tmp[index].urlImage,
         ),
       );
     }

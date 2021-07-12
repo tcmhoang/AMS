@@ -30,9 +30,18 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   final ScrollController controller = ScrollController();
+  int _totalAsset = 0;
+  int _totalUser = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _totalAsset = assets.count;
+    _totalUser = users.count;
     return SafeArea(
       bottom: false,
       child: Consumer<MainScreenProvider>(
@@ -112,7 +121,8 @@ class _SideMenuState extends State<SideMenu> {
       ),
       onPressed: () {
         Provider.of<MainScreenProvider>(context, listen: false)
-            .currentCategory = DetailTypes.creation('Add User', UserCreation());
+                .currentCategory =
+            const DetailTypes.creation('Create a new user', UserCreation());
         if (Responsive.isMobile(context))
           Navigator.push(
             context,
@@ -156,7 +166,7 @@ class _SideMenuState extends State<SideMenu> {
           title: 'Assets',
           iconSrc: LineIcons.otter,
           isActive: val.menuItem == 'Assets',
-          itemCount: 3,
+          itemCount: _totalAsset,
         ),
         SideMenuItem(
           press: () async {
@@ -166,6 +176,7 @@ class _SideMenuState extends State<SideMenu> {
           title: 'Users',
           iconSrc: LineIcons.userAstronaut,
           isActive: val.menuItem == 'Users',
+          itemCount: _totalUser,
         ),
       ];
 }
