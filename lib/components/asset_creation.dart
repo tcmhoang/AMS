@@ -7,6 +7,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:path/path.dart' as p;
@@ -31,47 +32,48 @@ class AssetCreation extends StatefulWidget {
 }
 
 class AssetCreationState extends State<AssetCreation> {
-  late String tag;
-  late String name;
-  late String manufacture;
-  late double price;
-  late bool isAssigned = false;
+  Future<List<AssetType>> listAsset = at.fetchAll();
+  Future<List<User>> listUser = us.fetchAll();
   final List<String> listCondition = <String>['New', 'Used', 'Broken'];
-  Future<List<AssetType>> dropdownListAsset = at.fetchAll();
-  Future<List<User>> dropdownListUser = us.fetchAll();
+  TextEditingController fTagController = TextEditingController();
+  TextEditingController fNameController = TextEditingController();
+  TextEditingController fManufactureController = TextEditingController();
+  TextEditingController fPriceController = TextEditingController();
+  late bool isAssigned = false;
   late int selectedAsset = 0;
   late int selectedUser = 0;
-  late String dropdownAssetValue = 'a';
-  late String dropdownConditionValue = 'New';
-  late String dropdownUserValue = '';
+  TextEditingController fConditionController = TextEditingController();
+  TextEditingController fTypeController = TextEditingController();
+  TextEditingController fUserController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String image = '';
   List<AssetType> itemListAsset = <AssetType>[];
   List<User> itemListUser = <User>[];
-
   Asset? data;
 
   @override
   void initState() {
     super.initState();
-    dropdownListAsset.then((List<AssetType> value) {
+    listAsset.then((List<AssetType> value) {
       itemListAsset = value;
       setState(() {
-        dropdownAssetValue = itemListAsset[0].typeName;
+        fTypeController.text = itemListAsset[0].typeName;
+        print(fTypeController.value);
       });
     });
-    dropdownListUser.then((List<User> value) {
+    listUser.then((List<User> value) {
       itemListUser = value;
       setState(() {
-        dropdownUserValue = itemListUser[0].fullName;
+        fUserController.text = itemListUser[0].fullName;
       });
     });
 
-    tag = '';
-    name = '';
-    manufacture = '';
-    dropdownConditionValue = 'New';
-    price = 0;
+    fTagController.text = '';
+    fNameController.text = '';
+    fManufactureController.text = '';
+    fConditionController.text = 'New';
+    fPriceController.text = '';
+    // selectedAsset = 1;
   }
 
   @override
@@ -80,17 +82,19 @@ class AssetCreationState extends State<AssetCreation> {
       data = widget.data;
       if (widget.data != null) {
         final Asset tmp = widget.data!;
-        tag = tmp.tag;
-        name = tmp.name;
-        manufacture = tmp.make;
-        price = tmp.originalPrice;
-        dropdownConditionValue = tmp.condition;
+        fTagController.text = tmp.tag;
+        fNameController.text = tmp.name;
+        fManufactureController.text = tmp.make;
+        fPriceController.text = tmp.originalPrice.toString();
+        fConditionController.text = tmp.condition;
+        fTypeController.text = tmp.typeId.toString();
       } else {
-        tag = '';
-        name = '';
-        manufacture = '';
-        dropdownConditionValue = 'New';
-        price = 0;
+        fTagController.text = '';
+        fNameController.text = '';
+        fManufactureController.text = '';
+        fConditionController.text = 'New';
+        fPriceController.text = '';
+        fTypeController.text = '';
       }
     }
     return Form(
@@ -148,29 +152,29 @@ class AssetCreationState extends State<AssetCreation> {
       ),
       onPressed: () async {
         for (final AssetType element in itemListAsset) {
-          if (element.typeName == dropdownAssetValue) {
+          if (element.typeName == fTypeController.text) {
             selectedAsset = element.typeId;
           }
         }
         for (final User element in itemListUser) {
-          if (element.fullName == dropdownUserValue) {
+          if (element.fullName == fUserController.text) {
             selectedUser = element.userId;
           }
         }
         if (formKey.currentState!.validate()) {
           await create(
             Asset(
-              tag,
-              name,
+              fTagController.text,
+              fNameController.text,
               selectedAsset,
               selectedUser,
-              manufacture,
+              fManufactureController.text,
               DateTime.now().microsecondsSinceEpoch,
               DateTime.now().microsecondsSinceEpoch,
-              dropdownConditionValue,
+              fConditionController.text,
               image,
               2,
-              price,
+              double.parse(fPriceController.text),
               isAssigned == true ? 1 : 0,
             ),
           );
@@ -183,12 +187,9 @@ class AssetCreationState extends State<AssetCreation> {
   }
 
   Widget _renderTag(BuildContext context) => TextFormField(
-        controller: TextEditingController(text: tag),
+        controller: fTagController,
         validator: (String? tag) =>
             tag != null && tag.isEmpty ? 'The tag cannot be empty' : null,
-        onChanged: (String value) => setState(() {
-          tag = value;
-        }),
         decoration: const InputDecoration(
           labelText: 'Tag',
           border: OutlineInputBorder(),
@@ -199,13 +200,10 @@ class AssetCreationState extends State<AssetCreation> {
       ).padding(bottom: kDefaultPadding, right: kDefaultPadding).expanded();
 
   Widget _renderName(BuildContext context) => TextFormField(
-        controller: TextEditingController(text: name),
+        controller: fNameController,
         validator: (String? name) => name != null && name.isEmpty
             ? 'The asset name cannot be empty'
             : null,
-        onChanged: (String value) => setState(() {
-          name = value;
-        }),
         decoration: const InputDecoration(
           labelText: 'Asset name',
           border: OutlineInputBorder(),
@@ -215,41 +213,37 @@ class AssetCreationState extends State<AssetCreation> {
         ),
       ).padding(bottom: kDefaultPadding).expanded();
 
-  Widget _renderType(BuildContext context) => DropdownButtonFormField<String>(
-        value: dropdownAssetValue,
-        icon: LineIcon.arrowCircleDown(),
-        iconSize: 24,
-        elevation: 16,
-        decoration: const InputDecoration(
-          labelText: 'Category name',
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: kGrayColor),
-          ),
+  Widget _renderType(BuildContext context) {
+    // print(data!.typeId);
+    return DropdownButtonFormField<int>(
+      value: data == null || data!.typeId == 0 ? null : data!.typeId,
+      icon: LineIcon.arrowCircleDown(),
+      iconSize: 24,
+      elevation: 16,
+      decoration: const InputDecoration(
+        labelText: 'Category name',
+        border: OutlineInputBorder(),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: kGrayColor),
         ),
-        style: Theme.of(context).textTheme.bodyText2,
-        onChanged: (String? value) {
-          setState(() {
-            dropdownAssetValue = value!;
-          });
-        },
-        items: itemListAsset
-            .map((AssetType e) => e.typeName)
-            .toList()
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      )
-          .height(51)
-          .padding(bottom: kDefaultPadding, right: kDefaultPadding)
-          .expanded();
+      ),
+      style: Theme.of(context).textTheme.bodyText2,
+      onChanged: (int? id) => selectedAsset = id!,
+      items: itemListAsset.map<DropdownMenuItem<int>>((AssetType as) {
+        return DropdownMenuItem<int>(
+          value: as.typeId,
+          child: Text(as.typeName),
+        );
+      }).toList(),
+    )
+        .height(51)
+        .padding(bottom: kDefaultPadding, right: kDefaultPadding)
+        .expanded();
+  }
 
   Widget _renderCondition(BuildContext context) =>
       DropdownButtonFormField<String>(
-        value: dropdownConditionValue,
+        value: fConditionController.text,
         icon: LineIcon.arrowCircleDown(),
         iconSize: 24,
         elevation: 16,
@@ -263,7 +257,7 @@ class AssetCreationState extends State<AssetCreation> {
         style: Theme.of(context).textTheme.bodyText2,
         onChanged: (String? value) {
           setState(() {
-            dropdownConditionValue = value!;
+            fConditionController.text = value!;
           });
         },
         items: listCondition.map<DropdownMenuItem<String>>((String value) {
@@ -278,10 +272,7 @@ class AssetCreationState extends State<AssetCreation> {
           .expanded();
 
   Widget _renderManufacture(BuildContext context) => TextFormField(
-        controller: TextEditingController(text: manufacture),
-        onChanged: (String value) => setState(() {
-          manufacture = value;
-        }),
+        controller: fManufactureController,
         decoration: const InputDecoration(
           labelText: 'Manufacture',
           border: OutlineInputBorder(),
@@ -292,10 +283,12 @@ class AssetCreationState extends State<AssetCreation> {
       ).padding(bottom: kDefaultPadding).expanded();
 
   Widget _renderPrice(BuildContext context) => TextFormField(
-        controller: TextEditingController(text: price.toString()),
-        onChanged: (String value) => setState(() {
-          price = double.parse(value);
-        }),
+        controller: fPriceController,
+        validator: (String? price) => price != null && price.isEmpty
+            ? 'The asset name cannot be empty'
+            : null,
+        // ignore: always_specify_types
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         decoration: const InputDecoration(
           labelText: 'Price',
           suffix: Text('VNĐ'),
@@ -328,10 +321,10 @@ class AssetCreationState extends State<AssetCreation> {
         label: 'User assigned',
         onChanged: (String? value) {
           setState(() {
-            dropdownUserValue = value!;
+            fUserController.text = value!;
           });
         },
-        selectedItem: dropdownUserValue,
+        selectedItem: fUserController.text,
       ).expanded();
 
   Widget _renderImage(BuildContext context) => Container(
