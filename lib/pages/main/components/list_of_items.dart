@@ -28,8 +28,19 @@ class ListOfItems extends StatefulWidget {
 }
 
 class _ListOfItemsState extends State<ListOfItems> {
+  static late MainScreenProvider _mainScreenProvider;
+
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+
   int _currIndex = 0;
+
+  @override
+  void initState() {
+    _mainScreenProvider =
+        Provider.of<MainScreenProvider>(context, listen: false);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,45 +135,49 @@ class _ListOfItemsState extends State<ListOfItems> {
     setState(() {
       _currIndex = index;
     });
+
+    switch (Provider.of<MainScreenProvider>(context, listen: false).menuItem) {
+      case 'Assets':
+        final List<Asset> tmp = widget.items as List<Asset>;
+        _mainScreenProvider.currentCategory = DetailTypes.asset(
+          Asset(
+            tmp[index].tag,
+            tmp[index].name,
+            tmp[index].typeId,
+            tmp[index].userId,
+            tmp[index].make,
+            tmp[index].created,
+            tmp[index].lastUpdated,
+            tmp[index].condition,
+            tmp[index].urlImage,
+            tmp[index].timesUsed,
+            tmp[index].originalPrice,
+            tmp[index].isAssigned,
+          ),
+        );
+        break;
+      case 'Users':
+        final List<User> tmp = widget.items as List<User>;
+        _mainScreenProvider.currentCategory = DetailTypes.user(
+          User(
+            tmp[index].userId,
+            tmp[index].fullName,
+            tmp[index].dob,
+            tmp[index].gender,
+            tmp[index].address,
+            tmp[index].urlImage,
+          ),
+        );
+        break;
+      default:
+        _mainScreenProvider.currentCategory = const DetailTypes.empty();
+    }
+
     if (Responsive.isMobile(context)) {
       Navigator.push(
         context,
         MaterialPageRoute<PageRoute<Widget>>(
           builder: (_) => const DetailScreen(),
-        ),
-      );
-    }
-    if (Provider.of<MainScreenProvider>(context, listen: false).menuItem ==
-        'Assets') {
-      final List<Asset> tmp = widget.items as List<Asset>;
-      Provider.of<MainScreenProvider>(context, listen: false).currentCategory =
-          DetailTypes.asset(
-        Asset(
-          tmp[index].tag,
-          tmp[index].name,
-          1,
-          1,
-          tmp[index].make,
-          DateTime.now().millisecondsSinceEpoch,
-          DateTime.now().millisecondsSinceEpoch,
-          tmp[index].condition,
-          'asdasd',
-          3,
-          tmp[index].originalPrice,
-          1,
-        ),
-      );
-    } else {
-      final List<User> tmp = widget.items as List<User>;
-      Provider.of<MainScreenProvider>(context, listen: false).currentCategory =
-          DetailTypes.user(
-        User(
-          tmp[index].userId,
-          tmp[index].fullName,
-          tmp[index].dob,
-          tmp[index].gender,
-          tmp[index].address,
-          tmp[index].urlImage,
         ),
       );
     }

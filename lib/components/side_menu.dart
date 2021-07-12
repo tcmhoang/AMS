@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
+import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -30,8 +32,6 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   final ScrollController controller = ScrollController();
-  int _totalAsset = 0;
-  int _totalUser = 0;
 
   @override
   void initState() {
@@ -40,8 +40,6 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
-    _totalAsset = assets.count;
-    _totalUser = users.count;
     return SafeArea(
       bottom: false,
       child: Consumer<MainScreenProvider>(
@@ -156,27 +154,40 @@ class _SideMenuState extends State<SideMenu> {
         ],
       ].toRow(mainAxisAlignment: MainAxisAlignment.center);
 
-  List<SideMenuItem> _renderSideMenuItems(MainScreenProvider val) =>
-      <SideMenuItem>[
-        SideMenuItem(
-          press: () async {
-            val.menuItem = 'Assets';
-            val.listData = await assets.fetchAll();
-          },
-          title: 'Assets',
-          iconSrc: LineIcons.otter,
-          isActive: val.menuItem == 'Assets',
-          itemCount: _totalAsset,
-        ),
-        SideMenuItem(
-          press: () async {
-            val.menuItem = 'Users';
-            val.listData = await users.fetchAll();
-          },
-          title: 'Users',
-          iconSrc: LineIcons.userAstronaut,
-          isActive: val.menuItem == 'Users',
-          itemCount: _totalUser,
-        ),
+  List<Widget> _renderSideMenuItems(MainScreenProvider val) => <Widget>[
+        _renderAssetsBtn(val),
+        _renderUsersBtn(val),
       ];
+
+  Widget _renderUsersBtn(MainScreenProvider val) {
+    return ValueListenableBuilder<int>(
+      valueListenable: users.count,
+      builder: (_, int value, __) => SideMenuItem(
+        press: () {
+          val.menuItem = 'Users';
+          users.fetchAll().then((List<User> value) => val.listData = value);
+        },
+        title: 'Users',
+        iconSrc: LineIcons.userAstronaut,
+        isActive: val.menuItem == 'Users',
+        itemCount: value,
+      ),
+    );
+  }
+
+  Widget _renderAssetsBtn(MainScreenProvider val) {
+    return ValueListenableBuilder<int>(
+      valueListenable: assets.count,
+      builder: (_, int value, __) => SideMenuItem(
+        press: () async {
+          val.menuItem = 'Assets';
+          assets.fetchAll().then((List<Asset> value) => val.listData = value);
+        },
+        title: 'Assets',
+        iconSrc: LineIcons.otter,
+        isActive: val.menuItem == 'Assets',
+        itemCount: value,
+      ),
+    );
+  }
 }

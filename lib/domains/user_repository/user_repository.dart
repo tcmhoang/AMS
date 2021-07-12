@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
+
 import '../../services/injection_pool.dart';
 import 'src/models.dart';
 import 'src/user_model.dart';
 
 late UserModels users = InjectionPool.injector!.get<UserModels>();
 
-int count = 0;
+final ValueNotifier<int> count = ValueNotifier<int>(0);
 
 Future<bool> create(User user) async {
   try {
@@ -40,7 +42,7 @@ Future<bool> delete(int id) async {
 Future<List<User>> fetchAll() async {
   try {
     final List<User> tmp = await users.getAllUser();
-    count = tmp.length;
+    count.value = tmp.length;
     return tmp;
   } catch (_, __) {
     return <User>[];
