@@ -3,10 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:lsv_ams/components/asset_creation.dart';
-import 'package:lsv_ams/components/user_creation.dart';
-import 'package:lsv_ams/pages/detail/detail_screen.dart';
-import 'package:lsv_ams/providers/domain/detail_types.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -15,9 +11,13 @@ import '../config/extensions.dart';
 import '../config/responsive.dart';
 import '../domains/asset_repository/asset_repository.dart' as assets;
 import '../domains/user_repository/user_repository.dart' as users;
+import '../pages/detail/detail_screen.dart';
+import '../providers/domain/detail_types.dart';
 import '../providers/main_screen_provider.dart';
+import 'asset_creation.dart';
 import 'side_menu_item.dart';
 import 'tags.dart';
+import 'user_creation.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -93,7 +93,7 @@ class _SideMenuState extends State<SideMenu> {
           );
         Provider.of<MainScreenProvider>(context, listen: false)
                 .currentCategory =
-            DetailTypes.creation('Add Asset', AssetCreation());
+            const DetailTypes.creation('Add Asset', AssetCreation());
       },
       icon: LineIcon.edit(size: 16),
       label: const Text(

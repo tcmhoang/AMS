@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -10,6 +9,7 @@ import '../../../domains/asset_repository/src/asset_model.dart';
 import '../../../domains/asset_type_repository/asset_type_repository.dart'
     as ats;
 import '../../../domains/asset_type_repository/src/asset_type_model.dart';
+import '../../../domains/user_repository/src/user_model.dart';
 import '../../../providers/main_screen_provider.dart';
 
 class Header extends StatefulWidget {

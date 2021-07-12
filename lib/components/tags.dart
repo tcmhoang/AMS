@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/domains/asset_type_repository/asset_type_repository.dart';
-import 'package:lsv_ams/domains/asset_type_repository/src/asset_type_model.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../config/constansts.dart';
+import '../domains/asset_type_repository/asset_type_repository.dart';
+import '../domains/asset_type_repository/src/asset_type_model.dart';
 import '../providers/main_screen_provider.dart';
 import 'category_creation_modal.dart';
 import 'default_dialog_route.dart';

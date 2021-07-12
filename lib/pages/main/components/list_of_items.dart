@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
-import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
-import 'package:lsv_ams/providers/domain/detail_types.dart';
-import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/side_menu.dart';
 import '../../../config/constansts.dart';
 import '../../../config/responsive.dart';
+import '../../../domains/asset_repository/src/asset_model.dart';
+import '../../../domains/user_repository/src/user_model.dart';
+import '../../../providers/domain/detail_types.dart';
+import '../../../providers/main_screen_provider.dart';
 import '../../detail/detail_screen.dart';
 import 'card_item.dart';
 

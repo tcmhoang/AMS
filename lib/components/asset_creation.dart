@@ -22,10 +22,9 @@ import '../domains/asset_type_repository/src/asset_type_model.dart';
 import '../domains/user_repository/src/user_model.dart';
 import '../domains/user_repository/user_repository.dart' as us;
 
-// ignore: must_be_immutable
 class AssetCreation extends StatefulWidget {
-  AssetCreation({this.data});
-  Asset? data;
+  const AssetCreation({this.data});
+  final Asset? data;
 
   @override
   AssetCreationState createState() => AssetCreationState();

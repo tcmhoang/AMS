@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
+import '../domains/asset_repository/src/asset_model.dart';
 
 import 'domain/detail_types.dart';
 

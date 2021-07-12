@@ -10,14 +10,13 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/config/constansts.dart';
-import 'package:lsv_ams/config/responsive.dart';
-import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
-import 'package:lsv_ams/domains/user_repository/user_repository.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:supercharged/supercharged.dart';
+
+import '../config/constansts.dart';
+import '../config/responsive.dart';
+import '../domains/user_repository/src/user_model.dart';
 
 class UserCreation extends StatefulWidget {
   const UserCreation({Key? key, this.data}) : super(key: key);

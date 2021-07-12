@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../config/constansts.dart';
 import '../../../config/extensions.dart';
 import '../../../domains/asset_repository/src/asset_model.dart';
+import '../../../domains/user_repository/src/user_model.dart';
 
 class CardItem extends StatelessWidget {
   const CardItem({
