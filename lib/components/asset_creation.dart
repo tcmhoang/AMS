@@ -10,6 +10,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/config/currency_formatter.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -17,10 +18,11 @@ import 'package:styled_widget/styled_widget.dart';
 import '../config/constansts.dart';
 import '../domains/asset_repository/asset_repository.dart';
 import '../domains/asset_repository/src/asset_model.dart';
-import '../domains/asset_type_repository/asset_type_repository.dart' as at;
+import '../domains/asset_type_repository/asset_type_repository.dart'
+    as asset_types;
 import '../domains/asset_type_repository/src/asset_type_model.dart';
 import '../domains/user_repository/src/user_model.dart';
-import '../domains/user_repository/user_repository.dart' as us;
+import '../domains/user_repository/user_repository.dart' as users;
 
 class AssetCreation extends StatefulWidget {
   const AssetCreation({this.data});
@@ -31,75 +33,31 @@ class AssetCreation extends StatefulWidget {
 }
 
 class AssetCreationState extends State<AssetCreation> {
-  Future<List<AssetType>> listAsset = at.fetchAll();
-  Future<List<User>> listUser = us.fetchAll();
-  final List<String> listCondition = <String>['New', 'Used', 'Broken'];
-  TextEditingController fTagController = TextEditingController();
-  TextEditingController fNameController = TextEditingController();
-  TextEditingController fManufactureController = TextEditingController();
-  TextEditingController fPriceController = TextEditingController();
-  late bool isAssigned = false;
-  late int selectedAsset = 0;
-  late int selectedUser = 0;
-  TextEditingController fConditionController = TextEditingController();
-  TextEditingController fTypeController = TextEditingController();
-  TextEditingController fUserController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String image = '';
-  List<AssetType> itemListAsset = <AssetType>[];
-  List<User> itemListUser = <User>[];
-  Asset? data;
+  static const List<String> _kConditions = <String>['New', 'Used', 'Broken'];
 
-  @override
-  void initState() {
-    super.initState();
-    listAsset.then((List<AssetType> value) {
-      if (value.isNotEmpty) {
-        itemListAsset = value;
-        setState(() {
-          fTypeController.text = itemListAsset[0].typeName;
-          print(fTypeController.value);
-        });
-      }
-    });
-    listUser.then((List<User> value) {
-      itemListUser = value;
-      setState(() {
-        fUserController.text = itemListUser[0].fullName;
-      });
-    });
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-    fTagController.text = '';
-    fNameController.text = '';
-    fManufactureController.text = '';
-    fConditionController.text = 'New';
-    fPriceController.text = '';
-    // selectedAsset = 1;
-  }
+  final TextEditingController _tagController = TextEditingController();
+  final TextEditingController _fNameController = TextEditingController();
+  final TextEditingController _manufacturerController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _conditionController = TextEditingController();
+  final TextEditingController _typeController = TextEditingController();
+  final TextEditingController _userController = TextEditingController();
+
+  bool _isAssigned = false;
+  int _selectedCategoryId = 0;
+  int _assignedUserId = 0;
+
+  String _image = '';
+
+  Asset? _data;
 
   @override
   Widget build(BuildContext context) {
-    if (widget.data != data) {
-      data = widget.data;
-      if (widget.data != null) {
-        final Asset tmp = widget.data!;
-        fTagController.text = tmp.tag;
-        fNameController.text = tmp.name;
-        fManufactureController.text = tmp.make;
-        fPriceController.text = tmp.originalPrice.toString();
-        fConditionController.text = tmp.condition;
-        fTypeController.text = tmp.typeId.toString();
-      } else {
-        fTagController.text = '';
-        fNameController.text = '';
-        fManufactureController.text = '';
-        fConditionController.text = 'New';
-        fPriceController.text = '';
-        fTypeController.text = '';
-      }
-    }
+    _bindVals();
     return Form(
-      key: formKey,
+      key: _formKey,
       child: <Widget>[
         Text(
           'Add Asset',
@@ -120,7 +78,7 @@ class AssetCreationState extends State<AssetCreation> {
         <Widget>[
           const Text('Is Assigned:'),
           _renderIsAssigned(context),
-          if (isAssigned == true) _renderUserAssigned(context),
+          if (_isAssigned == true) _renderUserAssigned(context),
         ].toRow().height(kDefaultPadding * 3),
         <Widget>[
           _renderImage(context),
@@ -139,6 +97,35 @@ class AssetCreationState extends State<AssetCreation> {
     ).padding(all: 25);
   }
 
+  void _bindVals() {
+    if (widget.data != _data) {
+      _data = widget.data;
+      if (widget.data != null) {
+        final Asset tmp = widget.data!;
+        _tagController.text = tmp.tag;
+        _fNameController.text = tmp.name;
+        _manufacturerController.text = tmp.make;
+        _priceController.text =
+            CurrencyFormatter.formatter.format(tmp.originalPrice);
+        _conditionController.text = tmp.condition;
+        _typeController.text = tmp.typeId.toString();
+        _selectedCategoryId = tmp.typeId;
+        _isAssigned = tmp.isAssigned != 0;
+        _assignedUserId = tmp.userId;
+      } else {
+        _tagController.text = '';
+        _fNameController.text = '';
+        _manufacturerController.text = '';
+        _conditionController.text = 'New';
+        _priceController.text = '';
+        _typeController.text = '';
+        _selectedCategoryId = 0;
+        _isAssigned = false;
+        _assignedUserId = 0;
+      }
+    }
+  }
+
   Widget _renderAddUserBtn(BuildContext context) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
@@ -152,31 +139,21 @@ class AssetCreationState extends State<AssetCreation> {
         primary: kPrimaryColor,
       ),
       onPressed: () async {
-        for (final AssetType element in itemListAsset) {
-          if (element.typeName == fTypeController.text) {
-            selectedAsset = element.typeId;
-          }
-        }
-        for (final User element in itemListUser) {
-          if (element.fullName == fUserController.text) {
-            selectedUser = element.userId;
-          }
-        }
-        if (formKey.currentState!.validate()) {
+        if (_formKey.currentState!.validate()) {
           await create(
             Asset(
-              fTagController.text,
-              fNameController.text,
-              selectedAsset,
-              selectedUser,
-              fManufactureController.text,
+              _tagController.text,
+              _fNameController.text,
+              _selectedCategoryId,
+              _assignedUserId,
+              _manufacturerController.text,
               DateTime.now().microsecondsSinceEpoch,
               DateTime.now().microsecondsSinceEpoch,
-              fConditionController.text,
-              image,
+              _conditionController.text,
+              _image,
               2,
-              double.parse(fPriceController.text),
-              isAssigned == true ? 1 : 0,
+              CurrencyFormatter.getValue(_priceController.text),
+              _isAssigned == true ? 1 : 0,
             ),
           );
         }
@@ -188,7 +165,7 @@ class AssetCreationState extends State<AssetCreation> {
   }
 
   Widget _renderTag(BuildContext context) => TextFormField(
-        controller: fTagController,
+        controller: _tagController,
         validator: (String? tag) =>
             tag != null && tag.isEmpty ? 'The tag cannot be empty' : null,
         decoration: const InputDecoration(
@@ -201,7 +178,7 @@ class AssetCreationState extends State<AssetCreation> {
       ).padding(bottom: kDefaultPadding, right: kDefaultPadding).expanded();
 
   Widget _renderName(BuildContext context) => TextFormField(
-        controller: fNameController,
+        controller: _fNameController,
         validator: (String? name) => name != null && name.isEmpty
             ? 'The asset name cannot be empty'
             : null,
@@ -215,36 +192,47 @@ class AssetCreationState extends State<AssetCreation> {
       ).padding(bottom: kDefaultPadding).expanded();
 
   Widget _renderType(BuildContext context) {
-    // print(data!.typeId);
-    return DropdownButtonFormField<int>(
-      value: data == null || data!.typeId == 0 ? null : data!.typeId,
-      icon: LineIcon.arrowCircleDown(),
-      iconSize: 24,
-      elevation: 16,
-      decoration: const InputDecoration(
-        labelText: 'Category name',
-        border: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 2, color: kGrayColor),
-        ),
-      ),
-      style: Theme.of(context).textTheme.bodyText2,
-      onChanged: (int? id) => selectedAsset = id!,
-      items: itemListAsset.map<DropdownMenuItem<int>>((AssetType as) {
-        return DropdownMenuItem<int>(
-          value: as.typeId,
-          child: Text(as.typeName),
-        );
-      }).toList(),
-    )
-        .height(51)
-        .padding(bottom: kDefaultPadding, right: kDefaultPadding)
-        .expanded();
+    return FutureBuilder<List<AssetType>>(
+      future: asset_types.fetchAll(),
+      builder: (_, AsyncSnapshot<List<AssetType>> snapshot) {
+        if (snapshot.hasData) {
+          final List<AssetType> data = snapshot.data!;
+          return DropdownButtonFormField<int>(
+            value: _data == null || _data!.typeId == 0 ? null : _data!.typeId,
+            icon: LineIcon.arrowCircleDown(),
+            iconSize: 24,
+            elevation: 16,
+            decoration: const InputDecoration(
+              labelText: 'Category name',
+              border: OutlineInputBorder(),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: kGrayColor),
+              ),
+            ),
+            style: Theme.of(context).textTheme.bodyText2,
+            onChanged: (int? id) => _selectedCategoryId = id!,
+            items: data
+                .map<DropdownMenuItem<int>>(
+                  (AssetType as) => DropdownMenuItem<int>(
+                    value: as.typeId,
+                    child: Text(as.typeName),
+                  ),
+                )
+                .toList(),
+          )
+              .height(51)
+              .padding(bottom: kDefaultPadding, right: kDefaultPadding)
+              .expanded();
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 
   Widget _renderCondition(BuildContext context) =>
       DropdownButtonFormField<String>(
-        value: fConditionController.text,
+        value: _conditionController.text,
         icon: LineIcon.arrowCircleDown(),
         iconSize: 24,
         elevation: 16,
@@ -258,10 +246,10 @@ class AssetCreationState extends State<AssetCreation> {
         style: Theme.of(context).textTheme.bodyText2,
         onChanged: (String? value) {
           setState(() {
-            fConditionController.text = value!;
+            _conditionController.text = value!;
           });
         },
-        items: listCondition.map<DropdownMenuItem<String>>((String value) {
+        items: _kConditions.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),
@@ -273,7 +261,7 @@ class AssetCreationState extends State<AssetCreation> {
           .expanded();
 
   Widget _renderManufacture(BuildContext context) => TextFormField(
-        controller: fManufactureController,
+        controller: _manufacturerController,
         decoration: const InputDecoration(
           labelText: 'Manufacture',
           border: OutlineInputBorder(),
@@ -284,12 +272,11 @@ class AssetCreationState extends State<AssetCreation> {
       ).padding(bottom: kDefaultPadding).expanded();
 
   Widget _renderPrice(BuildContext context) => TextFormField(
-        controller: fPriceController,
+        controller: _priceController,
         validator: (String? price) => price != null && price.isEmpty
             ? 'The asset name cannot be empty'
             : null,
-        // ignore: always_specify_types
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: <TextInputFormatter>[CurrencyFormatter()],
         decoration: const InputDecoration(
           labelText: 'Price',
           suffix: Text('VNĐ'),
@@ -302,37 +289,46 @@ class AssetCreationState extends State<AssetCreation> {
 
   Widget _renderIsAssigned(BuildContext context) => Checkbox(
         checkColor: Colors.white,
-        value: isAssigned,
+        value: _isAssigned,
         onChanged: (bool? value) {
           setState(() {
-            isAssigned = value!;
+            _isAssigned = value!;
           });
         },
       ).padding(right: kDefaultPadding);
 
-  Widget _renderUserAssigned(BuildContext context) => DropdownSearch<String>(
-        dropDownButton: RotatedBox(
-          quarterTurns: -1,
-          child: LineIcon.search(),
-        ),
-        mode: Mode.MENU,
-        showSearchBox: true,
-        showSelectedItem: true,
-        items: itemListUser.map((User e) => e.fullName).toList(),
-        label: 'User assigned',
-        onChanged: (String? value) {
-          setState(() {
-            fUserController.text = value!;
-          });
+  Widget _renderUserAssigned(BuildContext context) => FutureBuilder<List<User>>(
+        future: users.fetchAll(),
+        builder: (_, AsyncSnapshot<List<User>> snapshot) {
+          if (snapshot.hasData) {
+            final List<User> data = snapshot.data!;
+            return DropdownSearch<String>(
+              dropDownButton: RotatedBox(
+                quarterTurns: -1,
+                child: LineIcon.search(),
+              ),
+              mode: Mode.MENU,
+              showSearchBox: true,
+              showSelectedItem: true,
+              items: data.map((User e) => e.fullName).toList(),
+              label: 'User assigned',
+              onChanged: (String? value) {
+                setState(() {
+                  _userController.text = value!;
+                });
+              },
+              selectedItem: _userController.text,
+            ).expanded();
+          } else
+            return const CircularProgressIndicator();
         },
-        selectedItem: fUserController.text,
-      ).expanded();
+      );
 
   Widget _renderImage(BuildContext context) => Container(
-        child: image.isEmpty
+        child: _image.isEmpty
             ? LineIcon.plus()
             : Image.file(
-                File(image),
+                File(_image),
               ),
       ).border(all: 1).gestures(
         onTap: () async {
@@ -352,7 +348,7 @@ class AssetCreationState extends State<AssetCreation> {
             await img.create();
             await img.writeAsBytes(bdata);
             setState(() {
-              image = img.path;
+              _image = img.path;
             });
           }
         },

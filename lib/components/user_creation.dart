@@ -42,24 +42,7 @@ class UserCreationState extends State<UserCreation> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.data != _data) {
-      _data = widget.data;
-      if (_data != null) {
-        final User tmp = widget.data!;
-        _fnameController.text = tmp.fullName;
-        _dobController.text = _kDateFormatter
-            .format(DateTime.fromMillisecondsSinceEpoch(tmp.dob));
-        _addrController.text = tmp.address;
-        _avatar = tmp.urlImage;
-        _gender = tmp.gender == 0 ? Gender.MALE : Gender.FEMALE;
-      } else {
-        _fnameController.text = '';
-        _dobController.text = '';
-        _addrController.text = '';
-        _avatar = '';
-        _gender = Gender.MALE;
-      }
-    }
+    _bindVals();
     return Form(
       key: _formKey,
       child: <Widget>[
@@ -85,6 +68,27 @@ class UserCreationState extends State<UserCreation> {
           .padding(all: 6)
           .width(double.infinity),
     );
+  }
+
+  void _bindVals() {
+    if (widget.data != _data) {
+      _data = widget.data;
+      if (_data != null) {
+        final User tmp = widget.data!;
+        _fnameController.text = tmp.fullName;
+        _dobController.text = _kDateFormatter
+            .format(DateTime.fromMillisecondsSinceEpoch(tmp.dob));
+        _addrController.text = tmp.address;
+        _avatar = tmp.urlImage;
+        _gender = tmp.gender == 0 ? Gender.MALE : Gender.FEMALE;
+      } else {
+        _fnameController.text = '';
+        _dobController.text = '';
+        _addrController.text = '';
+        _avatar = '';
+        _gender = Gender.MALE;
+      }
+    }
   }
 
   Widget _renderAddUserBtn(BuildContext context) {
