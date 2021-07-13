@@ -18,28 +18,17 @@ import 'card_item.dart';
 class ListOfItems extends StatefulWidget {
   const ListOfItems({
     Key? key,
-    required this.items,
   }) : super(key: key);
-
-  final List<Object> items;
 
   @override
   State<ListOfItems> createState() => _ListOfItemsState();
 }
 
 class _ListOfItemsState extends State<ListOfItems> {
-  static late MainScreenProvider _mainScreenProvider;
-
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   int _currIndex = 0;
-
-  @override
-  void initState() {
-    _mainScreenProvider =
-        Provider.of<MainScreenProvider>(context, listen: false);
-    super.initState();
-  }
+  late List<Object> _items;
 
   @override
   Widget build(BuildContext context) {
@@ -79,14 +68,28 @@ class _ListOfItemsState extends State<ListOfItems> {
   }
 
   Widget _renderListItems(BuildContext context) {
-    return ListView.builder(
-      itemCount: widget.items.length,
-      itemBuilder: (_, int index) => CardItem(
-        isActive: !Responsive.isMobile(context) && index == _currIndex,
-        item: widget.items[index],
-        press: () => _handleClick(context, index),
+    return Consumer<MainScreenProvider>(
+      builder: (_, MainScreenProvider provider, __) =>
+          FutureProvider<List<Object>>.value(
+        initialData: const <Object>[],
+        value: provider.listData,
+        updateShouldNotify: (List<Object> prev, List<Object> curr) =>
+            prev.length != curr.length || prev.runtimeType != curr.runtimeType,
+        child: Consumer<List<Object>>(
+          builder: (_, List<Object> val, __) {
+            _items = val;
+            return ListView.builder(
+              itemCount: val.length,
+              itemBuilder: (_, int index) => CardItem(
+                isActive: !Responsive.isMobile(context) && index == _currIndex,
+                item: val[index],
+                press: () => _handleClick(context, index, provider),
+              ),
+            ).expanded();
+          },
+        ),
       ),
-    ).expanded();
+    );
   }
 
   Widget _renderSearchIdicator() {
@@ -131,15 +134,15 @@ class _ListOfItemsState extends State<ListOfItems> {
     ).expanded();
   }
 
-  void _handleClick(BuildContext context, int index) {
+  void _handleClick(BuildContext context, int index, MainScreenProvider data) {
     setState(() {
       _currIndex = index;
     });
 
     switch (Provider.of<MainScreenProvider>(context, listen: false).menuItem) {
       case 'Assets':
-        final List<Asset> tmp = widget.items as List<Asset>;
-        _mainScreenProvider.currentCategory = DetailTypes.asset(
+        final List<Asset> tmp = _items as List<Asset>;
+        data.currentCategory = DetailTypes.asset(
           Asset(
             tmp[index].tag,
             tmp[index].name,
@@ -157,8 +160,8 @@ class _ListOfItemsState extends State<ListOfItems> {
         );
         break;
       case 'Users':
-        final List<User> tmp = widget.items as List<User>;
-        _mainScreenProvider.currentCategory = DetailTypes.user(
+        final List<User> tmp = _items as List<User>;
+        data.currentCategory = DetailTypes.user(
           User(
             tmp[index].userId,
             tmp[index].fullName,
@@ -170,7 +173,7 @@ class _ListOfItemsState extends State<ListOfItems> {
         );
         break;
       default:
-        _mainScreenProvider.currentCategory = const DetailTypes.empty();
+        data.currentCategory = const DetailTypes.empty();
     }
 
     if (Responsive.isMobile(context)) {

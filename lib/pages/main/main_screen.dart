@@ -24,16 +24,12 @@ class MainScreen extends StatelessWidget {
   }
 
   ListOfItems _renderMobile(MainScreenProvider provider) {
-    return ListOfItems(
-      items: provider.listData,
-    );
+    return const ListOfItems();
   }
 
   Widget _renderTablet(MainScreenProvider provider) {
     return <Widget>[
-      ListOfItems(
-        items: provider.listData,
-      ).expanded(flex: 6),
+      const ListOfItems().expanded(flex: 6),
       const DetailScreen().expanded(flex: 9)
     ].toRow();
   }
@@ -41,9 +37,7 @@ class MainScreen extends StatelessWidget {
   Widget _renderDesktop(Size _size, MainScreenProvider provider) {
     return <Widget>[
       const SideMenu().expanded(flex: _size.width > 1340 ? 2 : 4),
-      ListOfItems(
-        items: provider.listData,
-      ).expanded(flex: _size.width > 1340 ? 3 : 5),
+      const ListOfItems().expanded(flex: _size.width > 1340 ? 3 : 5),
       const DetailScreen().expanded(flex: _size.width > 1340 ? 8 : 10),
     ].toRow();
   }

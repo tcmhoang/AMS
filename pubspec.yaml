@@ -55,6 +55,7 @@ dependencies:
   file_selector: ^0.8.2
   flash: ^2.0.1
   dropdown_search: ^0.6.3
+  flutter_luban: ^0.1.13
 
 dev_dependencies:
   flutter_test:

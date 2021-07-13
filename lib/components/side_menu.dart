@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:lsv_ams/domains/asset_repository/src/asset_model.dart';
-import 'package:lsv_ams/domains/user_repository/src/user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -165,7 +163,7 @@ class _SideMenuState extends State<SideMenu> {
       builder: (_, int value, __) => SideMenuItem(
         press: () {
           val.menuItem = 'Users';
-          users.fetchAll().then((List<User> value) => val.listData = value);
+          val.listData = users.fetchAll();
         },
         title: 'Users',
         iconSrc: LineIcons.userAstronaut,
@@ -181,7 +179,7 @@ class _SideMenuState extends State<SideMenu> {
       builder: (_, int value, __) => SideMenuItem(
         press: () async {
           val.menuItem = 'Assets';
-          assets.fetchAll().then((List<Asset> value) => val.listData = value);
+          val.listData = assets.fetchAll();
         },
         title: 'Assets',
         iconSrc: LineIcons.otter,

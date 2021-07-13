@@ -33,8 +33,7 @@ class _DetailScreenState extends State<DetailScreen> {
             orElse: () => const Divider(thickness: 1),
           ),
           val.currentCategory.maybeWhen(
-            creation: (_, Widget content) =>
-                content.padding(all: kDefaultPadding),
+            creation: (_, Widget content) => content,
             asset: (Asset file) {
               return AssetCreation(data: file);
             },
@@ -43,7 +42,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
             orElse: () => Container(),
           ),
-        ].toColumn().scrollable(
+        ].toColumn().padding(all: kDefaultPadding).scrollable(
               controller: controller,
             ),
       ),
