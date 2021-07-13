@@ -1,11 +1,19 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lsv_ams/domains/asset_repository/asset_repository.dart';
 
+import '../domains/asset_repository/asset_repository.dart';
+import '../domains/asset_repository/src/asset_model.dart';
 import 'domain/detail_types.dart';
 
 class MainScreenProvider with ChangeNotifier {
   MainScreenProvider() {
     _listData = fetchAll();
+    _listData.then<void>(
+      (List<Object> value) {
+        if (value.isNotEmpty) {
+          currentCategory = DetailTypes.asset(value[0] as Asset);
+        }
+      },
+    );
   }
 
   String _currentSelectSideMenu = 'Assets';

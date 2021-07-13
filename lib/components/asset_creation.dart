@@ -54,11 +54,13 @@ class AssetCreationState extends State<AssetCreation> {
   void initState() {
     super.initState();
     listAsset.then((List<AssetType> value) {
-      itemListAsset = value;
-      setState(() {
-        fTypeController.text = itemListAsset[0].typeName;
-        print(fTypeController.value);
-      });
+      if (value.isNotEmpty) {
+        itemListAsset = value;
+        setState(() {
+          fTypeController.text = itemListAsset[0].typeName;
+          print(fTypeController.value);
+        });
+      }
     });
     listUser.then((List<User> value) {
       itemListUser = value;

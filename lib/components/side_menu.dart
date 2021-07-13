@@ -10,6 +10,8 @@ import '../config/constansts.dart';
 import '../config/extensions.dart';
 import '../config/responsive.dart';
 import '../domains/asset_repository/asset_repository.dart' as assets;
+import '../domains/asset_repository/src/asset_model.dart';
+import '../domains/user_repository/src/user_model.dart';
 import '../domains/user_repository/user_repository.dart' as users;
 import '../pages/detail/detail_screen.dart';
 import '../providers/domain/detail_types.dart';
@@ -164,6 +166,13 @@ class _SideMenuState extends State<SideMenu> {
         press: () {
           val.menuItem = 'Users';
           val.listData = users.fetchAll();
+          val.listData.then<void>(
+            (List<Object> value) {
+              if (value.isNotEmpty) {
+                val.currentCategory = DetailTypes.user(value[0] as User);
+              }
+            },
+          );
         },
         title: 'Users',
         iconSrc: LineIcons.userAstronaut,
@@ -180,6 +189,13 @@ class _SideMenuState extends State<SideMenu> {
         press: () async {
           val.menuItem = 'Assets';
           val.listData = assets.fetchAll();
+          val.listData.then<void>(
+            (List<Object> value) {
+              if (value.isNotEmpty) {
+                val.currentCategory = DetailTypes.asset(value[0] as Asset);
+              }
+            },
+          );
         },
         title: 'Assets',
         iconSrc: LineIcons.otter,

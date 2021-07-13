@@ -28,7 +28,7 @@ class _ListOfItemsState extends State<ListOfItems> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   int _currIndex = 0;
-  late List<Object> _items;
+  List<Object> _items = <Object>[];
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +73,14 @@ class _ListOfItemsState extends State<ListOfItems> {
           FutureProvider<List<Object>>.value(
         initialData: const <Object>[],
         value: provider.listData,
-        updateShouldNotify: (List<Object> prev, List<Object> curr) =>
-            prev.length != curr.length || prev.runtimeType != curr.runtimeType,
+        updateShouldNotify: _isDataChanged,
         child: Consumer<List<Object>>(
           builder: (_, List<Object> val, __) {
-            _items = val;
+            if (_isDataChanged(_items, val)) {
+              _currIndex = 0;
+              _items = val;
+            }
+
             return ListView.builder(
               itemCount: val.length,
               itemBuilder: (_, int index) => CardItem(
@@ -91,6 +94,9 @@ class _ListOfItemsState extends State<ListOfItems> {
       ),
     );
   }
+
+  bool _isDataChanged(List<Object> prev, List<Object> curr) =>
+      prev.length != curr.length || prev.runtimeType != curr.runtimeType;
 
   Widget _renderSearchIdicator() {
     return <Widget>[
@@ -139,10 +145,23 @@ class _ListOfItemsState extends State<ListOfItems> {
       _currIndex = index;
     });
 
-    switch (Provider.of<MainScreenProvider>(context, listen: false).menuItem) {
+    _changeDetails(data, index);
+
+    if (Responsive.isMobile(context)) {
+      Navigator.push(
+        context,
+        MaterialPageRoute<PageRoute<Widget>>(
+          builder: (_) => const DetailScreen(),
+        ),
+      );
+    }
+  }
+
+  void _changeDetails(MainScreenProvider provider, int index) {
+    switch (provider.menuItem) {
       case 'Assets':
         final List<Asset> tmp = _items as List<Asset>;
-        data.currentCategory = DetailTypes.asset(
+        provider.currentCategory = DetailTypes.asset(
           Asset(
             tmp[index].tag,
             tmp[index].name,
@@ -161,7 +180,7 @@ class _ListOfItemsState extends State<ListOfItems> {
         break;
       case 'Users':
         final List<User> tmp = _items as List<User>;
-        data.currentCategory = DetailTypes.user(
+        provider.currentCategory = DetailTypes.user(
           User(
             tmp[index].userId,
             tmp[index].fullName,
@@ -173,16 +192,7 @@ class _ListOfItemsState extends State<ListOfItems> {
         );
         break;
       default:
-        data.currentCategory = const DetailTypes.empty();
-    }
-
-    if (Responsive.isMobile(context)) {
-      Navigator.push(
-        context,
-        MaterialPageRoute<PageRoute<Widget>>(
-          builder: (_) => const DetailScreen(),
-        ),
-      );
+        provider.currentCategory = const DetailTypes.empty();
     }
   }
 }
