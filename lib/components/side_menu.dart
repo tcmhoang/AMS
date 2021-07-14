@@ -82,6 +82,9 @@ class _SideMenuState extends State<SideMenu> {
         primary: kPrimaryColor,
       ),
       onPressed: () {
+        Provider.of<MainScreenProvider>(context, listen: false)
+                .currentCategory =
+            const DetailTypes.creation('Create a new asset', AssetDetails());
         if (Responsive.isMobile(context))
           Navigator.push(
             context,
@@ -89,9 +92,6 @@ class _SideMenuState extends State<SideMenu> {
               builder: (BuildContext context) => const DetailScreen(),
             ),
           );
-        Provider.of<MainScreenProvider>(context, listen: false)
-                .currentCategory =
-            const DetailTypes.creation('Add Asset', AssetDetails());
       },
       icon: LineIcon.edit(size: 16),
       label: const Text(

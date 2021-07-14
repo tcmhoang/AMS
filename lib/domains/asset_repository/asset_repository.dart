@@ -60,13 +60,21 @@ Future<Asset?> get(String tag) async {
   }
 }
 
-Future<List<Asset>> fetchByType(String typeName) async {
+Future<List<Asset>> findByType(String typeName) async {
   final AssetType tmp = await types.findByTitle(typeName);
   try {
     if (tmp != null) {
-      return await assets.fetchByType(tmp.typeId);
+      return await assets.findByType(tmp.typeId);
     } else
       return <Asset>[];
+  } catch (_, __) {
+    return <Asset>[];
+  }
+}
+
+Future<List<Asset>> findByUser(int userId) async {
+  try {
+    return await assets.findByUserId(userId);
   } catch (_, __) {
     return <Asset>[];
   }

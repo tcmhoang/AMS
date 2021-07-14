@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/config/responsive.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -59,10 +61,11 @@ class AssetDetailsState extends State<AssetDetails> {
     return Form(
       key: _formKey,
       child: <Widget>[
-        Text(
-          'Add Asset',
-          style: Theme.of(context).textTheme.headline5,
-        ).alignment(Alignment.centerLeft),
+        if (Responsive.isMobile(context) && _data == null)
+          Text(
+            'Create a new asset',
+            style: Theme.of(context).textTheme.headline5,
+          ).alignment(Alignment.centerLeft),
         <Widget>[
           _renderTag(context),
           _renderName(context),
@@ -76,16 +79,11 @@ class AssetDetailsState extends State<AssetDetails> {
           _renderPrice(context),
         ].toRow(),
         <Widget>[
-          const Text('Is Assigned:'),
+          const Text('Is Assigned:').padding(all: kDefaultPadding),
           _renderIsAssigned(context),
           if (_isAssigned == true) _renderUserAssigned(context),
-        ].toRow().height(kDefaultPadding * 3),
-        <Widget>[
-          _renderImage(context),
-        ].toRow().height(kDefaultPadding * 8),
-        const SizedBox(
-          height: 60,
-        ),
+        ].toRow(),
+        _renderImage(context).padding(all: kDefaultPadding),
         _renderAddUserBtn(context),
       ]
           .toColumn(
@@ -145,13 +143,13 @@ class AssetDetailsState extends State<AssetDetails> {
               _tagController.text,
               _fNameController.text,
               _selectedCategoryId,
-              _assignedUserId,
+              _isAssigned == true ? _assignedUserId : 0,
               _manufacturerController.text,
               DateTime.now().microsecondsSinceEpoch,
               DateTime.now().microsecondsSinceEpoch,
               _conditionController.text,
               _image,
-              2,
+              1,
               CurrencyFormatter.getValue(_priceController.text),
               _isAssigned == true ? 1 : 0,
             ),
@@ -236,7 +234,9 @@ class AssetDetailsState extends State<AssetDetails> {
 
   Widget _renderCondition(BuildContext context) =>
       DropdownButtonFormField<String>(
-        value: _conditionController.text,
+        value: _conditionController.text.isEmpty
+            ? null
+            : _conditionController.text,
         icon: LineIcon.arrowCircleDown(),
         iconSize: 24,
         elevation: 16,
@@ -314,14 +314,27 @@ class AssetDetailsState extends State<AssetDetails> {
               mode: Mode.MENU,
               showSearchBox: true,
               showSelectedItem: true,
-              items: data.map((User e) => e.fullName).toList(),
+              dropdownSearchDecoration: const InputDecoration(
+                labelText: 'Category name',
+                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 2, color: kGrayColor),
+                ),
+                contentPadding: EdgeInsets.all(10),
+              ),
+              items:
+                  data.map((User e) => '${e.userId}    ${e.fullName}').toList(),
               label: 'User assigned',
               onChanged: (String? value) {
                 setState(() {
                   _userController.text = value!;
+                  _assignedUserId =
+                      int.parse(_userController.text.split(RegExp(r'\s+'))[0]);
                 });
               },
-              selectedItem: _userController.text,
+              selectedItem: _assignedUserId == 0
+                  ? null
+                  : '$_assignedUserId    ${data.firstWhere((User element) => element.userId == _assignedUserId).fullName}',
             ).expanded();
           } else
             return const CircularProgressIndicator();
@@ -330,11 +343,25 @@ class AssetDetailsState extends State<AssetDetails> {
 
   Widget _renderImage(BuildContext context) => Container(
         child: _image.isEmpty
-            ? LineIcon.plus()
+            ? <Widget>[
+                LineIcon.plusCircle(
+                  size: 24,
+                  color: kPrimaryColor,
+                ),
+                Text(
+                  'Add an image',
+                  style: GoogleFonts.poppins(),
+                ).padding(horizontal: kDefaultPadding)
+              ]
+                .toRow(mainAxisSize: MainAxisSize.min)
+                .alignment(Alignment.centerLeft)
             : Image.file(
                 File(_image),
-              ),
-      ).border(all: 1).gestures(
+              ).clipRRect(all: 20).constrained(
+                  maxHeight: kMinScreenSize,
+                  maxWidth: kMinScreenSize,
+                ),
+      ).gestures(
         onTap: () async {
           final XTypeGroup typeGroup =
               XTypeGroup(label: 'images', extensions: <String>['jpg', 'png']);

@@ -53,7 +53,7 @@ class AssetModels {
     }
   }
 
-  Future<List<Asset>> fetchByType(int type) async {
+  Future<List<Asset>> findByType(int type) async {
     final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
       _kTableName,
       where: 'typeId = ?',
@@ -64,6 +64,20 @@ class AssetModels {
       return maps.map((Map<String, Object?> e) => Asset.fromJson(e)).toList();
     } else {
       throw Exception('$type not found');
+    }
+  }
+
+  Future<List<Asset>> findByUserId(int userId) async {
+    final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
+      _kTableName,
+      where: 'userId = ?',
+      whereArgs: <int>[userId],
+    );
+
+    if (maps.isNotEmpty) {
+      return maps.map((Map<String, Object?> e) => Asset.fromJson(e)).toList();
+    } else {
+      throw Exception('$userId User not found');
     }
   }
 }

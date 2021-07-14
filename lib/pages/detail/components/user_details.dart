@@ -46,7 +46,7 @@ class UserDetailsState extends State<UserDetails> {
     return Form(
       key: _formKey,
       child: <Widget>[
-        if (Responsive.isMobile(context))
+        if (Responsive.isMobile(context) && _data == null)
           Text(
             'Create a new user',
             style: Theme.of(context).textTheme.headline5,

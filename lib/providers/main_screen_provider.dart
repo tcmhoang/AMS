@@ -23,18 +23,26 @@ class MainScreenProvider with ChangeNotifier {
   };
 
   String _currentSelectSideMenu = 'Assets';
-  String get menuItem => _currentSelectSideMenu;
+  DetailTypes _currentCat = const DetailTypes.empty();
+  int _currIdxList = 0;
+
+  int get currentIndexList => _currIdxList;
+  set currentIndexList(int newVal) {
+    _currIdxList = newVal;
+    notifyListeners();
+  }
 
   late Future<List<Object>> _listData;
-  DetailTypes _currentCat = const DetailTypes.empty();
 
+  String get menuItem => _currentSelectSideMenu;
   set menuItem(String val) {
     _currentSelectSideMenu = val;
     if (kActions.containsKey(val)) {
       listData = kActions[val]!;
     } else {
-      listData = assets.fetchByType(val);
+      listData = assets.findByType(val);
     }
+    currentIndexList = 0;
     notifyListeners();
   }
 

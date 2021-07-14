@@ -27,7 +27,6 @@ class ListOfItems extends StatefulWidget {
 class _ListOfItemsState extends State<ListOfItems> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
-  int _currIndex = 0;
   List<Object> _items = <Object>[];
 
   @override
@@ -77,14 +76,14 @@ class _ListOfItemsState extends State<ListOfItems> {
         child: Consumer<List<Object>>(
           builder: (_, List<Object> val, __) {
             if (_isDataChanged(_items, val)) {
-              _currIndex = 0;
               _items = val;
             }
 
             return ListView.builder(
               itemCount: val.length,
               itemBuilder: (_, int index) => CardItem(
-                isActive: !Responsive.isMobile(context) && index == _currIndex,
+                isActive: !Responsive.isMobile(context) &&
+                    index == provider.currentIndexList,
                 item: val[index],
                 press: () => _handleClick(context, index, provider),
               ),
@@ -142,7 +141,7 @@ class _ListOfItemsState extends State<ListOfItems> {
 
   void _handleClick(BuildContext context, int index, MainScreenProvider data) {
     setState(() {
-      _currIndex = index;
+      data.currentIndexList = index;
     });
 
     _changeDetails(data, index);
