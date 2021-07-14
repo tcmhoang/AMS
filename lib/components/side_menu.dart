@@ -13,13 +13,13 @@ import '../domains/asset_repository/asset_repository.dart' as assets;
 import '../domains/asset_repository/src/asset_model.dart';
 import '../domains/user_repository/src/user_model.dart';
 import '../domains/user_repository/user_repository.dart' as users;
+import '../pages/detail/components/asset_details.dart';
+import '../pages/detail/components/user_details.dart';
 import '../pages/detail/detail_screen.dart';
 import '../providers/domain/detail_types.dart';
 import '../providers/main_screen_provider.dart';
-import 'asset_creation.dart';
 import 'side_menu_item.dart';
 import 'tags.dart';
-import 'user_creation.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -91,7 +91,7 @@ class _SideMenuState extends State<SideMenu> {
           );
         Provider.of<MainScreenProvider>(context, listen: false)
                 .currentCategory =
-            const DetailTypes.creation('Add Asset', AssetCreation());
+            const DetailTypes.creation('Add Asset', AssetDetails());
       },
       icon: LineIcon.edit(size: 16),
       label: const Text(
@@ -120,7 +120,7 @@ class _SideMenuState extends State<SideMenu> {
       onPressed: () {
         Provider.of<MainScreenProvider>(context, listen: false)
                 .currentCategory =
-            const DetailTypes.creation('Create a new user', UserCreation());
+            const DetailTypes.creation('Create a new user', UserDetails());
         if (Responsive.isMobile(context))
           Navigator.push(
             context,
@@ -165,7 +165,6 @@ class _SideMenuState extends State<SideMenu> {
       builder: (_, int value, __) => SideMenuItem(
         press: () {
           val.menuItem = 'Users';
-          val.listData = users.fetchAll();
           val.listData.then<void>(
             (List<Object> value) {
               if (value.isNotEmpty) {
@@ -188,7 +187,6 @@ class _SideMenuState extends State<SideMenu> {
       builder: (_, int value, __) => SideMenuItem(
         press: () async {
           val.menuItem = 'Assets';
-          val.listData = assets.fetchAll();
           val.listData.then<void>(
             (List<Object> value) {
               if (value.isNotEmpty) {

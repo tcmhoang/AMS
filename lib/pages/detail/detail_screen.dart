@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../../components/asset_creation.dart';
-import '../../components/user_creation.dart';
 import '../../config/constansts.dart';
 import '../../domains/asset_repository/src/asset_model.dart';
 import '../../domains/user_repository/src/user_model.dart';
 import '../../providers/main_screen_provider.dart';
+import 'components/asset_details.dart';
 import 'components/header.dart';
+import 'components/user_details.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({
@@ -35,9 +35,9 @@ class _DetailScreenState extends State<DetailScreen> {
           val.currentCategory.maybeWhen(
             creation: (_, Widget content) => content,
             asset: (Asset file) {
-              return AssetCreation(data: file);
+              return AssetDetails(data: file);
             },
-            user: (User user) => UserCreation(
+            user: (User user) => UserDetails(
               data: user,
             ),
             orElse: () => Container(),

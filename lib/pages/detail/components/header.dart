@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:supercharged/supercharged.dart';
 
 import '../../../config/constansts.dart';
 import '../../../config/responsive.dart';
@@ -52,13 +53,13 @@ class _HeaderState extends State<Header> {
             if (snapshot.hasData) {
               final AssetType tmp = snapshot.data!;
 
-              return ListTile(
-                trailing: LineIcon.bookmarkAlt(size: 24),
-                title: Text(
+              return <Widget>[
+                Text(
                   tmp.typeName,
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
-              ).flexible();
+                LineIcon.bookmarkAlt(size: 24, color: tmp.color.toColor()),
+              ].toRow(mainAxisAlignment: MainAxisAlignment.end).flexible();
             } else {
               return LineIcon.bookmarkAlt(size: 24);
             }

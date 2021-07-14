@@ -158,8 +158,8 @@ class _ListOfItemsState extends State<ListOfItems> {
   }
 
   void _changeDetails(MainScreenProvider provider, int index) {
-    switch (provider.menuItem) {
-      case 'Assets':
+    switch (_items.runtimeType.toString()) {
+      case 'List<Asset>':
         final List<Asset> tmp = _items as List<Asset>;
         provider.currentCategory = DetailTypes.asset(
           Asset(
@@ -178,7 +178,7 @@ class _ListOfItemsState extends State<ListOfItems> {
           ),
         );
         break;
-      case 'Users':
+      case 'List<User>':
         final List<User> tmp = _items as List<User>;
         provider.currentCategory = DetailTypes.user(
           User(

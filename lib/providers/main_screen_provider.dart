@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
-import '../domains/asset_repository/asset_repository.dart';
+import '../domains/asset_repository/asset_repository.dart' as assets;
 import '../domains/asset_repository/src/asset_model.dart';
+import '../domains/user_repository/user_repository.dart' as users;
 import 'domain/detail_types.dart';
 
 class MainScreenProvider with ChangeNotifier {
   MainScreenProvider() {
-    _listData = fetchAll();
+    _listData = assets.fetchAll();
     _listData.then<void>(
       (List<Object> value) {
         if (value.isNotEmpty) {
@@ -15,6 +16,11 @@ class MainScreenProvider with ChangeNotifier {
       },
     );
   }
+  static final Map<String, Future<List<Object>>> kActions =
+      <String, Future<List<Object>>>{
+    'Users': users.fetchAll(),
+    'Assets': assets.fetchAll()
+  };
 
   String _currentSelectSideMenu = 'Assets';
   String get menuItem => _currentSelectSideMenu;
@@ -24,6 +30,11 @@ class MainScreenProvider with ChangeNotifier {
 
   set menuItem(String val) {
     _currentSelectSideMenu = val;
+    if (kActions.containsKey(val)) {
+      listData = kActions[val]!;
+    } else {
+      listData = assets.fetchByType(val);
+    }
     notifyListeners();
   }
 

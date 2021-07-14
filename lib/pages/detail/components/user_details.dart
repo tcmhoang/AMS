@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:file_selector/file_selector.dart';
-import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -14,19 +13,20 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../config/constansts.dart';
-import '../config/responsive.dart';
-import '../domains/user_repository/src/user_model.dart';
+import '../../../components/flash.dart';
+import '../../../config/constansts.dart';
+import '../../../config/responsive.dart';
+import '../../../domains/user_repository/src/user_model.dart';
 
-class UserCreation extends StatefulWidget {
-  const UserCreation({Key? key, this.data}) : super(key: key);
+class UserDetails extends StatefulWidget {
+  const UserDetails({Key? key, this.data}) : super(key: key);
 
   @override
-  UserCreationState createState() => UserCreationState();
+  UserDetailsState createState() => UserDetailsState();
   final User? data;
 }
 
-class UserCreationState extends State<UserCreation> {
+class UserDetailsState extends State<UserDetails> {
   static final DateFormat _kDateFormatter = DateFormat('MM-dd-yyyy');
   static final DateTime validDate =
       DateTime.now().subtract(const Duration(days: 365 * 18));
@@ -131,7 +131,11 @@ class UserCreationState extends State<UserCreation> {
           //     ),
           //   );
         }
-        _showTopFlash();
+        showTopFlash(
+          context,
+          'Update Status',
+          'Your modifications have been saved',
+        );
       },
       icon: LineIcon.save(),
       label: Text(_data == null ? 'SAVE' : 'UPDATE'),
@@ -247,39 +251,6 @@ class UserCreationState extends State<UserCreation> {
           }
         },
       ).alignment(FractionalOffset.center);
-
-  void _showTopFlash({FlashBehavior style = FlashBehavior.floating}) {
-    showFlash(
-      context: context,
-      duration: const Duration(seconds: 3),
-      persistent: true,
-      builder: (_, FlashController<Object?> controller) {
-        return Flash<dynamic>(
-          controller: controller,
-          backgroundColor: Colors.white,
-          brightness: Brightness.light,
-          barrierBlur: 3.0,
-          barrierColor: Colors.black38,
-          barrierDismissible: true,
-          behavior: style,
-          position: FlashPosition.top,
-          child: FlashBar(
-            title: const Text(
-              'Notification',
-              style: TextStyle(color: kBadgeColor, fontSize: 18),
-            ),
-            content: const Text('Create new user successfully (　´･‿･｀ )'),
-            showProgressIndicator: true,
-            primaryAction: TextButton(
-              onPressed: () => controller.dismiss(),
-              child:
-                  const Text('DISMISS', style: TextStyle(color: Colors.amber)),
-            ),
-          ),
-        );
-      },
-    );
-  }
 }
 
 enum Gender { MALE, FEMALE }

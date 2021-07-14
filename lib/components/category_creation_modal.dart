@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/providers/main_screen_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../config/constansts.dart';
@@ -72,10 +74,8 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
       ),
       onPressed: () async {
         if (formKey.currentState!.validate()) {
-          // ignore: flutter_style_todos
-          //TODO(mytv): Update list of cat
-          // final MainScreenProvider val =
-          //     Provider.of<MainScreenProvider>(ctx, listen: false);
+          Provider.of<MainScreenProvider>(ctx, listen: false).menuItem =
+              categoryName;
           await create(AssetType(1, categoryName, screenPickerColor.hex));
 
           Navigator.pop(context);

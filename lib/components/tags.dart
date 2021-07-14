@@ -5,8 +5,10 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../config/constansts.dart';
+import '../domains/asset_repository/src/asset_model.dart';
 import '../domains/asset_type_repository/asset_type_repository.dart';
 import '../domains/asset_type_repository/src/asset_type_model.dart';
+import '../providers/domain/detail_types.dart';
 import '../providers/main_screen_provider.dart';
 import 'category_creation_modal.dart';
 import 'default_dialog_route.dart';
@@ -118,6 +120,13 @@ class _TagsState extends State<Tags> {
     ].toRow().padding(left: kDefaultPadding * 1.5, vertical: 10).gestures(
       onTap: () {
         state.menuItem = title;
+        state.listData.then<void>(
+          (List<Object> value) {
+            if (value.isNotEmpty) {
+              state.currentCategory = DetailTypes.asset(value[0] as Asset);
+            }
+          },
+        );
       },
     );
   }
