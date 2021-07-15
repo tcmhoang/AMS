@@ -36,6 +36,7 @@ Widget renderDefaultFieldForm(
   TextEditingController controller,
   String name, {
   Widget? suffix,
+  bool enable = true,
 }) =>
     TextFormField(
       controller: controller,
@@ -43,6 +44,7 @@ Widget renderDefaultFieldForm(
           ? 'The ${name.toLowerCase()} cannot be empty'
           : null,
       decoration: getDefaultInputDecoration(title: name.inCaps, suffix: suffix),
+      enabled: enable,
     ).padding(bottom: kDefaultPadding, right: kDefaultPadding);
 
 Future<String> saveImage(String src, String pre) async {

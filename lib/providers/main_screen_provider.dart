@@ -16,10 +16,9 @@ class MainScreenProvider with ChangeNotifier {
       },
     );
   }
-  static final Map<String, Future<List<Object>>> kActions =
-      <String, Future<List<Object>>>{
-    'Users': users.fetchAll(),
-    'Assets': assets.fetchAll()
+  static final Map<String, Function> kActions = <String, Function>{
+    'Users': users.fetchAll,
+    'Assets': assets.fetchAll
   };
 
   String _currentSelectSideMenu = 'Assets';
@@ -38,7 +37,7 @@ class MainScreenProvider with ChangeNotifier {
   set menuItem(String val) {
     _currentSelectSideMenu = val;
     if (kActions.containsKey(val)) {
-      listData = kActions[val]!;
+      listData = kActions[val]!() as Future<List<Object>>;
     } else {
       listData = assets.findByType(val);
     }

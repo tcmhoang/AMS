@@ -198,7 +198,8 @@ class AssetDetailsState extends State<AssetDetails> {
   }
 
   Widget _renderTag(BuildContext context) =>
-      renderDefaultFieldForm(_tagController, 'tag').expanded();
+      renderDefaultFieldForm(_tagController, 'tag', enable: _data == null)
+          .expanded();
 
   Widget _renderAssetName(BuildContext context) =>
       renderDefaultFieldForm(_assetNameController, 'asset name').expanded();

@@ -70,23 +70,24 @@ class _ListOfItemsState extends State<ListOfItems> {
   Widget _renderListItems(BuildContext context) {
     return Consumer<MainScreenProvider>(
       builder: (_, MainScreenProvider provider, __) =>
-          FutureProvider<List<Object>>.value(
+          FutureBuilder<List<Object>>(
         initialData: const <Object>[],
-        value: provider.listData,
-        child: Consumer<List<Object>>(
-          builder: (_, List<Object> val, __) {
-            _items = val;
+        future: provider.listData,
+        builder: (_, AsyncSnapshot<List<Object>> snapshot) {
+          if (snapshot.hasData) {
+            _items = snapshot.data!;
             return ListView.builder(
-              itemCount: val.length,
+              itemCount: _items.length,
               itemBuilder: (_, int index) => CardItem(
                 isActive: !Responsive.isMobile(context) &&
                     index == provider.currentIndexList,
-                item: val[index],
+                item: _items[index],
                 press: () => _handleClick(context, index, provider),
               ),
             ).expanded();
-          },
-        ),
+          } else
+            return const CircularProgressIndicator();
+        },
       ),
     );
   }
