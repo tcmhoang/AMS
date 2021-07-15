@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:file_selector/file_selector.dart';
@@ -9,11 +8,10 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/flash.dart';
+import '../../../components/form_utils.dart';
 import '../../../config/constansts.dart';
 import '../../../config/responsive.dart';
 import '../../../domains/user_repository/src/user_model.dart';
@@ -27,7 +25,6 @@ class UserDetails extends StatefulWidget {
 }
 
 class UserDetailsState extends State<UserDetails> {
-  static final DateFormat _kDateFormatter = DateFormat('MM-dd-yyyy');
   static final DateTime validDate =
       DateTime.now().subtract(const Duration(days: 365 * 18));
 
@@ -76,8 +73,8 @@ class UserDetailsState extends State<UserDetails> {
       if (_data != null) {
         final User tmp = widget.data!;
         _fnameController.text = tmp.fullName;
-        _dobController.text = _kDateFormatter
-            .format(DateTime.fromMillisecondsSinceEpoch(tmp.dob));
+        _dobController.text =
+            dateFormatter.format(DateTime.fromMillisecondsSinceEpoch(tmp.dob));
         _addrController.text = tmp.address;
         _avatar = tmp.urlImage;
         _gender = tmp.gender == 0 ? Gender.MALE : Gender.FEMALE;
@@ -105,7 +102,7 @@ class UserDetailsState extends State<UserDetails> {
       ),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          print(_kDateFormatter.parse(_dobController.text));
+          print(dateFormatter.parse(_dobController.text));
           // if (_data == null)
           //   await create(
           //     User(
@@ -142,19 +139,8 @@ class UserDetailsState extends State<UserDetails> {
     );
   }
 
-  Widget _renderFullName(BuildContext context) => TextFormField(
-        controller: _fnameController,
-        validator: (String? fullName) => fullName != null && fullName.isEmpty
-            ? 'The fullname cannot be empty'
-            : null,
-        decoration: const InputDecoration(
-          labelText: 'Full Name',
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: kGrayColor),
-          ),
-        ),
-      ).padding(vertical: kDefaultPadding);
+  Widget _renderFullName(BuildContext context) =>
+      renderDefaultFieldForm(_fnameController, 'full name');
 
   Widget _renderDob(BuildContext context) => DateTimeField(
         controller: _dobController,
@@ -167,14 +153,8 @@ class UserDetailsState extends State<UserDetails> {
             lastDate: validDate,
           );
         },
-        decoration: const InputDecoration(
-          labelText: 'Date Of Birth ',
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: kGrayColor),
-          ),
-        ),
-      ).padding(vertical: kDefaultPadding);
+        decoration: getDefaultInputDecoration(title: 'Date Of Birth '),
+      ).padding(vertical: kDefaultPadding, right: kDefaultPadding);
 
   Widget _renderGender(BuildContext context) => <Widget>[
         const Text(
@@ -186,11 +166,7 @@ class UserDetailsState extends State<UserDetails> {
           leading: Radio<Gender>(
             value: Gender.MALE,
             groupValue: _gender,
-            onChanged: (Gender? value) {
-              setState(() {
-                _gender = value!;
-              });
-            },
+            onChanged: _onClickGender,
           ),
         ).expanded(),
         ListTile(
@@ -198,64 +174,45 @@ class UserDetailsState extends State<UserDetails> {
           leading: Radio<Gender>(
             value: Gender.FEMALE,
             groupValue: _gender,
-            onChanged: (Gender? value) {
-              setState(() {
-                _gender = value!;
-              });
-            },
+            onChanged: _onClickGender,
           ),
         ).expanded(),
-      ].toRow(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-      );
+      ]
+          .toRow(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+          )
+          .padding(bottom: kDefaultPadding);
 
-  Widget _renderAddress(BuildContext context) => TextFormField(
-        controller: _addrController,
-        validator: (String? address) => address != null && address.isEmpty
-            ? 'The address cannot be empty'
-            : null,
-        decoration: const InputDecoration(
-          labelText: 'Address',
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: kGrayColor),
-          ),
-        ),
-      ).padding(vertical: kDefaultPadding);
+  void _onClickGender(Gender? value) {
+    setState(() {
+      _gender = value!;
+    });
+  }
+
+  Widget _renderAddress(BuildContext context) =>
+      renderDefaultFieldForm(_addrController, 'address');
 
   Widget _renderAvatar(BuildContext context) => CircleAvatar(
         radius: 70,
         foregroundImage: _avatar.isEmpty ? null : FileImage(File(_avatar)),
         backgroundColor: Colors.blueGrey,
-      ).gestures(
-        onTap: () async {
-          final XTypeGroup typeGroup =
-              XTypeGroup(label: 'images', extensions: <String>['jpg', 'png']);
-          final XFile? file =
-              await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
+      )
+          .gestures(
+            onTap: () async {
+              final XFile? file =
+                  await openFile(acceptedTypeGroups: <XTypeGroup>[imgGrp]);
 
-          if (file != null) {
-            final File img = await _saveImage(file);
-            setState(() {
-              _avatar = img.path;
-            });
-          }
-        },
-      ).alignment(FractionalOffset.center);
-
-  Future<File> _saveImage(XFile file) async {
-    final Directory tmp = await getApplicationDocumentsDirectory();
-    final String path = p.join(tmp.path, 'lsv_ams', 'images');
-    await Directory(path).create(recursive: true);
-    final Uint8List bdata = await file.readAsBytes();
-    final File img = File(
-      p.join(path, '${DateTime.now().microsecondsSinceEpoch}.png'),
-    );
-    await img.create();
-    await img.writeAsBytes(bdata);
-    return img;
-  }
+              if (file != null) {
+                final File img = await saveImage(await file.readAsBytes());
+                setState(() {
+                  _avatar = img.path;
+                });
+              }
+            },
+          )
+          .alignment(FractionalOffset.center)
+          .padding(bottom: kDefaultPadding);
 }
 
 enum Gender { MALE, FEMALE }

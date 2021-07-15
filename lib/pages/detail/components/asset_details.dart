@@ -6,18 +6,17 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/config/responsive.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/flash.dart';
+import '../../../components/form_utils.dart';
 import '../../../config/constansts.dart';
 import '../../../config/currency_formatter.dart';
+import '../../../config/responsive.dart';
 import '../../../domains/asset_repository/asset_repository.dart' as assets;
 import '../../../domains/asset_repository/src/asset_model.dart';
 import '../../../domains/asset_type_repository/asset_type_repository.dart'
@@ -40,7 +39,7 @@ class AssetDetailsState extends State<AssetDetails> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _tagController = TextEditingController();
-  final TextEditingController _fNameController = TextEditingController();
+  final TextEditingController _assetNameController = TextEditingController();
   final TextEditingController _manufacturerController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _conditionController = TextEditingController();
@@ -68,7 +67,7 @@ class AssetDetailsState extends State<AssetDetails> {
           ).alignment(Alignment.centerLeft),
         <Widget>[
           _renderTag(context),
-          _renderName(context),
+          _renderAssetName(context),
         ].toRow(),
         <Widget>[
           _renderType(context),
@@ -101,7 +100,7 @@ class AssetDetailsState extends State<AssetDetails> {
       if (widget.data != null) {
         final Asset tmp = widget.data!;
         _tagController.text = tmp.tag;
-        _fNameController.text = tmp.name;
+        _assetNameController.text = tmp.name;
         _manufacturerController.text = tmp.make;
         _priceController.text =
             CurrencyFormatter.formatter.format(tmp.originalPrice);
@@ -112,7 +111,7 @@ class AssetDetailsState extends State<AssetDetails> {
         _assignedUserId = tmp.userId;
       } else {
         _tagController.text = '';
-        _fNameController.text = '';
+        _assetNameController.text = '';
         _manufacturerController.text = '';
         _conditionController.text = 'New';
         _priceController.text = '';
@@ -141,12 +140,12 @@ class AssetDetailsState extends State<AssetDetails> {
           await assets.create(
             Asset(
               _tagController.text,
-              _fNameController.text,
+              _assetNameController.text,
               _selectedCategoryId,
               _isAssigned == true ? _assignedUserId : 0,
               _manufacturerController.text,
-              DateTime.now().microsecondsSinceEpoch,
-              DateTime.now().microsecondsSinceEpoch,
+              DateTime.now().millisecondsSinceEpoch,
+              DateTime.now().millisecondsSinceEpoch,
               _conditionController.text,
               _image,
               1,
@@ -166,32 +165,11 @@ class AssetDetailsState extends State<AssetDetails> {
     );
   }
 
-  Widget _renderTag(BuildContext context) => TextFormField(
-        controller: _tagController,
-        validator: (String? tag) =>
-            tag != null && tag.isEmpty ? 'The tag cannot be empty' : null,
-        decoration: const InputDecoration(
-          labelText: 'Tag',
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: kGrayColor),
-          ),
-        ),
-      ).padding(bottom: kDefaultPadding, right: kDefaultPadding).expanded();
+  Widget _renderTag(BuildContext context) =>
+      renderDefaultFieldForm(_tagController, 'tag').expanded();
 
-  Widget _renderName(BuildContext context) => TextFormField(
-        controller: _fNameController,
-        validator: (String? name) => name != null && name.isEmpty
-            ? 'The asset name cannot be empty'
-            : null,
-        decoration: const InputDecoration(
-          labelText: 'Asset name',
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: kGrayColor),
-          ),
-        ),
-      ).padding(bottom: kDefaultPadding).expanded();
+  Widget _renderAssetName(BuildContext context) =>
+      renderDefaultFieldForm(_assetNameController, 'asset name').expanded();
 
   Widget _renderType(BuildContext context) {
     return FutureBuilder<List<AssetType>>(
@@ -201,16 +179,13 @@ class AssetDetailsState extends State<AssetDetails> {
           final List<AssetType> data = snapshot.data!;
           return DropdownButtonFormField<int>(
             value: _data == null || _data!.typeId == 0 ? null : _data!.typeId,
-            icon: LineIcon.arrowCircleDown(),
+            icon: LineIcon.arrowCircleDown(
+              size: 24,
+              color: kGrayColor,
+            ),
             iconSize: 24,
             elevation: 16,
-            decoration: const InputDecoration(
-              labelText: 'Category name',
-              border: OutlineInputBorder(),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: kGrayColor),
-              ),
-            ),
+            decoration: getDefaultInputDecoration(title: 'Category name'),
             style: Theme.of(context).textTheme.bodyText2,
             onChanged: (int? id) => _selectedCategoryId = id!,
             items: data
@@ -222,8 +197,10 @@ class AssetDetailsState extends State<AssetDetails> {
                 )
                 .toList(),
           )
-              .height(51)
-              .padding(bottom: kDefaultPadding, right: kDefaultPadding)
+              .padding(
+                bottom: kDefaultPadding,
+                right: kDefaultPadding,
+              )
               .expanded();
         } else {
           return const CircularProgressIndicator();
@@ -237,16 +214,13 @@ class AssetDetailsState extends State<AssetDetails> {
         value: _conditionController.text.isEmpty
             ? null
             : _conditionController.text,
-        icon: LineIcon.arrowCircleDown(),
+        icon: LineIcon.arrowCircleDown(
+          size: 24,
+          color: kGrayColor,
+        ),
         iconSize: 24,
         elevation: 16,
-        decoration: const InputDecoration(
-          labelText: 'Condition',
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: kGrayColor),
-          ),
-        ),
+        decoration: getDefaultInputDecoration(title: 'Condition'),
         style: Theme.of(context).textTheme.bodyText2,
         onChanged: (String? value) {
           setState(() {
@@ -264,35 +238,20 @@ class AssetDetailsState extends State<AssetDetails> {
           .padding(bottom: kDefaultPadding, right: kDefaultPadding)
           .expanded();
 
-  Widget _renderManufacture(BuildContext context) => TextFormField(
-        controller: _manufacturerController,
-        decoration: const InputDecoration(
-          labelText: 'Manufacture',
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: kGrayColor),
-          ),
-        ),
-      ).padding(bottom: kDefaultPadding).expanded();
+  Widget _renderManufacture(BuildContext context) =>
+      renderDefaultFieldForm(_manufacturerController, 'manufacture').expanded();
 
-  Widget _renderPrice(BuildContext context) => TextFormField(
-        controller: _priceController,
-        validator: (String? price) => price != null && price.isEmpty
-            ? 'The asset name cannot be empty'
-            : null,
-        inputFormatters: <TextInputFormatter>[CurrencyFormatter()],
-        decoration: const InputDecoration(
-          labelText: 'Price',
-          suffix: Text('VNĐ'),
-          border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2, color: kGrayColor),
-          ),
-        ),
-      ).padding(bottom: kDefaultPadding).expanded();
+  Widget _renderPrice(BuildContext context) => renderDefaultFieldForm(
+        _priceController,
+        'price',
+        suffix: const Text('VND'),
+      ).expanded();
 
   Widget _renderIsAssigned(BuildContext context) => Checkbox(
         checkColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(3)),
+        ),
         value: _isAssigned,
         onChanged: (bool? value) {
           setState(() {
@@ -309,19 +268,16 @@ class AssetDetailsState extends State<AssetDetails> {
             return DropdownSearch<String>(
               dropDownButton: RotatedBox(
                 quarterTurns: -1,
-                child: LineIcon.search(),
+                child: LineIcon.search(
+                  size: 24,
+                  color: kGrayColor,
+                ),
               ),
               mode: Mode.MENU,
               showSearchBox: true,
               showSelectedItem: true,
-              dropdownSearchDecoration: const InputDecoration(
-                labelText: 'Category name',
-                border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 2, color: kGrayColor),
-                ),
-                contentPadding: EdgeInsets.all(10),
-              ),
+              dropdownSearchDecoration:
+                  getDefaultInputDecoration(title: 'Category name'),
               items:
                   data.map((User e) => '${e.userId}    ${e.fullName}').toList(),
               label: 'User assigned',
@@ -337,7 +293,7 @@ class AssetDetailsState extends State<AssetDetails> {
                   : '$_assignedUserId    ${data.firstWhere((User element) => element.userId == _assignedUserId).fullName}',
             ).expanded();
           } else
-            return const CircularProgressIndicator();
+            return const CircularProgressIndicator().expanded();
         },
       );
 
@@ -348,9 +304,8 @@ class AssetDetailsState extends State<AssetDetails> {
                   size: 24,
                   color: kPrimaryColor,
                 ),
-                Text(
+                const Text(
                   'Add an image',
-                  style: GoogleFonts.poppins(),
                 ).padding(horizontal: kDefaultPadding)
               ]
                 .toRow(mainAxisSize: MainAxisSize.min)

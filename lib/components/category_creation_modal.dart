@@ -108,7 +108,7 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
         'Select color shade',
         style: Theme.of(context).textTheme.subtitle1,
       ),
-      wheelDiameter: 155,
+      wheelDiameter: 150,
       width: colorSize,
       height: colorSize,
       columnSpacing: kDefaultPadding * .8,

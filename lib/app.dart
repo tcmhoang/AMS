@@ -23,6 +23,7 @@ class App extends StatelessWidget {
               },
             ),
             fontFamily: GoogleFonts.roboto().fontFamily,
+            unselectedWidgetColor: kGrayColor,
             colorScheme: const ColorScheme.light(
               primary: kPrimaryColor,
               secondary: kSecondaryColor,
