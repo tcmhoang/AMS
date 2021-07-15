@@ -129,7 +129,7 @@ class UserDetailsState extends State<UserDetails> {
 
   Future<void> _saveData() async {
     if (_data == null) {
-      _avatar = await saveImage(_avatar);
+      _avatar = await saveImage(_avatar, 'avatar');
       await create(
         User(
           1,

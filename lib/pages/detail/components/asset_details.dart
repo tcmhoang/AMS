@@ -5,8 +5,11 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/providers/main_screen_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/flash.dart';
@@ -80,7 +83,7 @@ class AssetDetailsState extends State<AssetDetails> {
           if (_isAssigned == true) _renderUserAssigned(context),
         ].toRow(),
         _renderImage(context).padding(all: kDefaultPadding),
-        _renderAddUserBtn(context),
+        _renderSaveBtn(context),
       ]
           .toColumn(
             mainAxisSize: MainAxisSize.min,
@@ -106,6 +109,7 @@ class AssetDetailsState extends State<AssetDetails> {
         _selectedCategoryId = tmp.typeId;
         _isAssigned = tmp.isAssigned != 0;
         _assignedUserId = tmp.userId;
+        _image = tmp.urlImage;
       } else {
         _tagController.text = '';
         _assetNameController.text = '';
@@ -116,11 +120,12 @@ class AssetDetailsState extends State<AssetDetails> {
         _selectedCategoryId = 0;
         _isAssigned = false;
         _assignedUserId = 0;
+        _image = '';
       }
     }
   }
 
-  Widget _renderAddUserBtn(BuildContext context) {
+  Widget _renderSaveBtn(BuildContext context) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(150, 40),
@@ -134,32 +139,62 @@ class AssetDetailsState extends State<AssetDetails> {
       ),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          await assets.create(
-            Asset(
-              _tagController.text,
-              _assetNameController.text,
-              _selectedCategoryId,
-              _isAssigned == true ? _assignedUserId : 0,
-              _manufacturerController.text,
-              DateTime.now().millisecondsSinceEpoch,
-              DateTime.now().millisecondsSinceEpoch,
-              _conditionController.text,
-              _image,
-              1,
-              CurrencyFormatter.getValue(_priceController.text),
-              _isAssigned == true ? 1 : 0,
-            ),
+          await _saveData();
+          Provider.of<MainScreenProvider>(context, listen: false).listData =
+              assets.fetchAll();
+          showTopFlash(
+            context,
+            'Update Status',
+            'Your modifications have been saved',
+          );
+        } else {
+          showTopFlash(
+            context,
+            'Update Status',
+            'An errror occurred. Please try again!',
+            isError: true,
           );
         }
-        showTopFlash(
-          context,
-          'Update Status',
-          'Your modifications have been saved',
-        );
       },
       icon: LineIcon.save(),
       label: const Text('SAVE'),
     );
+  }
+
+  Future<void> _saveData() async {
+    if (_data == null) {
+      _image = await saveImage(_image, 'ast');
+      await assets.create(
+        Asset(
+          _tagController.text,
+          _assetNameController.text,
+          _selectedCategoryId,
+          _isAssigned == true ? _assignedUserId : 0,
+          _manufacturerController.text,
+          DateTime.now().millisecondsSinceEpoch,
+          DateTime.now().millisecondsSinceEpoch,
+          _conditionController.text,
+          _image,
+          1,
+          CurrencyFormatter.getValue(_priceController.text),
+          _isAssigned ? 1 : 0,
+        ),
+      );
+    } else {
+      await assets.update(
+        _data!.tag,
+        _data!.copyWith(
+          name: _assetNameController.text,
+          condition: _conditionController.text,
+          lastUpdated: DateTime.now().millisecondsSinceEpoch,
+          isAssigned: _isAssigned ? 1 : 0,
+          typeId: _selectedCategoryId,
+          make: _manufacturerController.text,
+          originalPrice: CurrencyFormatter.getValue(_priceController.text),
+          userId: _isAssigned == true ? _assignedUserId : 0,
+        ),
+      );
+    }
   }
 
   Widget _renderTag(BuildContext context) =>
@@ -231,11 +266,17 @@ class AssetDetailsState extends State<AssetDetails> {
   Widget _renderManufacture(BuildContext context) =>
       renderDefaultFieldForm(_manufacturerController, 'manufacture').expanded();
 
-  Widget _renderPrice(BuildContext context) => renderDefaultFieldForm(
-        _priceController,
-        'price',
-        suffix: const Text('VND'),
-      ).expanded();
+  Widget _renderPrice(BuildContext context) => TextFormField(
+        controller: _priceController,
+        validator: (String? price) => price != null && price.isEmpty
+            ? 'The asset name cannot be empty'
+            : null,
+        inputFormatters: <TextInputFormatter>[CurrencyFormatter()],
+        decoration: getDefaultInputDecoration(
+          title: 'Price',
+          suffix: const Text('VND'),
+        ),
+      ).padding(bottom: kDefaultPadding, right: kDefaultPadding).expanded();
 
   Widget _renderIsAssigned(BuildContext context) => Checkbox(
         checkColor: Colors.white,

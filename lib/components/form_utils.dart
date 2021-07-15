@@ -45,7 +45,7 @@ Widget renderDefaultFieldForm(
       decoration: getDefaultInputDecoration(title: name.inCaps, suffix: suffix),
     ).padding(bottom: kDefaultPadding, right: kDefaultPadding);
 
-Future<String> saveImage(String src) async {
+Future<String> saveImage(String src, String pre) async {
   try {
     if (src.isEmpty) {
       throw Exception('Image is empty');
@@ -55,7 +55,7 @@ Future<String> saveImage(String src) async {
     final String path = p.join(tmp.path, kAppDir, 'images');
     await Directory(path).create(recursive: true);
     final File img = File(
-      p.join(path, '${DateTime.now().microsecondsSinceEpoch}.png'),
+      p.join(path, '${pre}_${DateTime.now().microsecondsSinceEpoch}.png'),
     );
     final CompressObject compressObject = CompressObject(
       imageFile: srcImg,
