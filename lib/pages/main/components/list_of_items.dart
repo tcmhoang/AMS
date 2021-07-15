@@ -9,6 +9,7 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../components/side_menu.dart';
 import '../../../config/constansts.dart';
 import '../../../config/responsive.dart';
+import '../../../domains/asset_repository/asset_repository.dart' as assets;
 import '../../../domains/asset_repository/src/asset_model.dart';
 import '../../../domains/user_repository/src/user_model.dart';
 import '../../../providers/domain/detail_types.dart';
@@ -114,7 +115,9 @@ class _ListOfItemsState extends State<ListOfItems> {
 
   Widget _renderSearchBar() {
     return TextField(
-      onChanged: (String value) {},
+      onSubmitted: (String val) =>
+          Provider.of<MainScreenProvider>(context, listen: false).listData =
+              assets.findByName(val),
       decoration: InputDecoration(
         hintText: 'Search',
         fillColor: kBgLightColor,

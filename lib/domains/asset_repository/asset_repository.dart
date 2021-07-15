@@ -80,5 +80,13 @@ Future<List<Asset>> findByUser(int userId) async {
   }
 }
 
+Future<List<Asset>> findByName(String name) async {
+  try {
+    return await assets.findByName(name);
+  } catch (_, __) {
+    return <Asset>[];
+  }
+}
+
 Future<bool> isExisted(String tag) async =>
     (await fetchAll()).any((Asset e) => e.tag == tag);

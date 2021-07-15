@@ -80,4 +80,16 @@ class AssetModels {
       throw Exception('$userId User not found');
     }
   }
+
+  Future<List<Asset>> findByName(String name) async {
+    final List<Map<String, Object?>> maps = await _dbHandler.db!.rawQuery(
+      "SELECT * FROM $_kTableName WHERE name LIKE '%$name%'",
+    );
+
+    if (maps.isNotEmpty) {
+      return maps.map((Map<String, Object?> e) => Asset.fromJson(e)).toList();
+    } else {
+      throw Exception('$name not found');
+    }
+  }
 }
