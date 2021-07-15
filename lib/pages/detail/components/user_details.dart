@@ -8,7 +8,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/domains/user_repository/user_repository.dart';
+import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/flash.dart';
@@ -16,6 +16,8 @@ import '../../../components/form_utils.dart';
 import '../../../config/constansts.dart';
 import '../../../config/responsive.dart';
 import '../../../domains/user_repository/src/user_model.dart';
+import '../../../domains/user_repository/user_repository.dart';
+import '../../../providers/main_screen_provider.dart';
 
 class UserDetails extends StatefulWidget {
   const UserDetails({Key? key, this.data}) : super(key: key);
@@ -103,21 +105,21 @@ class UserDetailsState extends State<UserDetails> {
       ),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          if ((await saveImage(_avatar)).isNotEmpty) {
-            await _saveData();
-            showTopFlash(
-              context,
-              'Update Status',
-              'Your modifications have been saved',
-            );
-          } else {
-            showTopFlash(
-              context,
-              'Update Status',
-              'An errror occurred. Please try again!',
-              isError: true,
-            );
-          }
+          await _saveData();
+          Provider.of<MainScreenProvider>(context, listen: false).listData =
+              fetchAll();
+          showTopFlash(
+            context,
+            'Update Status',
+            'Your modifications have been saved',
+          );
+        } else {
+          showTopFlash(
+            context,
+            'Update Status',
+            'An errror occurred. Please try again!',
+            isError: true,
+          );
         }
       },
       icon: LineIcon.save(),
@@ -126,7 +128,8 @@ class UserDetailsState extends State<UserDetails> {
   }
 
   Future<void> _saveData() async {
-    if (_data == null)
+    if (_data == null) {
+      _avatar = await saveImage(_avatar);
       await create(
         User(
           1,
@@ -137,7 +140,7 @@ class UserDetailsState extends State<UserDetails> {
           _avatar,
         ),
       );
-    else
+    } else {
       await update(
         _data!.userId,
         _data!.copyWith(
@@ -145,9 +148,9 @@ class UserDetailsState extends State<UserDetails> {
           dob: dateFormatter.parse(_dobController.text).millisecondsSinceEpoch,
           address: _addrController.text,
           gender: _gender.index,
-          urlImage: _avatar,
         ),
       );
+    }
   }
 
   Widget _renderFullName(BuildContext context) =>
@@ -206,9 +209,16 @@ class UserDetailsState extends State<UserDetails> {
 
   Widget _renderAvatar(BuildContext context) => CircleAvatar(
         radius: 70,
-        foregroundImage: _avatar.isEmpty ? null : FileImage(File(_avatar)),
-        backgroundColor: Colors.blueGrey,
+        foregroundImage: _avatar.isEmpty || !File(_avatar).existsSync()
+            ? null
+            : FileImage(File(_avatar)),
+        backgroundColor: kBgLightColor,
       )
+          .elevation(
+            11,
+            borderRadius: BorderRadius.circular(70),
+            shadowColor: kBgDarkColor,
+          )
           .gestures(
             onTap: () async {
               final XFile? file =

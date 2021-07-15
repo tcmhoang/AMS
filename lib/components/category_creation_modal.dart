@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/components/flash.dart';
 import 'package:lsv_ams/providers/main_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -76,7 +77,19 @@ class CategoryCreationModalState extends State<CategoryCreationModal> {
         if (formKey.currentState!.validate()) {
           Provider.of<MainScreenProvider>(ctx, listen: false).menuItem =
               categoryName;
-          await create(AssetType(1, categoryName, screenPickerColor.hex));
+          if (await create(AssetType(1, categoryName, screenPickerColor.hex))) {
+            showTopFlash(
+              context,
+              'Update Status',
+              'Create the new $categoryName category',
+            );
+          } else
+            showTopFlash(
+              context,
+              'Update Status',
+              'Cannot save the $categoryName category record',
+              isError: true,
+            );
 
           Navigator.pop(context);
         }

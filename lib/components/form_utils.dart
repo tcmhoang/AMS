@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_luban/flutter_luban.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -47,6 +47,9 @@ Widget renderDefaultFieldForm(
 
 Future<String> saveImage(String src) async {
   try {
+    if (src.isEmpty) {
+      throw Exception('Image is empty');
+    }
     final File srcImg = File(src);
     final Directory tmp = await getApplicationDocumentsDirectory();
     final String path = p.join(tmp.path, kAppDir, 'images');
@@ -54,9 +57,21 @@ Future<String> saveImage(String src) async {
     final File img = File(
       p.join(path, '${DateTime.now().microsecondsSinceEpoch}.png'),
     );
-    await img.create();
-    await img.writeAsBytes(await srcImg.readAsBytes());
-    return img.path;
+    final CompressObject compressObject = CompressObject(
+      imageFile: srcImg,
+      path: path,
+      quality: 85,
+      step: 9,
+      mode: CompressMode.LARGE2SMALL, //default AUTO
+    );
+    String res = img.path;
+    await Luban.compressImage(compressObject).then((String? value) async {
+      if (value != null) {
+        await File(value).rename(img.path);
+      } else
+        res = '';
+    });
+    return res;
   } catch (_) {
     return '';
   }

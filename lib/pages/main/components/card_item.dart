@@ -41,6 +41,9 @@ class CardItem extends StatelessWidget {
         body:
             ' Manufacture: ${tmp.make} \t  Handover times: ${tmp.timesUsed} \t Tag: ${tmp.tag} ',
         icon: LineIcons.print,
+        image: tmp.urlImage.isEmpty || !File(tmp.urlImage).existsSync()
+            ? null
+            : FileImage(File(tmp.urlImage)),
       );
     }
     if (item is User) {
@@ -51,7 +54,9 @@ class CardItem extends StatelessWidget {
         date: DateTime.fromMillisecondsSinceEpoch(tmp.dob),
         body: '',
         icon: LineIcons.userCheck,
-        image: tmp.urlImage.isEmpty ? null : FileImage(File(tmp.urlImage)),
+        image: tmp.urlImage.isEmpty || !File(tmp.urlImage).existsSync()
+            ? null
+            : FileImage(File(tmp.urlImage)),
       );
     }
     return _renderCard(context, processedData).gestures(onTap: press).padding(

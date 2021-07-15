@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:provider/provider.dart';
@@ -72,13 +73,9 @@ class _ListOfItemsState extends State<ListOfItems> {
           FutureProvider<List<Object>>.value(
         initialData: const <Object>[],
         value: provider.listData,
-        updateShouldNotify: _isDataChanged,
         child: Consumer<List<Object>>(
           builder: (_, List<Object> val, __) {
-            if (_isDataChanged(_items, val)) {
-              _items = val;
-            }
-
+            _items = val;
             return ListView.builder(
               itemCount: val.length,
               itemBuilder: (_, int index) => CardItem(
@@ -93,9 +90,6 @@ class _ListOfItemsState extends State<ListOfItems> {
       ),
     );
   }
-
-  bool _isDataChanged(List<Object> prev, List<Object> curr) =>
-      prev.length != curr.length || prev.runtimeType != curr.runtimeType;
 
   Widget _renderSearchIdicator() {
     return <Widget>[

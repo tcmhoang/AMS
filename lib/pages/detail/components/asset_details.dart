@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_selector/file_selector.dart';
@@ -8,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/flash.dart';
@@ -289,7 +286,7 @@ class AssetDetailsState extends State<AssetDetails> {
       );
 
   Widget _renderImage(BuildContext context) => Container(
-        child: _image.isEmpty
+        child: _image.isEmpty || !File(_image).existsSync()
             ? <Widget>[
                 LineIcon.plusCircle(
                   size: 24,
