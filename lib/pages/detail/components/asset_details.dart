@@ -222,21 +222,14 @@ class AssetDetailsState extends State<AssetDetails> {
         elevation: 16,
         decoration: getDefaultInputDecoration(title: 'Condition'),
         style: Theme.of(context).textTheme.bodyText2,
-        onChanged: (String? value) {
-          setState(() {
-            _conditionController.text = value!;
-          });
-        },
+        onChanged: (String? value) => _conditionController.text = value!,
         items: _kConditions.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),
           );
         }).toList(),
-      )
-          .height(51)
-          .padding(bottom: kDefaultPadding, right: kDefaultPadding)
-          .expanded();
+      ).padding(bottom: kDefaultPadding, right: kDefaultPadding).expanded();
 
   Widget _renderManufacture(BuildContext context) =>
       renderDefaultFieldForm(_manufacturerController, 'manufacture').expanded();
@@ -282,11 +275,9 @@ class AssetDetailsState extends State<AssetDetails> {
                   data.map((User e) => '${e.userId}    ${e.fullName}').toList(),
               label: 'User assigned',
               onChanged: (String? value) {
-                setState(() {
-                  _userController.text = value!;
-                  _assignedUserId =
-                      int.parse(_userController.text.split(RegExp(r'\s+'))[0]);
-                });
+                _userController.text = value!;
+                _assignedUserId =
+                    int.parse(_userController.text.split(RegExp(r'\s+'))[0]);
               },
               selectedItem: _assignedUserId == 0
                   ? null
@@ -318,24 +309,10 @@ class AssetDetailsState extends State<AssetDetails> {
                 ),
       ).gestures(
         onTap: () async {
-          final XTypeGroup typeGroup =
-              XTypeGroup(label: 'images', extensions: <String>['jpg', 'png']);
           final XFile? file =
-              await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
-
+              await openFile(acceptedTypeGroups: <XTypeGroup>[imgGrp]);
           if (file != null) {
-            final Directory tmp = await getApplicationDocumentsDirectory();
-            final String path = p.join(tmp.path, 'lsv_ams', 'images');
-            await Directory(path).create(recursive: true);
-            final Uint8List bdata = await file.readAsBytes();
-            final File img = File(
-              p.join(path, '${DateTime.now().microsecondsSinceEpoch}.png'),
-            );
-            await img.create();
-            await img.writeAsBytes(bdata);
-            setState(() {
-              _image = img.path;
-            });
+            setState(() => _image = file.path);
           }
         },
       );

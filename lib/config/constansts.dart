@@ -13,4 +13,4 @@ const double kDefaultPadding = 20.0;
 const double kMinScreenSize = 480;
 const Duration kDefaultDuration = Duration(milliseconds: 350);
 
-const String kAppDir = 'lvs_ams';
+const String kAppDir = '.lsv_ams';

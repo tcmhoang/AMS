@@ -45,14 +45,19 @@ Widget renderDefaultFieldForm(
       decoration: getDefaultInputDecoration(title: name.inCaps, suffix: suffix),
     ).padding(bottom: kDefaultPadding, right: kDefaultPadding);
 
-Future<File> saveImage(Uint8List binaries) async {
-  final Directory tmp = await getApplicationDocumentsDirectory();
-  final String path = p.join(tmp.path, kAppDir, 'images');
-  await Directory(path).create(recursive: true);
-  final File img = File(
-    p.join(path, '${DateTime.now().microsecondsSinceEpoch}.png'),
-  );
-  await img.create();
-  await img.writeAsBytes(binaries);
-  return img;
+Future<String> saveImage(String src) async {
+  try {
+    final File srcImg = File(src);
+    final Directory tmp = await getApplicationDocumentsDirectory();
+    final String path = p.join(tmp.path, kAppDir, 'images');
+    await Directory(path).create(recursive: true);
+    final File img = File(
+      p.join(path, '${DateTime.now().microsecondsSinceEpoch}.png'),
+    );
+    await img.create();
+    await img.writeAsBytes(await srcImg.readAsBytes());
+    return img.path;
+  } catch (_) {
+    return '';
+  }
 }

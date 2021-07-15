@@ -8,6 +8,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/domains/user_repository/user_repository.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/flash.dart';
@@ -102,41 +103,51 @@ class UserDetailsState extends State<UserDetails> {
       ),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          print(dateFormatter.parse(_dobController.text));
-          // if (_data == null)
-          //   await create(
-          //     User(
-          //       1,
-          //       _fnameController.text,
-          //       _kDateFormatter
-          //           .parse(_dobController.text)
-          //           .millisecondsSinceEpoch,
-          //       _gender.index,
-          //       _addrController.text,
-          //       _avatar,
-          //     ),
-          //   );
-          // else
-          //   await update(
-          //     _data!.userId,
-          //     _data!.copyWith(
-          //       fullName: _fnameController.text,
-          //       dob: _kDateFormatter
-          //           .parse(_dobController.text)
-          //           .millisecondsSinceEpoch,
-          //       address: _addrController.text,
-          //     ),
-          //   );
+          if ((await saveImage(_avatar)).isNotEmpty) {
+            await _saveData();
+            showTopFlash(
+              context,
+              'Update Status',
+              'Your modifications have been saved',
+            );
+          } else {
+            showTopFlash(
+              context,
+              'Update Status',
+              'An errror occurred. Please try again!',
+              isError: true,
+            );
+          }
         }
-        showTopFlash(
-          context,
-          'Update Status',
-          'Your modifications have been saved',
-        );
       },
       icon: LineIcon.save(),
       label: Text(_data == null ? 'SAVE' : 'UPDATE'),
     );
+  }
+
+  Future<void> _saveData() async {
+    if (_data == null)
+      await create(
+        User(
+          1,
+          _fnameController.text,
+          dateFormatter.parse(_dobController.text).millisecondsSinceEpoch,
+          _gender.index,
+          _addrController.text,
+          _avatar,
+        ),
+      );
+    else
+      await update(
+        _data!.userId,
+        _data!.copyWith(
+          fullName: _fnameController.text,
+          dob: dateFormatter.parse(_dobController.text).millisecondsSinceEpoch,
+          address: _addrController.text,
+          gender: _gender.index,
+          urlImage: _avatar,
+        ),
+      );
   }
 
   Widget _renderFullName(BuildContext context) =>
@@ -204,9 +215,8 @@ class UserDetailsState extends State<UserDetails> {
                   await openFile(acceptedTypeGroups: <XTypeGroup>[imgGrp]);
 
               if (file != null) {
-                final File img = await saveImage(await file.readAsBytes());
                 setState(() {
-                  _avatar = img.path;
+                  _avatar = file.path;
                 });
               }
             },

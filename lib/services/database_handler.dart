@@ -18,7 +18,7 @@ class DatabaseHandler {
     final Directory documentsDirectory =
         await getApplicationDocumentsDirectory();
 
-    final String path = p.join(documentsDirectory.path, kAppDir, 'lvs.db');
+    final String path = p.join(documentsDirectory.path, kAppDir, 'lsv.db');
     print(path);
     _db = await databaseFactory.openDatabase(
       path,
