@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -75,7 +76,7 @@ class _HeaderState extends State<Header> {
         ),
       ].toRow();
 
-  Widget _renderCreationHeader(BuildContext context, String title) => <Widget>[
+  Widget _renderCreationHeader(BuildContext contexud, String title) => <Widget>[
         if (Responsive.isMobile(context))
           const BackButton()
         else
@@ -83,10 +84,10 @@ class _HeaderState extends State<Header> {
             title,
             style: Responsive.isMobile(context)
                 ? Theme.of(context).textTheme.headline5
-                : Theme.of(context)
-                    .textTheme
-                    .headline5!
-                    .copyWith(color: kTitleTextColor),
+                : Theme.of(context).textTheme.headline5!.copyWith(
+                      color: kTitleTextColor,
+                      fontFamily: GoogleFonts.robotoCondensed().fontFamily,
+                    ),
           ).padding(all: 5)
       ].toRow();
 

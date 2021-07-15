@@ -236,21 +236,26 @@ class UserDetailsState extends State<UserDetails> {
               await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
 
           if (file != null) {
-            final Directory tmp = await getApplicationDocumentsDirectory();
-            final String path = p.join(tmp.path, 'lsv_ams', 'images');
-            await Directory(path).create(recursive: true);
-            final Uint8List bdata = await file.readAsBytes();
-            final File img = File(
-              p.join(path, '${DateTime.now().microsecondsSinceEpoch}.png'),
-            );
-            await img.create();
-            await img.writeAsBytes(bdata);
+            final File img = await _saveImage(file);
             setState(() {
               _avatar = img.path;
             });
           }
         },
       ).alignment(FractionalOffset.center);
+
+  Future<File> _saveImage(XFile file) async {
+    final Directory tmp = await getApplicationDocumentsDirectory();
+    final String path = p.join(tmp.path, 'lsv_ams', 'images');
+    await Directory(path).create(recursive: true);
+    final Uint8List bdata = await file.readAsBytes();
+    final File img = File(
+      p.join(path, '${DateTime.now().microsecondsSinceEpoch}.png'),
+    );
+    await img.create();
+    await img.writeAsBytes(bdata);
+    return img;
+  }
 }
 
 enum Gender { MALE, FEMALE }

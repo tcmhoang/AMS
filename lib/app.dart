@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lsv_ams/config/constansts.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/main/main_screen.dart';
@@ -22,6 +23,15 @@ class App extends StatelessWidget {
               },
             ),
             fontFamily: GoogleFonts.roboto().fontFamily,
+            colorScheme: const ColorScheme.light(
+              primary: kPrimaryColor,
+              secondary: kSecondaryColor,
+              background: kBgLightColor,
+              surface: kBgDarkColor,
+              onBackground: kTextColor,
+              onPrimary: kBgLightColor,
+              onSecondary: kTextColor,
+            ),
           ),
           home: MainScreen(),
         ),
