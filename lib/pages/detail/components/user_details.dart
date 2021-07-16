@@ -9,7 +9,6 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/components/default_dialog_route.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 

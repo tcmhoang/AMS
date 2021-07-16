@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/components/default_dialog_route.dart';
+import 'package:lsv_ams/components/default_modal.dart';
+import 'package:lsv_ams/components/version_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:supercharged/supercharged.dart';
@@ -96,7 +99,17 @@ class _HeaderState extends State<Header> {
         ),
         IconButton(
           icon: LineIcon.verticalEllipsis(size: 24),
-          onPressed: () {},
+          onPressed: () => Navigator.of(context).push(
+            DefaultDialogRoute<void>(
+              page: DefaultModal(
+                title: 'Version',
+                data: VersionModal(),
+                maxWidth: 700,
+                maxHeight: 700,
+              ),
+              dismissible: false,
+            ),
+          ),
         ),
       ].toRow();
 

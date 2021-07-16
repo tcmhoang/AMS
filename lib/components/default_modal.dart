@@ -6,11 +6,17 @@ import '../config/constansts.dart';
 import '../config/responsive.dart';
 
 class DefaultModal extends StatelessWidget {
-  const DefaultModal({Key? key, this.data, required this.title})
-      : super(key: key);
+  const DefaultModal({
+    Key? key,
+    this.data,
+    required this.title,
+    this.maxWidth,
+    this.maxHeight,
+  }) : super(key: key);
 
   final Widget? data;
   final String title;
+  final double? maxWidth, maxHeight;
   @override
   Widget build(BuildContext context) {
     return <Widget>[
@@ -34,8 +40,8 @@ class DefaultModal extends StatelessWidget {
           color: kBgDarkColor,
         )
         .constrained(
-          maxWidth: MediaQuery.of(context).size.width / 2,
-          minHeight: MediaQuery.of(context).size.height * .7,
+          maxWidth: maxWidth ?? MediaQuery.of(context).size.width / 2,
+          minHeight: maxHeight ?? MediaQuery.of(context).size.height * .7,
           animate: true,
         )
         .scrollable()
