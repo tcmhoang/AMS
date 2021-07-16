@@ -104,8 +104,8 @@ class _HeaderState extends State<Header> {
               page: DefaultModal(
                 title: 'Version',
                 data: VersionModal(),
-                maxWidth: 700,
-                maxHeight: 700,
+                maxWidth: 520,
+                maxHeight: 430,
               ),
               dismissible: false,
             ),

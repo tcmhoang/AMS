@@ -39,7 +39,7 @@ class CardItem extends StatelessWidget {
         title: tmp.tag,
         date: DateTime.fromMillisecondsSinceEpoch(tmp.lastUpdated),
         body:
-            ' Manufacture: ${tmp.make} \t  Handover times: ${tmp.timesUsed} \t Tag: ${tmp.tag} ',
+            ' Manufacture: ${tmp.make}    Handover times: ${tmp.timesUsed}    Tag: ${tmp.tag} ',
         icon: LineIcons.print,
         image: tmp.urlImage.isEmpty || !File(tmp.urlImage).existsSync()
             ? null

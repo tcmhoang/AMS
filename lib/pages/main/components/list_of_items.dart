@@ -142,7 +142,7 @@ class _ListOfItemsState extends State<ListOfItems> {
       data.currentIndexList = index;
     });
 
-    _changeDetails(data, index);
+    _changeDetails(data, _items[index]);
 
     if (Responsive.isMobile(context)) {
       Navigator.push(
@@ -154,43 +154,13 @@ class _ListOfItemsState extends State<ListOfItems> {
     }
   }
 
-  void _changeDetails(MainScreenProvider provider, int index) {
-    switch (_items.runtimeType.toString()) {
-      case 'List<Asset>':
-        final List<Asset> tmp = _items as List<Asset>;
-        provider.currentCategory = DetailTypes.asset(
-          Asset(
-            tmp[index].tag,
-            tmp[index].name,
-            tmp[index].typeId,
-            tmp[index].userId,
-            tmp[index].make,
-            tmp[index].created,
-            tmp[index].lastUpdated,
-            tmp[index].condition,
-            tmp[index].urlImage,
-            tmp[index].timesUsed,
-            tmp[index].originalPrice,
-            tmp[index].isAssigned,
-          ),
-        );
-        break;
-      case 'List<User>':
-        final List<User> tmp = _items as List<User>;
-        provider.currentCategory = DetailTypes.user(
-          User(
-            tmp[index].userId,
-            tmp[index].fullName,
-            tmp[index].dob,
-            tmp[index].gender,
-            tmp[index].address,
-            tmp[index].urlImage,
-          ),
-        );
-        provider.listData = assets.findByUser(tmp[index].userId);
-        break;
-      default:
-        provider.currentCategory = const DetailTypes.empty();
-    }
+  void _changeDetails(MainScreenProvider provider, Object data) {
+    if (data is Asset)
+      provider.currentCategory = DetailTypes.asset(data);
+    else if (data is User) {
+      provider.currentCategory = DetailTypes.user(data);
+      provider.listData = assets.findByUser(data.userId);
+    } else
+      provider.currentCategory = const DetailTypes.empty();
   }
 }
