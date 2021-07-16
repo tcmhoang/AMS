@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animations/animations.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/components/default_dialog_route.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -160,11 +162,19 @@ class UserDetailsState extends State<UserDetails> {
         controller: _dobController,
         format: DateFormat('MM-dd-yyyy'),
         onShowPicker: (BuildContext context, DateTime? currentValue) {
-          return showDatePicker(
+          return showModal(
             context: context,
-            initialDate: currentValue ?? validDate,
-            firstDate: DateTime(1975),
-            lastDate: validDate,
+            builder: (BuildContext context) => DatePickerDialog(
+              initialDate: currentValue ?? validDate,
+              firstDate: DateTime(1975),
+              lastDate: validDate,
+            ).backgroundBlur(7.0),
+            configuration: FadeScaleTransitionConfiguration(
+              barrierColor: Colors.black.withAlpha(80),
+              barrierDismissible: false,
+              reverseTransitionDuration: kDefaultDuration,
+              transitionDuration: kDefaultDuration,
+            ),
           );
         },
         decoration: getDefaultInputDecoration(title: 'Date Of Birth '),

@@ -72,7 +72,7 @@ class _TagsState extends State<Tags> {
         minWidth: 40,
         onPressed: () => Navigator.of(context)
             .push(
-              DefaultDialogRoute(
+              DefaultDialogRoute<void>(
                 page: DefaultModal(
                   title: 'Create a new category',
                   data: CategoryCreationModal(),

@@ -4,7 +4,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../config/constansts.dart';
 
-class DefaultDialogRoute extends TransitionRoute<void> {
+class DefaultDialogRoute<T> extends TransitionRoute<T> {
   DefaultDialogRoute({
     required this.page,
     required this.dismissible,

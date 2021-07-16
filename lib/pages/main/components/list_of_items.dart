@@ -187,6 +187,7 @@ class _ListOfItemsState extends State<ListOfItems> {
             tmp[index].urlImage,
           ),
         );
+        provider.listData = assets.findByUser(tmp[index].userId);
         break;
       default:
         provider.currentCategory = const DetailTypes.empty();

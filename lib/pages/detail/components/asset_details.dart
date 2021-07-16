@@ -70,7 +70,7 @@ class AssetDetailsState extends State<AssetDetails> {
           _renderAssetName(context),
         ].toRow(),
         <Widget>[
-          _renderType(context),
+          _renderCategory(context),
           _renderManufacture(context),
         ].toRow(),
         <Widget>[
@@ -204,7 +204,7 @@ class AssetDetailsState extends State<AssetDetails> {
   Widget _renderAssetName(BuildContext context) =>
       renderDefaultFieldForm(_assetNameController, 'asset name').expanded();
 
-  Widget _renderType(BuildContext context) {
+  Widget _renderCategory(BuildContext context) {
     return FutureBuilder<List<AssetType>>(
       future: asset_types.fetchAll(),
       builder: (_, AsyncSnapshot<List<AssetType>> snapshot) {
@@ -236,7 +236,7 @@ class AssetDetailsState extends State<AssetDetails> {
               )
               .expanded();
         } else {
-          return const CircularProgressIndicator();
+          return const CircularProgressIndicator().center().expanded();
         }
       },
     );
@@ -323,7 +323,7 @@ class AssetDetailsState extends State<AssetDetails> {
                   : '$_assignedUserId    ${data.firstWhere((User element) => element.userId == _assignedUserId).fullName}',
             ).expanded();
           } else
-            return const CircularProgressIndicator().expanded();
+            return const CircularProgressIndicator().center().expanded();
         },
       );
 
