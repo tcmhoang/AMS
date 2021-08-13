@@ -35,24 +35,37 @@ class DatabaseHandler {
 
   Future<void> _createDB(Database db, int version) async => db.execute(
         '''
-  CREATE TABLE users(userId INTEGER PRIMARY KEY AUTOINCREMENT, fullName TEXT, dob INTEGER, gender INTEGER, address TEXT, urlImage TEXT);
-  CREATE TABLE asset_type(typeId INTEGER PRIMARY KEY AUTOINCREMENT, typeName Text UNIQUE, color TEXT);
-  CREATE TABLE assets(
-  tag TEXT PRIMARY KEY, 
-  name TEXT,
-  make TEXT, 
-  created INTEGER, 
-  lastUpdated INTEGER, 
-  condition TEXT, 
-  urlImage TEXT, 
-  timesUsed INTEGER, 
-  originalPrice REAL, 
-  isAssigned INTEGER, 
-  typeId INTEGER,
-  userId INTEGER,
-  FOREIGN KEY(typeId) REFERENCES asset_type(typeId),
-  FOREIGN KEY(userId) REFERENCES users(userId)
-);
+      CREATE TABLE user(userId INTEGER PRIMARY KEY , fullName TEXT, dob INTEGER, gender INTEGER, address TEXT, urlImage TEXT);
+  
+      CREATE TABLE asset_type(typeName Text PRIMARY KEY, color TEXT);
+  
+      CREATE TABLE asset(
+      tag TEXT PRIMARY KEY, 
+      name TEXT,
+      make TEXT, 
+      created INTEGER, 
+      lastUpdated INTEGER, 
+      condition TEXT, 
+      urlImage TEXT, 
+      originalPrice BIGDECIMAL, 
+      isAssigned INTEGER, 
+      typeName TEXT REFERENCES asset_type(typeName)
+    ); 
+
+     CREATE TABLE user_asset(
+     userId INTEGER REFERENCES user(id),
+     assetTag TEXT REFERENCES asset(tag),
+     PRIMARY KEY (assetTag)
+    );
+ 
+     CREATE TABLE record(
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     userId INTEGER REFERENCES user(id),
+     assetTag TEXT REFERENCES asset(tag),
+     strPeriod INTEGER,
+     endPeriod INTEGER
+     );
+ 
     ''',
       );
 }

@@ -5,6 +5,8 @@ import '../domains/asset_repository/src/asset_model.dart';
 import '../domains/user_repository/user_repository.dart' as users;
 import 'domain/detail_types.dart';
 
+typedef FetchList = Future<List<dynamic>> Function();
+
 class MainScreenProvider with ChangeNotifier {
   MainScreenProvider() {
     _listData = assets.fetchAll();
@@ -16,7 +18,7 @@ class MainScreenProvider with ChangeNotifier {
       },
     );
   }
-  static final Map<String, Function> kActions = <String, Function>{
+  static final Map<String, FetchList> kActions = <String, FetchList>{
     'Users': users.fetchAll,
     'Assets': assets.fetchAll
   };
