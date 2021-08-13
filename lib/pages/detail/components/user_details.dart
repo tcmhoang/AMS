@@ -14,7 +14,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/flash.dart';
 import '../../../components/form_utils.dart';
-import '../../../config/constansts.dart';
+import '../../../config/constants.dart';
 import '../../../config/responsive.dart';
 import '../../../domains/user_repository/src/user_model.dart';
 import '../../../domains/user_repository/user_repository.dart';
@@ -143,7 +143,7 @@ class UserDetailsState extends State<UserDetails> {
       );
     } else {
       await update(
-        _data!.userId,
+        _data!.id,
         _data!.copyWith(
           fullName: _fnameController.text,
           dob: dateFormatter.parse(_dobController.text).millisecondsSinceEpoch,

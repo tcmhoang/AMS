@@ -6,7 +6,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../../../config/constansts.dart';
+import '../../../config/constants.dart';
 import '../../../config/extensions.dart';
 import '../../../domains/asset_repository/src/asset_model.dart';
 import '../../../domains/user_repository/src/user_model.dart';
@@ -39,7 +39,7 @@ class CardItem extends StatelessWidget {
         title: tmp.tag,
         date: DateTime.fromMillisecondsSinceEpoch(tmp.lastUpdated),
         body:
-            ' Manufacture: ${tmp.make}    Handover times: ${tmp.timesUsed}    Tag: ${tmp.tag} ',
+            ' Manufacture: ${tmp.make}    Handover times: TODO    Tag: ${tmp.tag} ',
         icon: LineIcons.print,
         image: tmp.urlImage.isEmpty || !File(tmp.urlImage).existsSync()
             ? null

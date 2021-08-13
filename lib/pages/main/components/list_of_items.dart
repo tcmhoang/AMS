@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/side_menu.dart';
-import '../../../config/constansts.dart';
+import '../../../config/constants.dart';
 import '../../../config/responsive.dart';
 import '../../../domains/asset_repository/asset_repository.dart' as assets;
 import '../../../domains/asset_repository/src/asset_model.dart';
@@ -159,7 +159,7 @@ class _ListOfItemsState extends State<ListOfItems> {
       provider.currentCategory = DetailTypes.asset(data);
     else if (data is User) {
       provider.currentCategory = DetailTypes.user(data);
-      provider.listData = assets.findByUser(data.userId);
+      provider.listData = assets.findByUser(data.id);
     } else
       provider.currentCategory = const DetailTypes.empty();
   }

@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import '../config/constansts.dart';
+import '../config/constants.dart';
 
 class DatabaseHandler {
   static Database? _db;
@@ -35,11 +35,11 @@ class DatabaseHandler {
 
   Future<void> _createDB(Database db, int version) async => db.execute(
         '''
-      CREATE TABLE user(userId INTEGER PRIMARY KEY , fullName TEXT, dob INTEGER, gender INTEGER, address TEXT, urlImage TEXT);
+      CREATE TABLE User(id INTEGER PRIMARY KEY , fullName TEXT, dob INTEGER, gender INTEGER, address TEXT, urlImage TEXT);
   
-      CREATE TABLE asset_type(typeName Text PRIMARY KEY, color TEXT);
+      CREATE TABLE AssetType(typeName Text PRIMARY KEY, color TEXT);
   
-      CREATE TABLE asset(
+      CREATE TABLE Asset(
       tag TEXT PRIMARY KEY, 
       name TEXT,
       make TEXT, 
@@ -49,23 +49,22 @@ class DatabaseHandler {
       urlImage TEXT, 
       originalPrice BIGDECIMAL, 
       isAssigned INTEGER, 
-      typeName TEXT REFERENCES asset_type(typeName)
+      typeName TEXT REFERENCES AssetType(typeName)
     ); 
 
-     CREATE TABLE user_asset(
-     userId INTEGER REFERENCES user(id),
-     assetTag TEXT REFERENCES asset(tag),
+     CREATE TABLE UserAsset(
+     userId INTEGER REFERENCES User(id),
+     assetTag TEXT REFERENCES Asset(tag),
      PRIMARY KEY (assetTag)
     );
  
-     CREATE TABLE record(
+     CREATE TABLE AssetRecord(
      id INTEGER PRIMARY KEY AUTOINCREMENT,
-     userId INTEGER REFERENCES user(id),
-     assetTag TEXT REFERENCES asset(tag),
+     userId INTEGER REFERENCES User(id),
+     assetTag TEXT REFERENCES Asset(tag),
      strPeriod INTEGER,
      endPeriod INTEGER
      );
- 
-    ''',
+     ''',
       );
 }

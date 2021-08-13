@@ -11,7 +11,7 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:supercharged/supercharged.dart';
 
 import '../../../components/flash.dart';
-import '../../../config/constansts.dart';
+import '../../../config/constants.dart';
 import '../../../config/responsive.dart';
 import '../../../domains/asset_repository/asset_repository.dart' as assets;
 import '../../../domains/asset_repository/src/asset_model.dart';
@@ -76,7 +76,7 @@ class _HeaderState extends State<Header> {
         ),
         const Spacer(),
         FutureBuilder<AssetType?>(
-          future: ats.get(asset.typeId),
+          future: ats.get(asset.typeName),
           builder: (_, AsyncSnapshot<AssetType?> snapshot) {
             if (snapshot.hasData) {
               final AssetType tmp = snapshot.data!;
@@ -144,7 +144,7 @@ class _HeaderState extends State<Header> {
           onPressed: () async {
             _deleteImage(user.urlImage);
 
-            if (await users.delete(user.userId)) {
+            if (await users.delete(user.id)) {
               showTopFlash(
                 context,
                 'Update Status',

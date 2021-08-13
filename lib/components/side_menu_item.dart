@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../config/constansts.dart';
+import '../config/constants.dart';
 import 'counter_badge.dart';
 
 class SideMenuItem extends StatelessWidget {

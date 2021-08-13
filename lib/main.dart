@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:window_size/window_size.dart';
 
 import 'app.dart';
-import 'config/constansts.dart';
+import 'config/constants.dart';
 import 'services/injection_pool.dart';
 
 Future<void> main() async {

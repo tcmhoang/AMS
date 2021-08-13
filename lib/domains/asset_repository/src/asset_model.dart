@@ -9,16 +9,14 @@ class AssetModel with _$AssetModel {
   const factory AssetModel(
     String tag,
     String name,
-    int typeId,
-    int userId,
     String make,
     int created,
     int lastUpdated,
     String condition,
     String urlImage,
-    int timesUsed,
     double originalPrice,
     int isAssigned,
+    String typeName,
   ) = Asset;
 
   factory AssetModel.fromJson(Map<String, dynamic> json) =>

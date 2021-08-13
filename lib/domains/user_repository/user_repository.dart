@@ -19,7 +19,7 @@ Future<bool> create(User user) async {
 
 Future<bool> update(int id, User newData) async {
   try {
-    if (newData.userId != id) {
+    if (newData.id != id) {
       throw Exception('Not the same data');
     }
     await users.getUser(id);

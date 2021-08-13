@@ -53,11 +53,11 @@ class AssetModels {
     }
   }
 
-  Future<List<Asset>> findByType(int type) async {
+  Future<List<Asset>> findByTypeName(String type) async {
     final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
       _kTableName,
-      where: 'typeId = ?',
-      whereArgs: <int>[type],
+      where: 'typeName = ?',
+      whereArgs: <String>[type],
     );
 
     if (maps.isNotEmpty) {

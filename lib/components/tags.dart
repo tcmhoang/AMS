@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:supercharged/supercharged.dart';
 
-import '../config/constansts.dart';
+import '../config/constants.dart';
 import '../domains/asset_repository/src/asset_model.dart';
 import '../domains/asset_type_repository/asset_type_repository.dart';
 import '../domains/asset_type_repository/src/asset_type_model.dart';

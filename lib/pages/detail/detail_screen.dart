@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../../config/constansts.dart';
+import '../../config/constants.dart';
 import '../../domains/asset_repository/src/asset_model.dart';
 import '../../domains/user_repository/src/user_model.dart';
 import '../../providers/main_screen_provider.dart';

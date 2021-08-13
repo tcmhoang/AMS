@@ -23,29 +23,25 @@ class _$AssetModelTearOff {
   Asset call(
       String tag,
       String name,
-      int typeId,
-      int userId,
       String make,
       int created,
       int lastUpdated,
       String condition,
       String urlImage,
-      int timesUsed,
       double originalPrice,
-      int isAssigned) {
+      int isAssigned,
+      String typeName) {
     return Asset(
       tag,
       name,
-      typeId,
-      userId,
       make,
       created,
       lastUpdated,
       condition,
       urlImage,
-      timesUsed,
       originalPrice,
       isAssigned,
+      typeName,
     );
   }
 
@@ -61,16 +57,14 @@ const $AssetModel = _$AssetModelTearOff();
 mixin _$AssetModel {
   String get tag => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  int get typeId => throw _privateConstructorUsedError;
-  int get userId => throw _privateConstructorUsedError;
   String get make => throw _privateConstructorUsedError;
   int get created => throw _privateConstructorUsedError;
   int get lastUpdated => throw _privateConstructorUsedError;
   String get condition => throw _privateConstructorUsedError;
   String get urlImage => throw _privateConstructorUsedError;
-  int get timesUsed => throw _privateConstructorUsedError;
   double get originalPrice => throw _privateConstructorUsedError;
   int get isAssigned => throw _privateConstructorUsedError;
+  String get typeName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -86,16 +80,14 @@ abstract class $AssetModelCopyWith<$Res> {
   $Res call(
       {String tag,
       String name,
-      int typeId,
-      int userId,
       String make,
       int created,
       int lastUpdated,
       String condition,
       String urlImage,
-      int timesUsed,
       double originalPrice,
-      int isAssigned});
+      int isAssigned,
+      String typeName});
 }
 
 /// @nodoc
@@ -110,16 +102,14 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
   $Res call({
     Object? tag = freezed,
     Object? name = freezed,
-    Object? typeId = freezed,
-    Object? userId = freezed,
     Object? make = freezed,
     Object? created = freezed,
     Object? lastUpdated = freezed,
     Object? condition = freezed,
     Object? urlImage = freezed,
-    Object? timesUsed = freezed,
     Object? originalPrice = freezed,
     Object? isAssigned = freezed,
+    Object? typeName = freezed,
   }) {
     return _then(_value.copyWith(
       tag: tag == freezed
@@ -130,14 +120,6 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      typeId: typeId == freezed
-          ? _value.typeId
-          : typeId // ignore: cast_nullable_to_non_nullable
-              as int,
-      userId: userId == freezed
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as int,
       make: make == freezed
           ? _value.make
           : make // ignore: cast_nullable_to_non_nullable
@@ -158,10 +140,6 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
           ? _value.urlImage
           : urlImage // ignore: cast_nullable_to_non_nullable
               as String,
-      timesUsed: timesUsed == freezed
-          ? _value.timesUsed
-          : timesUsed // ignore: cast_nullable_to_non_nullable
-              as int,
       originalPrice: originalPrice == freezed
           ? _value.originalPrice
           : originalPrice // ignore: cast_nullable_to_non_nullable
@@ -170,6 +148,10 @@ class _$AssetModelCopyWithImpl<$Res> implements $AssetModelCopyWith<$Res> {
           ? _value.isAssigned
           : isAssigned // ignore: cast_nullable_to_non_nullable
               as int,
+      typeName: typeName == freezed
+          ? _value.typeName
+          : typeName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -182,16 +164,14 @@ abstract class $AssetCopyWith<$Res> implements $AssetModelCopyWith<$Res> {
   $Res call(
       {String tag,
       String name,
-      int typeId,
-      int userId,
       String make,
       int created,
       int lastUpdated,
       String condition,
       String urlImage,
-      int timesUsed,
       double originalPrice,
-      int isAssigned});
+      int isAssigned,
+      String typeName});
 }
 
 /// @nodoc
@@ -207,16 +187,14 @@ class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
   $Res call({
     Object? tag = freezed,
     Object? name = freezed,
-    Object? typeId = freezed,
-    Object? userId = freezed,
     Object? make = freezed,
     Object? created = freezed,
     Object? lastUpdated = freezed,
     Object? condition = freezed,
     Object? urlImage = freezed,
-    Object? timesUsed = freezed,
     Object? originalPrice = freezed,
     Object? isAssigned = freezed,
+    Object? typeName = freezed,
   }) {
     return _then(Asset(
       tag == freezed
@@ -227,14 +205,6 @@ class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      typeId == freezed
-          ? _value.typeId
-          : typeId // ignore: cast_nullable_to_non_nullable
-              as int,
-      userId == freezed
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as int,
       make == freezed
           ? _value.make
           : make // ignore: cast_nullable_to_non_nullable
@@ -255,10 +225,6 @@ class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
           ? _value.urlImage
           : urlImage // ignore: cast_nullable_to_non_nullable
               as String,
-      timesUsed == freezed
-          ? _value.timesUsed
-          : timesUsed // ignore: cast_nullable_to_non_nullable
-              as int,
       originalPrice == freezed
           ? _value.originalPrice
           : originalPrice // ignore: cast_nullable_to_non_nullable
@@ -267,6 +233,10 @@ class _$AssetCopyWithImpl<$Res> extends _$AssetModelCopyWithImpl<$Res>
           ? _value.isAssigned
           : isAssigned // ignore: cast_nullable_to_non_nullable
               as int,
+      typeName == freezed
+          ? _value.typeName
+          : typeName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -277,16 +247,14 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
   const _$Asset(
       this.tag,
       this.name,
-      this.typeId,
-      this.userId,
       this.make,
       this.created,
       this.lastUpdated,
       this.condition,
       this.urlImage,
-      this.timesUsed,
       this.originalPrice,
-      this.isAssigned);
+      this.isAssigned,
+      this.typeName);
 
   factory _$Asset.fromJson(Map<String, dynamic> json) =>
       _$_$AssetFromJson(json);
@@ -295,10 +263,6 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
   final String tag;
   @override
   final String name;
-  @override
-  final int typeId;
-  @override
-  final int userId;
   @override
   final String make;
   @override
@@ -310,15 +274,15 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
   @override
   final String urlImage;
   @override
-  final int timesUsed;
-  @override
   final double originalPrice;
   @override
   final int isAssigned;
+  @override
+  final String typeName;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AssetModel(tag: $tag, name: $name, typeId: $typeId, userId: $userId, make: $make, created: $created, lastUpdated: $lastUpdated, condition: $condition, urlImage: $urlImage, timesUsed: $timesUsed, originalPrice: $originalPrice, isAssigned: $isAssigned)';
+    return 'AssetModel(tag: $tag, name: $name, make: $make, created: $created, lastUpdated: $lastUpdated, condition: $condition, urlImage: $urlImage, originalPrice: $originalPrice, isAssigned: $isAssigned, typeName: $typeName)';
   }
 
   @override
@@ -328,16 +292,14 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
       ..add(DiagnosticsProperty('type', 'AssetModel'))
       ..add(DiagnosticsProperty('tag', tag))
       ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('typeId', typeId))
-      ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('make', make))
       ..add(DiagnosticsProperty('created', created))
       ..add(DiagnosticsProperty('lastUpdated', lastUpdated))
       ..add(DiagnosticsProperty('condition', condition))
       ..add(DiagnosticsProperty('urlImage', urlImage))
-      ..add(DiagnosticsProperty('timesUsed', timesUsed))
       ..add(DiagnosticsProperty('originalPrice', originalPrice))
-      ..add(DiagnosticsProperty('isAssigned', isAssigned));
+      ..add(DiagnosticsProperty('isAssigned', isAssigned))
+      ..add(DiagnosticsProperty('typeName', typeName));
   }
 
   @override
@@ -348,10 +310,6 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
                 const DeepCollectionEquality().equals(other.tag, tag)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.typeId, typeId) ||
-                const DeepCollectionEquality().equals(other.typeId, typeId)) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
             (identical(other.make, make) ||
                 const DeepCollectionEquality().equals(other.make, make)) &&
             (identical(other.created, created) ||
@@ -366,15 +324,15 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
             (identical(other.urlImage, urlImage) ||
                 const DeepCollectionEquality()
                     .equals(other.urlImage, urlImage)) &&
-            (identical(other.timesUsed, timesUsed) ||
-                const DeepCollectionEquality()
-                    .equals(other.timesUsed, timesUsed)) &&
             (identical(other.originalPrice, originalPrice) ||
                 const DeepCollectionEquality()
                     .equals(other.originalPrice, originalPrice)) &&
             (identical(other.isAssigned, isAssigned) ||
                 const DeepCollectionEquality()
-                    .equals(other.isAssigned, isAssigned)));
+                    .equals(other.isAssigned, isAssigned)) &&
+            (identical(other.typeName, typeName) ||
+                const DeepCollectionEquality()
+                    .equals(other.typeName, typeName)));
   }
 
   @override
@@ -382,16 +340,14 @@ class _$Asset with DiagnosticableTreeMixin implements Asset {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(tag) ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(typeId) ^
-      const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(make) ^
       const DeepCollectionEquality().hash(created) ^
       const DeepCollectionEquality().hash(lastUpdated) ^
       const DeepCollectionEquality().hash(condition) ^
       const DeepCollectionEquality().hash(urlImage) ^
-      const DeepCollectionEquality().hash(timesUsed) ^
       const DeepCollectionEquality().hash(originalPrice) ^
-      const DeepCollectionEquality().hash(isAssigned);
+      const DeepCollectionEquality().hash(isAssigned) ^
+      const DeepCollectionEquality().hash(typeName);
 
   @JsonKey(ignore: true)
   @override
@@ -408,16 +364,14 @@ abstract class Asset implements AssetModel {
   const factory Asset(
       String tag,
       String name,
-      int typeId,
-      int userId,
       String make,
       int created,
       int lastUpdated,
       String condition,
       String urlImage,
-      int timesUsed,
       double originalPrice,
-      int isAssigned) = _$Asset;
+      int isAssigned,
+      String typeName) = _$Asset;
 
   factory Asset.fromJson(Map<String, dynamic> json) = _$Asset.fromJson;
 
@@ -425,10 +379,6 @@ abstract class Asset implements AssetModel {
   String get tag => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
-  @override
-  int get typeId => throw _privateConstructorUsedError;
-  @override
-  int get userId => throw _privateConstructorUsedError;
   @override
   String get make => throw _privateConstructorUsedError;
   @override
@@ -440,11 +390,11 @@ abstract class Asset implements AssetModel {
   @override
   String get urlImage => throw _privateConstructorUsedError;
   @override
-  int get timesUsed => throw _privateConstructorUsedError;
-  @override
   double get originalPrice => throw _privateConstructorUsedError;
   @override
   int get isAssigned => throw _privateConstructorUsedError;
+  @override
+  String get typeName => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   $AssetCopyWith<Asset> get copyWith => throw _privateConstructorUsedError;

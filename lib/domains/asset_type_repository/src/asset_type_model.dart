@@ -7,7 +7,6 @@ part 'asset_type_model.g.dart';
 @freezed
 class AssetTypeModel with _$AssetTypeModel {
   const factory AssetTypeModel(
-    int typeId,
     String typeName,
     String color,
   ) = AssetType;

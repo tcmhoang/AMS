@@ -6,7 +6,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../config/constansts.dart';
+import '../config/constants.dart';
 import '../config/extensions.dart';
 import '../config/responsive.dart';
 import '../domains/asset_repository/asset_repository.dart' as assets;

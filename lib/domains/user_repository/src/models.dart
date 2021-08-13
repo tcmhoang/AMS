@@ -30,8 +30,8 @@ class UserModels {
     await _dbHandler.db!.update(
       _kTableName,
       userModel.toJson(),
-      where: 'userId = ?',
-      whereArgs: <int>[userModel.userId],
+      where: 'id = ?',
+      whereArgs: <int>[userModel.id],
     );
   }
 

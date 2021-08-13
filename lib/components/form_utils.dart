@@ -8,7 +8,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../config/constansts.dart';
+import '../config/constants.dart';
 import '../config/extensions.dart';
 
 final DateFormat dateFormatter = DateFormat('MM-dd-yyyy');

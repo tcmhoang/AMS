@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lsv_ams/config/constansts.dart';
+import 'package:lsv_ams/config/constants.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/main/main_screen.dart';

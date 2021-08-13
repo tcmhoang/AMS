@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:lsv_ams/config/constansts.dart';
+import 'package:lsv_ams/config/constants.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 void showTopFlash(

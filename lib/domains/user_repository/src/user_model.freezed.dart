@@ -20,10 +20,10 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 class _$UserModelTearOff {
   const _$UserModelTearOff();
 
-  User call(int userId, String fullName, int dob, int gender, String address,
+  User call(int id, String fullName, int dob, int gender, String address,
       String urlImage) {
     return User(
-      userId,
+      id,
       fullName,
       dob,
       gender,
@@ -42,7 +42,7 @@ const $UserModel = _$UserModelTearOff();
 
 /// @nodoc
 mixin _$UserModel {
-  int get userId => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   int get dob => throw _privateConstructorUsedError;
   int get gender => throw _privateConstructorUsedError;
@@ -60,7 +60,7 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res>;
   $Res call(
-      {int userId,
+      {int id,
       String fullName,
       int dob,
       int gender,
@@ -78,7 +78,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? userId = freezed,
+    Object? id = freezed,
     Object? fullName = freezed,
     Object? dob = freezed,
     Object? gender = freezed,
@@ -86,9 +86,9 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object? urlImage = freezed,
   }) {
     return _then(_value.copyWith(
-      userId: userId == freezed
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       fullName: fullName == freezed
           ? _value.fullName
@@ -120,7 +120,7 @@ abstract class $UserCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       _$UserCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int userId,
+      {int id,
       String fullName,
       int dob,
       int gender,
@@ -139,7 +139,7 @@ class _$UserCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? userId = freezed,
+    Object? id = freezed,
     Object? fullName = freezed,
     Object? dob = freezed,
     Object? gender = freezed,
@@ -147,9 +147,9 @@ class _$UserCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
     Object? urlImage = freezed,
   }) {
     return _then(User(
-      userId == freezed
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       fullName == freezed
           ? _value.fullName
@@ -178,13 +178,13 @@ class _$UserCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$User with DiagnosticableTreeMixin implements User {
-  const _$User(this.userId, this.fullName, this.dob, this.gender, this.address,
+  const _$User(this.id, this.fullName, this.dob, this.gender, this.address,
       this.urlImage);
 
   factory _$User.fromJson(Map<String, dynamic> json) => _$_$UserFromJson(json);
 
   @override
-  final int userId;
+  final int id;
   @override
   final String fullName;
   @override
@@ -198,7 +198,7 @@ class _$User with DiagnosticableTreeMixin implements User {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(userId: $userId, fullName: $fullName, dob: $dob, gender: $gender, address: $address, urlImage: $urlImage)';
+    return 'UserModel(id: $id, fullName: $fullName, dob: $dob, gender: $gender, address: $address, urlImage: $urlImage)';
   }
 
   @override
@@ -206,7 +206,7 @@ class _$User with DiagnosticableTreeMixin implements User {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'UserModel'))
-      ..add(DiagnosticsProperty('userId', userId))
+      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('fullName', fullName))
       ..add(DiagnosticsProperty('dob', dob))
       ..add(DiagnosticsProperty('gender', gender))
@@ -218,8 +218,8 @@ class _$User with DiagnosticableTreeMixin implements User {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is User &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.fullName, fullName) ||
                 const DeepCollectionEquality()
                     .equals(other.fullName, fullName)) &&
@@ -238,7 +238,7 @@ class _$User with DiagnosticableTreeMixin implements User {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(fullName) ^
       const DeepCollectionEquality().hash(dob) ^
       const DeepCollectionEquality().hash(gender) ^
@@ -257,13 +257,13 @@ class _$User with DiagnosticableTreeMixin implements User {
 }
 
 abstract class User implements UserModel {
-  const factory User(int userId, String fullName, int dob, int gender,
+  const factory User(int id, String fullName, int dob, int gender,
       String address, String urlImage) = _$User;
 
   factory User.fromJson(Map<String, dynamic> json) = _$User.fromJson;
 
   @override
-  int get userId => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   @override
   String get fullName => throw _privateConstructorUsedError;
   @override

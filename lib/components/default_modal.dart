@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../config/constansts.dart';
+import '../config/constants.dart';
 import '../config/responsive.dart';
 
 class DefaultModal extends StatelessWidget {

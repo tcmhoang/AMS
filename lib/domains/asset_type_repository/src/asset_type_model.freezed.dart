@@ -20,9 +20,8 @@ AssetTypeModel _$AssetTypeModelFromJson(Map<String, dynamic> json) {
 class _$AssetTypeModelTearOff {
   const _$AssetTypeModelTearOff();
 
-  AssetType call(int typeId, String typeName, String color) {
+  AssetType call(String typeName, String color) {
     return AssetType(
-      typeId,
       typeName,
       color,
     );
@@ -38,7 +37,6 @@ const $AssetTypeModel = _$AssetTypeModelTearOff();
 
 /// @nodoc
 mixin _$AssetTypeModel {
-  int get typeId => throw _privateConstructorUsedError;
   String get typeName => throw _privateConstructorUsedError;
   String get color => throw _privateConstructorUsedError;
 
@@ -53,7 +51,7 @@ abstract class $AssetTypeModelCopyWith<$Res> {
   factory $AssetTypeModelCopyWith(
           AssetTypeModel value, $Res Function(AssetTypeModel) then) =
       _$AssetTypeModelCopyWithImpl<$Res>;
-  $Res call({int typeId, String typeName, String color});
+  $Res call({String typeName, String color});
 }
 
 /// @nodoc
@@ -67,15 +65,10 @@ class _$AssetTypeModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? typeId = freezed,
     Object? typeName = freezed,
     Object? color = freezed,
   }) {
     return _then(_value.copyWith(
-      typeId: typeId == freezed
-          ? _value.typeId
-          : typeId // ignore: cast_nullable_to_non_nullable
-              as int,
       typeName: typeName == freezed
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
@@ -94,7 +87,7 @@ abstract class $AssetTypeCopyWith<$Res>
   factory $AssetTypeCopyWith(AssetType value, $Res Function(AssetType) then) =
       _$AssetTypeCopyWithImpl<$Res>;
   @override
-  $Res call({int typeId, String typeName, String color});
+  $Res call({String typeName, String color});
 }
 
 /// @nodoc
@@ -108,15 +101,10 @@ class _$AssetTypeCopyWithImpl<$Res> extends _$AssetTypeModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? typeId = freezed,
     Object? typeName = freezed,
     Object? color = freezed,
   }) {
     return _then(AssetType(
-      typeId == freezed
-          ? _value.typeId
-          : typeId // ignore: cast_nullable_to_non_nullable
-              as int,
       typeName == freezed
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
@@ -132,13 +120,11 @@ class _$AssetTypeCopyWithImpl<$Res> extends _$AssetTypeModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AssetType with DiagnosticableTreeMixin implements AssetType {
-  const _$AssetType(this.typeId, this.typeName, this.color);
+  const _$AssetType(this.typeName, this.color);
 
   factory _$AssetType.fromJson(Map<String, dynamic> json) =>
       _$_$AssetTypeFromJson(json);
 
-  @override
-  final int typeId;
   @override
   final String typeName;
   @override
@@ -146,7 +132,7 @@ class _$AssetType with DiagnosticableTreeMixin implements AssetType {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AssetTypeModel(typeId: $typeId, typeName: $typeName, color: $color)';
+    return 'AssetTypeModel(typeName: $typeName, color: $color)';
   }
 
   @override
@@ -154,7 +140,6 @@ class _$AssetType with DiagnosticableTreeMixin implements AssetType {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'AssetTypeModel'))
-      ..add(DiagnosticsProperty('typeId', typeId))
       ..add(DiagnosticsProperty('typeName', typeName))
       ..add(DiagnosticsProperty('color', color));
   }
@@ -163,8 +148,6 @@ class _$AssetType with DiagnosticableTreeMixin implements AssetType {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is AssetType &&
-            (identical(other.typeId, typeId) ||
-                const DeepCollectionEquality().equals(other.typeId, typeId)) &&
             (identical(other.typeName, typeName) ||
                 const DeepCollectionEquality()
                     .equals(other.typeName, typeName)) &&
@@ -175,7 +158,6 @@ class _$AssetType with DiagnosticableTreeMixin implements AssetType {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(typeId) ^
       const DeepCollectionEquality().hash(typeName) ^
       const DeepCollectionEquality().hash(color);
 
@@ -191,13 +173,10 @@ class _$AssetType with DiagnosticableTreeMixin implements AssetType {
 }
 
 abstract class AssetType implements AssetTypeModel {
-  const factory AssetType(int typeId, String typeName, String color) =
-      _$AssetType;
+  const factory AssetType(String typeName, String color) = _$AssetType;
 
   factory AssetType.fromJson(Map<String, dynamic> json) = _$AssetType.fromJson;
 
-  @override
-  int get typeId => throw _privateConstructorUsedError;
   @override
   String get typeName => throw _privateConstructorUsedError;
   @override

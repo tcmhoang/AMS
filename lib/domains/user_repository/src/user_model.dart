@@ -7,7 +7,7 @@ part 'user_model.g.dart';
 @freezed
 class UserModel with _$UserModel {
   const factory UserModel(
-    int userId,
+    int id,
     String fullName,
     int dob,
     int gender,

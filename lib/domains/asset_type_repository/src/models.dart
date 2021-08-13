@@ -25,8 +25,8 @@ class AssetTypeModels {
     await _dbHandler.db!.update(
       _kTableName,
       assetTypeModel.toJson(),
-      where: 'typeId = ?',
-      whereArgs: <int>[assetTypeModel.typeId],
+      where: 'typeName = ?',
+      whereArgs: <String>[assetTypeModel.typeName],
     );
   }
 
@@ -38,31 +38,17 @@ class AssetTypeModels {
     );
   }
 
-  Future<AssetType> get(int assetTypeId) async {
-    final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
-      _kTableName,
-      where: 'typeId = ?',
-      whereArgs: <int>[assetTypeId],
-    );
-
-    if (maps.isNotEmpty) {
-      return AssetType.fromJson(maps.first);
-    } else {
-      throw Exception('ID $assetTypeId not found');
-    }
-  }
-
-  Future<AssetType> findByTitle(String title) async {
+  Future<AssetType> get(String name) async {
     final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
       _kTableName,
       where: 'typeName = ?',
-      whereArgs: <String>[title],
+      whereArgs: <String>[name],
     );
 
     if (maps.isNotEmpty) {
       return AssetType.fromJson(maps.first);
     } else {
-      throw Exception('ID $title not found');
+      throw Exception('Name $name not found');
     }
   }
 }

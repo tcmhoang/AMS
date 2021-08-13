@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../components/flash.dart';
 import '../../../components/form_utils.dart';
-import '../../../config/constansts.dart';
+import '../../../config/constants.dart';
 import '../../../config/currency_formatter.dart';
 import '../../../config/responsive.dart';
 import '../../../domains/asset_repository/asset_repository.dart' as assets;
@@ -22,8 +21,6 @@ import '../../../domains/asset_repository/src/asset_model.dart';
 import '../../../domains/asset_type_repository/asset_type_repository.dart'
     as asset_types;
 import '../../../domains/asset_type_repository/src/asset_type_model.dart';
-import '../../../domains/user_repository/src/user_model.dart';
-import '../../../domains/user_repository/user_repository.dart' as users;
 
 class AssetDetails extends StatefulWidget {
   const AssetDetails({this.data});
@@ -44,13 +41,13 @@ class AssetDetailsState extends State<AssetDetails> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _conditionController = TextEditingController();
   final TextEditingController _typeController = TextEditingController();
-  final TextEditingController _userController = TextEditingController();
+  // final TextEditingController _userController = TextEditingController();
 
   bool _isAssigned = false;
-  int _selectedCategoryId = 0;
-  int _assignedUserId = 0;
+  // int _assignedUserId = 0;
 
   String _image = '';
+  String _selectedCategoryName = '';
 
   Asset? _data;
 
@@ -80,7 +77,7 @@ class AssetDetailsState extends State<AssetDetails> {
         <Widget>[
           const Text('Is Assigned:').padding(all: kDefaultPadding),
           _renderIsAssigned(context),
-          if (_isAssigned == true) _renderUserAssigned(context),
+          // if (_isAssigned == true) _renderUserAssigned(context),
         ].toRow(),
         _renderImage(context).padding(all: kDefaultPadding),
         _renderSaveBtn(context),
@@ -105,10 +102,10 @@ class AssetDetailsState extends State<AssetDetails> {
         _priceController.text =
             CurrencyFormatter.formatter.format(tmp.originalPrice);
         _conditionController.text = tmp.condition;
-        _typeController.text = tmp.typeId.toString();
-        _selectedCategoryId = tmp.typeId;
+        _typeController.text = tmp.typeName;
+        _selectedCategoryName = tmp.typeName;
         _isAssigned = tmp.isAssigned != 0;
-        _assignedUserId = tmp.userId;
+        // _assignedUserId = tmp.userId;
         _image = tmp.urlImage;
       } else {
         _tagController.text = '';
@@ -117,9 +114,9 @@ class AssetDetailsState extends State<AssetDetails> {
         _conditionController.text = 'New';
         _priceController.text = '';
         _typeController.text = '';
-        _selectedCategoryId = 0;
+        _selectedCategoryName = '';
         _isAssigned = false;
-        _assignedUserId = 0;
+        // _assignedUserId = 0;
         _image = '';
       }
     }
@@ -168,16 +165,16 @@ class AssetDetailsState extends State<AssetDetails> {
         Asset(
           _tagController.text,
           _assetNameController.text,
-          _selectedCategoryId,
-          _isAssigned == true ? _assignedUserId : 0,
           _manufacturerController.text,
           DateTime.now().millisecondsSinceEpoch,
           DateTime.now().millisecondsSinceEpoch,
           _conditionController.text,
           _image,
-          1,
           CurrencyFormatter.getValue(_priceController.text),
           _isAssigned ? 1 : 0,
+          _selectedCategoryName,
+          // _isAssigned == true ? _assignedUserId : 0,
+          // 1,
         ),
       );
     } else {
@@ -188,10 +185,10 @@ class AssetDetailsState extends State<AssetDetails> {
           condition: _conditionController.text,
           lastUpdated: DateTime.now().millisecondsSinceEpoch,
           isAssigned: _isAssigned ? 1 : 0,
-          typeId: _selectedCategoryId,
+          typeName: _selectedCategoryName,
           make: _manufacturerController.text,
           originalPrice: CurrencyFormatter.getValue(_priceController.text),
-          userId: _isAssigned == true ? _assignedUserId : 0,
+          // userId: _isAssigned == true ? _assignedUserId : 0,
         ),
       );
     }
@@ -210,8 +207,8 @@ class AssetDetailsState extends State<AssetDetails> {
       builder: (_, AsyncSnapshot<List<AssetType>> snapshot) {
         if (snapshot.hasData) {
           final List<AssetType> data = snapshot.data!;
-          return DropdownButtonFormField<int>(
-            value: _data == null || _data!.typeId == 0 ? null : _data!.typeId,
+          return DropdownButtonFormField<String>(
+            value: _data?.typeName ?? '',
             icon: LineIcon.arrowCircleDown(
               size: 24,
               color: kGrayColor,
@@ -220,11 +217,11 @@ class AssetDetailsState extends State<AssetDetails> {
             elevation: 16,
             decoration: getDefaultInputDecoration(title: 'Category name'),
             style: Theme.of(context).textTheme.bodyText2,
-            onChanged: (int? id) => _selectedCategoryId = id!,
+            onChanged: (String? id) => _selectedCategoryName = id!,
             items: data
-                .map<DropdownMenuItem<int>>(
-                  (AssetType as) => DropdownMenuItem<int>(
-                    value: as.typeId,
+                .map<DropdownMenuItem<String>>(
+                  (AssetType as) => DropdownMenuItem<String>(
+                    value: as.typeName,
                     child: Text(as.typeName),
                   ),
                 )
@@ -292,40 +289,39 @@ class AssetDetailsState extends State<AssetDetails> {
         },
       ).padding(right: kDefaultPadding);
 
-  Widget _renderUserAssigned(BuildContext context) => FutureBuilder<List<User>>(
-        future: users.fetchAll(),
-        builder: (_, AsyncSnapshot<List<User>> snapshot) {
-          if (snapshot.hasData) {
-            final List<User> data = snapshot.data!;
-            return DropdownSearch<String>(
-              dropDownButton: RotatedBox(
-                quarterTurns: -1,
-                child: LineIcon.search(
-                  size: 24,
-                  color: kGrayColor,
-                ),
-              ),
-              mode: Mode.MENU,
-              showSearchBox: true,
-              showSelectedItem: true,
-              dropdownSearchDecoration:
-                  getDefaultInputDecoration(title: 'Category name'),
-              items:
-                  data.map((User e) => '${e.userId}    ${e.fullName}').toList(),
-              label: 'User assigned',
-              onChanged: (String? value) {
-                _userController.text = value!;
-                _assignedUserId =
-                    int.parse(_userController.text.split(RegExp(r'\s+'))[0]);
-              },
-              selectedItem: _assignedUserId == 0
-                  ? null
-                  : '$_assignedUserId    ${data.firstWhere((User element) => element.userId == _assignedUserId).fullName}',
-            ).expanded();
-          } else
-            return const CircularProgressIndicator().center().expanded();
-        },
-      );
+  // Widget _renderUserAssigned(BuildContext context) => FutureBuilder<List<User>>(
+  //       future: users.fetchAll(),
+  //       builder: (_, AsyncSnapshot<List<User>> snapshot) {
+  //         if (snapshot.hasData) {
+  //           final List<User> data = snapshot.data!;
+  //           return DropdownSearch<String>(
+  //             dropDownButton: RotatedBox(
+  //               quarterTurns: -1,
+  //               child: LineIcon.search(
+  //                 size: 24,
+  //                 color: kGrayColor,
+  //               ),
+  //             ),
+  //             mode: Mode.MENU,
+  //             showSearchBox: true,
+  //             showSelectedItem: true,
+  //             dropdownSearchDecoration:
+  //                 getDefaultInputDecoration(title: 'Category name'),
+  //             items: data.map((User e) => '${e.id}    ${e.fullName}').toList(),
+  //             label: 'User assigned',
+  //             onChanged: (String? value) {
+  //               _userController.text = value!;
+  //               _assignedUserId =
+  //                   int.parse(_userController.text.split(RegExp(r'\s+'))[0]);
+  //             },
+  //             selectedItem: _assignedUserId == 0
+  //                 ? null
+  //                 : '$_assignedUserId    ${data.firstWhere((User element) => element.id == _assignedUserId).fullName}',
+  //           ).expanded();
+  //         } else
+  //           return const CircularProgressIndicator().center().expanded();
+  //       },
+  //     );
 
   Widget _renderImage(BuildContext context) => Container(
         child: _image.isEmpty || !File(_image).existsSync()
