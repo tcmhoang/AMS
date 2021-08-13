@@ -58,7 +58,7 @@ class DatabaseHandler {
      PRIMARY KEY (assetTag)
     );
  
-     CREATE TABLE AssetRecord(
+     CREATE TABLE Record(
      id INTEGER PRIMARY KEY AUTOINCREMENT,
      userId INTEGER REFERENCES User(id),
      assetTag TEXT REFERENCES Asset(tag),

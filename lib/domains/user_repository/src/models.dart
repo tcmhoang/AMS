@@ -3,7 +3,7 @@ import '../../../services/injection_pool.dart';
 import 'user_model.dart';
 
 class UserModels {
-  static const String _kTableName = 'users';
+  static const String _kTableName = 'user';
   static late final DatabaseHandler _dbHandler =
       InjectionPool.injector!.get<DatabaseHandler>();
 
