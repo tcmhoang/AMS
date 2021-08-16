@@ -13,7 +13,7 @@ Future<bool> create(AssetType data) async {
   return true;
 }
 
-Future<bool> update(int id, AssetType newData) async {
+Future<bool> update(AssetType newData) async {
   try {
     await ats.updateAssetType(newData);
   } catch (_, __) {
@@ -32,7 +32,7 @@ Future<List<AssetType>> fetchAll() async {
 
 Future<AssetType?> get(String name) async {
   try {
-    return await ats.get(name);
+    return ats.get(name);
   } catch (_, __) {
     return null;
   }
@@ -40,7 +40,7 @@ Future<AssetType?> get(String name) async {
 
 Future<AssetType?> getByTitle(String title) async {
   try {
-    return await ats.get(title);
+    return ats.get(title);
   } catch (_, __) {
     return null;
   }
