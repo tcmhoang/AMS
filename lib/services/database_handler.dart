@@ -49,15 +49,10 @@ class DatabaseHandler {
       urlImage TEXT, 
       originalPrice BIGDECIMAL, 
       isAssigned INTEGER, 
-      typeName TEXT REFERENCES AssetType(typeName)
+      typeName TEXT REFERENCES AssetType(typeName),
+      userId INTEGER REFERENCES User(id)
     ); 
 
-     CREATE TABLE UserAsset(
-     userId INTEGER REFERENCES User(id),
-     assetTag TEXT REFERENCES Asset(tag),
-     PRIMARY KEY (assetTag)
-    );
- 
      CREATE TABLE Record(
      id INTEGER PRIMARY KEY AUTOINCREMENT,
      userId INTEGER REFERENCES User(id),

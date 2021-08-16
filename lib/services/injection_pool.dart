@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_simple_dependency_injection/injector.dart';
 import 'package:lsv_ams/domains/record_repository/src/models.dart';
-import 'package:lsv_ams/domains/user_asset_repository/src/models.dart';
 
 import '../domains/asset_repository/src/models.dart';
 import '../domains/asset_type_repository/src/models.dart';
@@ -14,7 +13,6 @@ mixin InjectionPool {
   static final AssetModels _asModels = AssetModels();
   static final AssetTypeModels _atModel = AssetTypeModels();
   static final UserModels _uModel = UserModels();
-  static final UserAssetModels _uaModel = UserAssetModels();
   static final RecordModels _rModel = RecordModels();
 
   static Injector? injector;
@@ -30,7 +28,6 @@ mixin InjectionPool {
     injector!.map<AssetModels>((Injector i) => _asModels, isSingleton: true);
     injector!.map<AssetTypeModels>((Injector i) => _atModel, isSingleton: true);
     injector!.map<UserModels>((Injector i) => _uModel, isSingleton: true);
-    injector!.map<UserAssetModels>((Injector i) => _uaModel, isSingleton: true);
     injector!.map<RecordModels>((Injector i) => _rModel, isSingleton: true);
   }
 }

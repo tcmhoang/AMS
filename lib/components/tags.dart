@@ -80,7 +80,10 @@ class _TagsState extends State<Tags> {
                 dismissible: false,
               ),
             )
-            .then((_) => setState(() {})),
+            .then((_) => setState(() {
+                  Provider.of<MainScreenProvider>(context, listen: false)
+                      .currentCategory = const DetailTypes.empty();
+                })),
         child: LineIcon.plus(
           color: kGrayColor,
           size: 20,

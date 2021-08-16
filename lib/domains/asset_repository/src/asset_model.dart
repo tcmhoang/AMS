@@ -17,6 +17,7 @@ class AssetModel with _$AssetModel {
     double originalPrice,
     int isAssigned,
     String typeName,
+    int userId,
   ) = Asset;
 
   factory AssetModel.fromJson(Map<String, dynamic> json) =>

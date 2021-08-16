@@ -44,7 +44,7 @@ class _ListOfItemsState extends State<ListOfItems> {
             _renderSearchBar()
           ].toRow().padding(horizontal: kDefaultPadding),
           const SizedBox(height: kDefaultPadding),
-          _renderSearchIdicator(),
+          _renderSearchIndicator(),
           const SizedBox(height: kDefaultPadding),
           _renderListItems(context),
         ].toColumn(),
@@ -87,13 +87,13 @@ class _ListOfItemsState extends State<ListOfItems> {
               ),
             ).expanded();
           } else
-            return const CircularProgressIndicator();
+            return const CircularProgressIndicator().center();
         },
       ),
     );
   }
 
-  Widget _renderSearchIdicator() {
+  Widget _renderSearchIndicator() {
     return <Widget>[
       LineIcon.angleDown(
         size: 12,

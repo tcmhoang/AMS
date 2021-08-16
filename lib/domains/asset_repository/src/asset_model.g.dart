@@ -18,6 +18,7 @@ _$Asset _$_$AssetFromJson(Map<String, dynamic> json) {
     (json['originalPrice'] as num).toDouble(),
     json['isAssigned'] as int,
     json['typeName'] as String,
+    json['userId'] as int,
   );
 }
 
@@ -32,4 +33,5 @@ Map<String, dynamic> _$_$AssetToJson(_$Asset instance) => <String, dynamic>{
       'originalPrice': instance.originalPrice,
       'isAssigned': instance.isAssigned,
       'typeName': instance.typeName,
+      'userId': instance.userId,
     };
