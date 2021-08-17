@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:animations/animations.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -32,10 +35,10 @@ class UserDetails extends StatelessWidget {
     return FormBuilder(
       key: _formKey,
       initialValue: <String, dynamic>{
-        'id': data?.id,
+        'id': data?.id.toString(),
         'avatar': data?.urlImage,
         'fullName': data?.fullName,
-        'dob': data?.dob,
+        'dob': data?.dob ?? validDate.millisecondsSinceEpoch,
         'gender': data?.gender,
         'address': data?.address,
       },
@@ -57,7 +60,7 @@ class UserDetails extends StatelessWidget {
         ),
 
         //TODO(tuanhm): Decompose these
-        // _renderDob(context),
+        _renderDob(context),
         // _renderGender(context),
         FormBuilderTextField(
           name: 'address',
@@ -148,27 +151,33 @@ class UserDetails extends StatelessWidget {
   //   }
   // }
 
-  // Widget _renderDob(BuildContext context) => DateTimeField(
-  //       controller: _dobController,
-  //       format: DateFormat('MM-dd-yyyy'),
-  //       onShowPicker: (BuildContext context, DateTime? currentValue) {
-  //         return showModal(
-  //           context: context,
-  //           builder: (BuildContext context) => DatePickerDialog(
-  //             initialDate: currentValue ?? validDate,
-  //             firstDate: DateTime(1975),
-  //             lastDate: validDate,
-  //           ).backgroundBlur(7.0),
-  //           configuration: FadeScaleTransitionConfiguration(
-  //             barrierColor: Colors.black.withAlpha(80),
-  //             barrierDismissible: false,
-  //             reverseTransitionDuration: kDefaultDuration,
-  //             transitionDuration: kDefaultDuration,
-  //           ),
-  //         );
-  //       },
-  //       decoration: getDefaultInputDecoration(title: 'Date Of Birth '),
-  //     ).padding(vertical: kDefaultPadding, right: kDefaultPadding);
+  Widget _renderDob(BuildContext context) => FormBuilderField<int>(
+        name: 'dob',
+        builder: (FormFieldState<int?> field) => DateTimeField(
+          initialValue: DateTime.fromMillisecondsSinceEpoch(
+              field.value ?? validDate.millisecondsSinceEpoch),
+          format: DateFormat('MM-dd-yyyy'),
+          onChanged: (DateTime? data) =>
+              field.didChange(data!.millisecondsSinceEpoch),
+          decoration: getDefaultInputDecoration(title: 'Date Of Birth '),
+          onShowPicker: (BuildContext context, DateTime? currentValue) {
+            return showModal(
+              context: context,
+              builder: (BuildContext context) => DatePickerDialog(
+                initialDate: currentValue ?? validDate,
+                firstDate: DateTime(1975),
+                lastDate: validDate,
+              ).backgroundBlur(7.0),
+              configuration: FadeScaleTransitionConfiguration(
+                barrierColor: Colors.black.withAlpha(80),
+                barrierDismissible: false,
+                reverseTransitionDuration: kDefaultDuration,
+                transitionDuration: kDefaultDuration,
+              ),
+            );
+          },
+        ),
+      ).padding(vertical: kDefaultPadding, right: kDefaultPadding);
 
   // Widget _renderGender(BuildContext context) => <Widget>[
   //       const Text(
