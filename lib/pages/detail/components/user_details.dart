@@ -39,7 +39,7 @@ class UserDetails extends StatelessWidget {
         'avatar': data?.urlImage,
         'fullName': data?.fullName,
         'dob': data?.dob ?? validDate.millisecondsSinceEpoch,
-        'gender': data?.gender,
+        'gender': data?.gender == 1 ? Gender.MALE : Gender.FEMALE,
         'address': data?.address,
       },
       child: <Widget>[
@@ -58,15 +58,12 @@ class UserDetails extends StatelessWidget {
           name: 'fullName',
           decoration: getDefaultInputDecoration(title: 'Full Name'),
         ),
-
-        //TODO(tuanhm): Decompose these
         _renderDob(context),
-        // _renderGender(context),
+        _renderGender(context),
         FormBuilderTextField(
           name: 'address',
           decoration: getDefaultInputDecoration(title: 'Address'),
         ),
-
         const SizedBox(
           height: 10,
         ),
@@ -179,39 +176,21 @@ class UserDetails extends StatelessWidget {
         ),
       ).padding(vertical: kDefaultPadding, right: kDefaultPadding);
 
-  // Widget _renderGender(BuildContext context) => <Widget>[
-  //       const Text(
-  //         'Gender:',
-  //         style: TextStyle(fontSize: 18, color: kTextColor),
-  //       ).expanded(),
-  //       ListTile(
-  //         title: const Text('Male'),
-  //         leading: Radio<Gender>(
-  //           value: Gender.MALE,
-  //           groupValue: _gender,
-  //           onChanged: _onClickGender,
-  //         ),
-  //       ).expanded(),
-  //       ListTile(
-  //         title: const Text('Female'),
-  //         leading: Radio<Gender>(
-  //           value: Gender.FEMALE,
-  //           groupValue: _gender,
-  //           onChanged: _onClickGender,
-  //         ),
-  //       ).expanded(),
-  //     ]
-  //         .toRow(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           mainAxisSize: MainAxisSize.min,
-  //         )
-  //         .padding(bottom: kDefaultPadding);
-
-  // void _onClickGender(Gender? value) {
-  //   setState(() {
-  //     _gender = value!;
-  //   });
-  // }
+  Widget _renderGender(BuildContext context) => FormBuilderRadioGroup<Gender>(
+        name: 'gender',
+        decoration: getDefaultInputDecoration(title: 'Gender'),
+        separator: const Spacer(),
+        options: const <FormBuilderFieldOption<Gender>>[
+          FormBuilderFieldOption<Gender>(
+            value: Gender.MALE,
+            child: Text('Male'),
+          ),
+          FormBuilderFieldOption<Gender>(
+            value: Gender.FEMALE,
+            child: Text('Female'),
+          ),
+        ],
+      );
 
   Widget _renderAvatar(BuildContext context) => FormBuilderField<String>(
         name: 'avatar',
