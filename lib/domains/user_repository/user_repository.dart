@@ -19,7 +19,7 @@ Future<bool> create(User user) async {
 
 Future<bool> update(int id, User newData) async {
   try {
-    if (newData.id != id) {
+    if (newData.id != id && (await fetchAllIds()).contains(id)) {
       throw Exception('Not the same data');
     }
     await users.getUser(id);
@@ -51,8 +51,16 @@ Future<List<User>> fetchAll() async {
 
 Future<User?> get(int id) async {
   try {
-    return await users.getUser(id);
+    return users.getUser(id);
   } catch (_, __) {
     return null;
+  }
+}
+
+Future<Set<int>> fetchAllIds() async {
+  try {
+    return users.fetchAllIds();
+  } catch (_) {
+    return <int>{};
   }
 }

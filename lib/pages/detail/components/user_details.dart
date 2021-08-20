@@ -36,10 +36,10 @@ class UserDetails extends StatelessWidget {
       key: _formKey,
       initialValue: <String, dynamic>{
         'id': data?.id.toString(),
-        'avatar': data?.urlImage,
+        'urlImage': data?.urlImage,
         'fullName': data?.fullName,
         'dob': data?.dob ?? validDate.millisecondsSinceEpoch,
-        'gender': data?.gender == 1 ? Gender.MALE : Gender.FEMALE,
+        'gender': data?.gender ?? 1,
         'address': data?.address,
       },
       child: <Widget>[
@@ -97,8 +97,7 @@ class UserDetails extends StatelessWidget {
         primary: kPrimaryColor,
       ),
       onPressed: () async {
-        if (_formKey.currentState!.validate()) {
-          // await _saveData();
+        if (_formKey.currentState!.saveAndValidate() && await _saveData()) {
           Provider.of<MainScreenProvider>(context, listen: false).listData =
               fetchAll();
           showTopFlash(
@@ -122,31 +121,23 @@ class UserDetails extends StatelessWidget {
     );
   }
 
-  // Future<void> _saveData() async {
-  //   if (_data == null) {
-  //     _avatar = await saveImage(_avatar, 'avatar');
-  //     await create(
-  //       User(
-  //         1,
-  //         _fnameController.text,
-  //         dateFormatter.parse(_dobController.text).millisecondsSinceEpoch,
-  //         _gender.index,
-  //         _addrController.text,
-  //         _avatar,
-  //       ),
-  //     );
-  //   } else {
-  //     await update(
-  //       _data!.id,
-  //       _data!.copyWith(
-  //         fullName: _fnameController.text,
-  //         dob: dateFormatter.parse(_dobController.text).millisecondsSinceEpoch,
-  //         address: _addrController.text,
-  //         gender: _gender.index,
-  //       ),
-  //     );
-  //   }
-  // }
+  Future<bool> _saveData() async {
+    final String savedPath = await saveImage(
+        _formKey.currentState!.fields['urlImage']!.value as String, 'urlImage');
+    _formKey.currentState!.fields['urlImage']!.didChange(savedPath);
+
+    if (savedPath.isNotEmpty) {
+      _formKey.currentState!.save();
+    }
+    _formKey.currentState!.setInternalFieldValue(
+        'id', int.parse(_formKey.currentState!.value['id'] as String));
+    if (data == null) {
+      return create(User.fromJson(_formKey.currentState!.value));
+    } else {
+      deleteImage(data!.urlImage);
+      return update(data!.id, User.fromJson(_formKey.currentState!.value));
+    }
+  }
 
   Widget _renderDob(BuildContext context) => FormBuilderField<int>(
         name: 'dob',
@@ -174,26 +165,36 @@ class UserDetails extends StatelessWidget {
             );
           },
         ),
-      ).padding(vertical: kDefaultPadding, right: kDefaultPadding);
-
-  Widget _renderGender(BuildContext context) => FormBuilderRadioGroup<Gender>(
-        name: 'gender',
-        decoration: getDefaultInputDecoration(title: 'Gender'),
-        separator: const Spacer(),
-        options: const <FormBuilderFieldOption<Gender>>[
-          FormBuilderFieldOption<Gender>(
-            value: Gender.MALE,
-            child: Text('Male'),
-          ),
-          FormBuilderFieldOption<Gender>(
-            value: Gender.FEMALE,
-            child: Text('Female'),
-          ),
-        ],
       );
 
+  Widget _renderGender(BuildContext context) => <Widget>[
+        Text(
+          'Gender',
+          style: Theme.of(context).textTheme.bodyText1,
+        ).expanded(),
+        FormBuilderRadioGroup<int>(
+          name: 'gender',
+          decoration: const InputDecoration(
+            enabledBorder: InputBorder.none,
+            border: InputBorder.none,
+          ),
+          wrapSpacing: 50,
+          orientation: OptionsOrientation.wrap,
+          options: const <FormBuilderFieldOption<int>>[
+            FormBuilderFieldOption<int>(
+              value: 1,
+              child: Text('Male'),
+            ),
+            FormBuilderFieldOption<int>(
+              value: 0,
+              child: Text('Female'),
+            ),
+          ],
+        ).expanded(),
+      ].toRow();
+
   Widget _renderAvatar(BuildContext context) => FormBuilderField<String>(
-        name: 'avatar',
+        name: 'urlImage',
         builder: (FormFieldState<String?> field) => CircleAvatar(
           radius: 70,
           foregroundImage: field.value?.isEmpty ??
@@ -221,5 +222,3 @@ class UserDetails extends StatelessWidget {
             .padding(bottom: kDefaultPadding),
       );
 }
-
-enum Gender { MALE, FEMALE }

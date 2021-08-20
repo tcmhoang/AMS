@@ -9,8 +9,9 @@ class UserModels {
 
   Future<void> insertUser(UserModel userModel) async {
     await _dbHandler.db!.rawInsert(
-      'INSERT INTO $_kTableName(fullName, dob, gender, address, urlImage) VALUES(?,?,?,?,?)',
+      'INSERT INTO $_kTableName(id,fullName, dob, gender, address, urlImage) VALUES(?,?,?,?,?,?)',
       <Object>[
+        userModel.id,
         userModel.fullName,
         userModel.dob,
         userModel.gender,
@@ -38,7 +39,7 @@ class UserModels {
   Future<void> deleteUser(int userId) async {
     await _dbHandler.db!.delete(
       _kTableName,
-      where: 'userId = ?',
+      where: 'id = ?',
       whereArgs: <int>[userId],
     );
   }
@@ -46,7 +47,7 @@ class UserModels {
   Future<User> getUser(int userId) async {
     final List<Map<String, Object?>> maps = await _dbHandler.db!.query(
       _kTableName,
-      where: 'userId = ?',
+      where: 'id= ?',
       whereArgs: <int>[userId],
     );
 
@@ -56,4 +57,9 @@ class UserModels {
       throw Exception('ID $userId not found');
     }
   }
+
+  Future<Set<int>> fetchAllIds() async => (await _dbHandler.db!
+          .query(_kTableName, distinct: true, columns: <String>['id']))
+      .map((Map<String, Object?> e) => e.values as int)
+      .toSet();
 }

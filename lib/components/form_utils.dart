@@ -50,7 +50,7 @@ Widget renderDefaultFieldForm(
 Future<String> saveImage(String src, String pre) async {
   try {
     if (src.isEmpty) {
-      throw Exception('Image is empty');
+      throw const StdinException('Path is empty');
     }
     final File srcImg = File(src);
     final Directory tmp = await getApplicationDocumentsDirectory();
@@ -76,5 +76,18 @@ Future<String> saveImage(String src, String pre) async {
     return res;
   } catch (_) {
     return '';
+  }
+}
+
+bool deleteImage(String path) {
+  try {
+    final File img = File(path);
+    if (path.isEmpty || img.existsSync()) {
+      throw const StdinException('Image path is empty');
+    }
+    img.deleteSync();
+    return true;
+  } catch (_) {
+    return false;
   }
 }
