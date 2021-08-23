@@ -19,11 +19,11 @@ Future<bool> create(User user) async {
 
 Future<bool> update(int id, User newData) async {
   try {
-    if (newData.id != id && (await fetchAllIds()).contains(id)) {
+    if (newData.id != id && (await fetchAllIds()).contains(newData.id)) {
       throw Exception('Not the same data');
     }
     await users.getUser(id);
-    await users.updateUser(newData);
+    await users.updateUser(newData, id);
   } catch (_, __) {
     return false;
   }

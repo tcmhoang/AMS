@@ -82,7 +82,7 @@ Future<String> saveImage(String src, String pre) async {
 bool deleteImage(String path) {
   try {
     final File img = File(path);
-    if (path.isEmpty || img.existsSync()) {
+    if (path.isEmpty || !img.existsSync()) {
       throw const StdinException('Image path is empty');
     }
     img.deleteSync();

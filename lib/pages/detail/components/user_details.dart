@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:lsv_ams/providers/domain/detail_types.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -36,7 +37,7 @@ class UserDetails extends StatelessWidget {
       key: _formKey,
       initialValue: <String, dynamic>{
         'id': data?.id.toString(),
-        'urlImage': data?.urlImage,
+        'urlImage': data?.urlImage ?? '',
         'fullName': data?.fullName,
         'dob': data?.dob ?? validDate.millisecondsSinceEpoch,
         'gender': data?.gender ?? 1,
@@ -97,9 +98,11 @@ class UserDetails extends StatelessWidget {
         primary: kPrimaryColor,
       ),
       onPressed: () async {
+        FocusScope.of(context).unfocus();
         if (_formKey.currentState!.saveAndValidate() && await _saveData()) {
-          Provider.of<MainScreenProvider>(context, listen: false).listData =
-              fetchAll();
+          Provider.of<MainScreenProvider>(context, listen: false)
+            ..listData = fetchAll()
+            ..currentCategory = const DetailTypes.empty();
           showTopFlash(
             context,
             'Update Status',
@@ -114,7 +117,6 @@ class UserDetails extends StatelessWidget {
             isError: true,
           );
         }
-        FocusScope.of(context).unfocus();
       },
       icon: LineIcon.save(),
       label: Text(data == null ? 'SAVE' : 'UPDATE'),
@@ -134,7 +136,8 @@ class UserDetails extends StatelessWidget {
     if (data == null) {
       return create(User.fromJson(_formKey.currentState!.value));
     } else {
-      deleteImage(data!.urlImage);
+      if (data!.urlImage != _formKey.currentState!.fields['urlImage']!.value)
+        deleteImage(data!.urlImage);
       return update(data!.id, User.fromJson(_formKey.currentState!.value));
     }
   }

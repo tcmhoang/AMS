@@ -27,12 +27,12 @@ class UserModels {
         .toList();
   }
 
-  Future<void> updateUser(UserModel userModel) async {
+  Future<void> updateUser(UserModel userModel, int id) async {
     await _dbHandler.db!.update(
       _kTableName,
       userModel.toJson(),
       where: 'id = ?',
-      whereArgs: <int>[userModel.id],
+      whereArgs: <int>[id],
     );
   }
 
@@ -60,6 +60,6 @@ class UserModels {
 
   Future<Set<int>> fetchAllIds() async => (await _dbHandler.db!
           .query(_kTableName, distinct: true, columns: <String>['id']))
-      .map((Map<String, Object?> e) => e.values as int)
+      .expand((Map<String, Object?> e) => e.values.cast<int>())
       .toSet();
 }

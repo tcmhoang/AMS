@@ -3,7 +3,7 @@ import '../../../services/injection_pool.dart';
 import 'asset_type_model.dart';
 
 class AssetTypeModels {
-  static const String _kTableName = 'asset_type';
+  static const String _kTableName = 'AssetType';
 
   static late final DatabaseHandler _dbHandler =
       InjectionPool.injector!.get<DatabaseHandler>();
