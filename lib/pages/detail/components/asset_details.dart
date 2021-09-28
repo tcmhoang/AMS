@@ -306,7 +306,7 @@ class AssetDetailsState extends State<AssetDetails> {
               ),
               mode: Mode.MENU,
               showSearchBox: true,
-              showSelectedItem: true,
+              showSelectedItems: true,
               dropdownSearchDecoration:
                   getDefaultInputDecoration(title: 'Category name'),
               items: data.map((User e) => '${e.id}    ${e.fullName}').toList(),
