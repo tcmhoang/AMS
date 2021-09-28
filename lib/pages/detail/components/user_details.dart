@@ -36,12 +36,12 @@ class UserDetails extends StatelessWidget {
     return FormBuilder(
       key: _formKey,
       initialValue: <String, dynamic>{
-        'id': data?.id.toString(),
+        'id': data?.id.toString() ?? '',
         'urlImage': data?.urlImage ?? '',
-        'fullName': data?.fullName,
+        'fullName': data?.fullName ?? '',
         'dob': data?.dob ?? validDate.millisecondsSinceEpoch,
         'gender': data?.gender ?? 1,
-        'address': data?.address,
+        'address': data?.address ?? '',
       },
       child: <Widget>[
         if (Responsive.isMobile(context) && data == null)
@@ -52,18 +52,24 @@ class UserDetails extends StatelessWidget {
         _renderAvatar(context),
         FormBuilderTextField(
           name: 'id',
-          validator: FormBuilderValidators.integer(context),
+          // ignore: always_specify_types
+          validator: FormBuilderValidators.compose([
+            FormBuilderValidators.required(context),
+            FormBuilderValidators.numeric(context)
+          ]),
           decoration: getDefaultInputDecoration(title: 'ID'),
         ),
         FormBuilderTextField(
           name: 'fullName',
           decoration: getDefaultInputDecoration(title: 'Full Name'),
+          validator: FormBuilderValidators.required(context),
         ),
         _renderDob(context),
         _renderGender(context),
         FormBuilderTextField(
           name: 'address',
           decoration: getDefaultInputDecoration(title: 'Address'),
+          validator: FormBuilderValidators.required(context),
         ),
         const SizedBox(
           height: 10,
@@ -99,6 +105,11 @@ class UserDetails extends StatelessWidget {
       ),
       onPressed: () async {
         FocusScope.of(context).unfocus();
+        showTopFlash(
+          context,
+          'Saving',
+          'Please wait a moment. Thanks!',
+        );
         if (_formKey.currentState!.saveAndValidate() && await _saveData()) {
           Provider.of<MainScreenProvider>(context, listen: false)
             ..listData = fetchAll()

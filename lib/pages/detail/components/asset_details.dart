@@ -34,7 +34,13 @@ class AssetDetails extends StatefulWidget {
 }
 
 class AssetDetailsState extends State<AssetDetails> {
-  static const List<String> _kConditions = <String>['New', 'Used', 'Broken'];
+  static const List<String> _kConditions = <String>[
+    'New',
+    'Using',
+    'Broken',
+    'Fixing',
+    'Sold'
+  ];
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

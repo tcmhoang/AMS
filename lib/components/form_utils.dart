@@ -64,15 +64,18 @@ Future<String> saveImage(String src, String pre) async {
       path: path,
       quality: 85,
       step: 9,
-      mode: CompressMode.LARGE2SMALL, //default AUTO
+      mode: CompressMode.AUTO,
+      autoRatio: true,
     );
     String res = img.path;
-    await Luban.compressImage(compressObject).then((String? value) async {
-      if (value != null) {
-        await File(value).rename(img.path);
-      } else
-        res = '';
-    });
+    await Luban.compressImage(compressObject).then(
+      (String? value) async {
+        if (value != null) {
+          await File(value).rename(img.path);
+        } else
+          res = '';
+      },
+    );
     return res;
   } catch (_) {
     return '';
